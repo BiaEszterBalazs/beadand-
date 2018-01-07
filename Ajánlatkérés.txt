@@ -1,0 +1,69 @@
+﻿AJÁNLATKÉRÉS
+---------------------------------------------------------------------------------
+Ajánlatkérés a Kellegyprogram Kft. által megrendelt program tárgyban
+
+1. Ajánlatkérő adatai
+Név: Kellegyprogram Kft.
+Cím: 3300 Eger, Pozsonyi út 2.
+Kapcsolattartó neve: Hudák Bianka
+Kapcsolattartó telefonszáma: +3630999-99-99
+E-mail: hudakbia@gmail.com
+a továbbiakban Ajánlatkérő
+
+
+2. A beszerzés tárgya
+Az Ajánlatkérő  olyan termék megvásárlását szeretné megvalósítani, amely segítségével cégünk az ügyfelek által kölcsönzött könyveket adatbázisba vételét 
+és a könyvek visszahozatalának dátumát rögzíteni lehessen.
+
+
+3. Tartalmi leírás és követelményspecifikáció
+Az Ajánlatkérő olyan termék fejlesztését kéri, amely lehetővé teszi egy könyvtári könyv kikölcsönzésének és visszahozásának, az könyvtártagok 
+tagdíj-befizetéseinek és az olvasó terembe történő be- és kiléptetéseknek elektronikus rögzítését.
+Az Ajánlattevő részletes ajánlata benyújtásával vállalja, hogy:
+- megvalósítás során keletkező alkotások szerzői jogai tekintetében az Ajánlatkérőnek kizárólagos és határozatlan időre szóló felhasználási jogot biztosít
+- fejlesztés során keletkezett forráskód felhasználási jogát határozatlan időre és korlátozás nélkül az Ajánlatkérő rendelkezésére bocsátja.
+-  Ajánlatkérővel folyamatos kapcsolatot tart részben az egyeztetendő kérdések megbeszélése, részben a munka haladásáról való tájékoztatás érdekében.
+
+4. Az ajánlati ár kialakításával kapcsolatos elvárások
+- Az Ajánlatkérő felhívja az Ajánlattevő figyelmét, hogy köteles semmisnek tekinteni azt az ajánlatot, amelyben az ellenszolgáltatás mértéke eléri, 
+vagy meghaladja az ajánlatkérés időpontjában megadott értékhatárt (nettó 8 millió forint), azaz meghaladja az ajánlatkérő rendelkezésére álló pénzügyi keretet.
+Az Ajánlatkérő a feladat ellátására az alábbi részletezettségű ajánlati árat vár:
+o Adat import és adminisztrálás
+o Az adatok egyéb formában való megjeleníthetősége és exportálhatósága különböző formátumokban
+Az Ajánlattevőnek az ajánlati árat úgy kell meghatároznia, hogy az a szolgáltatás elvégzésével kapcsolatos valamennyi költséget tartalmazza.
+
+
+5. A szerződés meghatározása, hatálya, teljesítési határidő
+Az Ajánlatkérő vállalkozási szerződést kíván kötni a Kellegyprogram Kft.-vel:
+- A szerződéskötés tervezett napja: 2018. január 8. A szerződéskötés pontos időpontjáról az ajánlatkérő az ajánlattevőt értesíti.
+- A szerződés teljesítésének végrehajtási ideje: 2018.január 20. Az ajánlatkérő a megadott véghatáridővel korábbi teljesítést elfogad.
+
+
+6. Kiegészítő tájékoztatás
+Az Ajánlatkérő lehetőséget biztosít az ajánlattevőnek, hogy az ajánlatkéréssel, illetve a dokumentációval kapcsolatban, írásban kérdéseket tegyenek fel.
+A felhívással kapcsolatban az Ajánlattevők kérdéseket tehetnek fel legkésőbb az ajánlattételi határidő előtt 48 órával a bivtech@gmail.hu címre küldve.
+Az Ajánlatkérő válaszait minden érintettnek megküldi e-mailben, a felhíváshoz kapcsolva megjelenteti legkésőbb az ajánlattételi határidő előtt 24 órával.
+Az Ajánlatkérő felhívja az Ajánlattevők figyelmét, hogy a kérdéseket, valamint az azokra adott válaszokat valamennyi lehetséges ajánlattevőnek azonos tartalommal 
+megküldi.
+
+
+7. Az ajánlattétel és a teljesítés nyelve: magyar
+Az ajánlatok benyújtásának módja:
+Az ajánlatot 2 eredeti, vagy 1 eredeti és 1 másolati példányban egyenként összefűzve vagy egybekötve, valamint 1 db szkennelt elektronikus példányban kell benyújtani.
+Ajánlathoz csatolandó dokumentumok:
+ Aláírási címpéldány(ok) egyszerű másolata
+ Cégszerűen aláírt ajánlattételi nyilatkozat
+ Nyilatkozat a referenciáról
+ Nyilatkozat a szakemberekről
+Ajánlattevőnek a szoftverfejlesztési tervet és a nyilatkozatot cégszerű aláírással kell ellátni.
+Cégszerű Aláírásnak minősül az ajánlattevő azon cégjegyzésre jogosult képviselőjének vagy képviselőinek az aláírása, aki(k)nek az aláírási címpéldányát 
+az ajánlathoz csatolták, továbbá a cégbélyegző lenyomat vagy a cégkivonatban szereplő pontos cégnév – aláírás alatt/felett/mellett történő – nevük aláírása szerepel.
+
+Az Ajánlattevőnek a következő dokumentumokat be kell nyújtania:
+- Eredeti cégkivonatának hiteles másolata, vagy cégkivonat Céghírekből nyomatatott példánya;
+- átláthatósági nyilatkozat.
+
+Az ajánlatkérés megküldésének napja: 2017.december 1.
+……………………………………………………
+Ajánlatkérő Hudák Bianka
+ügyvezető
