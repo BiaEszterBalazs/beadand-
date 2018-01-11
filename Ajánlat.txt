@@ -1,0 +1,156 @@
+﻿Árajánlat
+a Kellegyprogram Kft.
+(3300 Eger, Pozsonyi út 2.)
+részére
+--------------------------------------------------------------------------------
+Tartalomjegyzék
+1. Vezetői összefoglaló
+2. Cégbemutató, referenciák
+3. Felhasználni kívánt technológiák bemutatása
+4. Feladat bemutatása
+5. Ütemterv 
+6. Ár és átadási határidő
+7. Megtérülés, gazdasági előnyök
+8. Árajánlat érvényessége, szerződési feltételek
+
+--------------------------------------------------------------------------------
+1. Vezetői összefoglaló
+Cégünk leginkább informatikai rendszerek kidolgozásával, üzemeltetésével és fejlesztésével foglalkozik. 
+Partnereinkkel bizalmi kapcsolatot építünk ki, amely elengedhetetlen feltétele a munkánknak. 
+Cégünk nem rendelkezik évtizedes múlttal, azonban az eddig eltelt évek során sokféle informatikai 
+problémát oldottunk meg, nagy tapasztalatot halmoztunk fel informatikai rendszerek tervezése és 
+kivitelezése és minőségbiztosítása terén. 
+Munkatársaink többféle programozási nyelv területén jártasak, ami azért fontos, mert meg kell 
+találni az adott feladathoz leginkább illő programozási nyelvet. A jó struktúra  gyorsabbá 
+teheti a kódot anélkül, hogy optimalizálni kellene. 
+A .NET keretrendszer jelenleg több mint 40 programozási nyelvet támogat, köztük az általunk használt
+nyelvek sokaságát, mint például a C típusú nyelveket (C#, C++). 
+E gyorsan változó, fejlődő területen nagyfokú az ismeretek elavulása, ezért különösen nagy 
+fiegyelmet fordítunk arra, hogy munkatársaink törkedjenek informatikai ismereteinek folyamatos 
+megújítására, mindig képezzék magukat. 
+Célunk, hogy rövid határidőn belül magas szintű hatékonysággal oldjuk meg a feladatokat.
+
+--------------------------------------------------------------------------------
+2. Cégbemutató, referencikák
+
+Cégbemutató:
+A cég 2015-ben alakult BEB Informatikai Kft. néven, mely azóta sikeresen működő társaság.
+Alapító tagjai és egyben tulajdonosai belföldi magánszemélyek: Cene Balázs, Gáborné Oravecz
+Eszter és Zsiros-Hudák Bianka. Mindannyian az Eszterházy Károly Egyetemen szereztek diplomát, 
+piacképes informatikai és gazdasági ismereteket. 
+A Kft. működésének első évében még nem foglalkoztattak alkalmazottakat, azonban ma már 3 
+alkalmazott segíti a tulajdonosok munkáját.
+A társaság székhelye: 3300 Eger, Rózsa Károly u. 18. A cég egy saját tulajdonú irodát működtet 
+3300 Eger, Dobó tér 2. szám alatt.
+A BEB Informatikai Kft. tevékenysége széles körű, lefedi az informatikai terület nagy részét. 
+A cégen belül megtalálható minden olyan tevékenység, amely egy vállalat informatikai részlegének 
+teljes kiszolgálásához szükséges, úgymint hardver és szoftver termékek forgalmazása, szoftverfejlesztés, 
+rendszerbevezetés, hálózattervezés, hálózatépítés, szervíz szolgáltatás, webes fejlesztések.
+Felismerve a piaci lehetőségeket a társaság tevénységeinek körét folyamatosan bővíti.
+
+Referenciák/kiemelkedő partnereink:
+Decoration & Design - Ajándéktárgy kereskedelem
+Epaga - Apartmanhotel
+IBC - nyelviskola cégeknek
+Kerimpex - gipszkarton termékek és szigetelés kereskedelem
+KreativJáték - játék nagy és kisker
+OSZ-Car autoalkatrész keresedelem és szervíz
+Target Executive Search - fejvadászat
+Yestravel - utazás
+
+----------------------------------------------------------------------------------
+
+3. Felhasználni kívánt technológiák bemutatása
+C# 
+A Microsoft által kifejlesztett programozási nyelv. Nyílt szabványú. A fejlesztésénél szempont volt, hogy a 
+meglévő programozási nyelvekből kiindulva, azok jó tulajdonságait átvegye, a rosszakat pedig nem. Ennek 
+következtében nagyon áttekinthető szintaktikája van, egyszerű.
+Alapja a C nyelv szintaktikája, melyet nagyon sok más nyelv szintaktikája is. Merített más, széles körben 
+elterjedt és ismert nyelvekből, mint C++, Java, Delphi. Tisztán OOP nyelv, vagyis nem lehet segítségével 
+hagyományos stílusban programozni, csak az Objektum Orientált elveknek megfelelően.
+A C# nyelv első verziója a Microsoft.NET első verziójával egy időben jelent meg. Napjainkban a nyelv a 6.0-s 
+verziónál tart, és az 1.0-shoz képest rengeteg újdonságot tartalmaz.
+Windows Forms
+A Windows Forms alkalmazás olyan eseményvezérelt alkalmazás, amelyet a Microsoft .NET-keretrendszer támogat.
+Egy platformot biztosít asztali, laptop és táblagépes kliensalkalmazások létrehozásához.A program grafikus 
+felületét adja. A Form a Windows felhasználói felület vizuálisan és funkcionálisan önálló része. Vizuálisan 
+keret határolja, rendelkezik saját fejléccel, vezérlőket tartalmaz. A legtöbb felhasználóialkalmazás 
+Form-okból áll.
+SQlite
+Az SQLite önálló, kisméretű, C forrású programkönyvtárként megvalósított ACID-kompatibilis relációs 
+adatbázis-kezelő rendszer, illetve adatbázismotor. A kliens-szerver architektúrájú adatbázis-kezelő rendszerekkel
+ellentétben az SQLite motor nem egy különálló folyamat, amellyel a program kommunikál, hanem a program részét
+alkotja, ahhoz hozzálinkelt programkönyvtár lévén. Dinamikusan is meghívható. Egyre több népszerű szoftver 
+használja az SQLite-ot
+
+-----------------------------------------------------------------------------------
+
+4. Feladat bemutatása
+A Kellegyprogram Kft. egy adatbázisalapú program elkészítésére kért ajánlatot, mely segítségével a könyvtártagok
+által történő kölcsönzéseket számon lehet tartani.
+Feladat olyan termék fejlesztése, amely lehetővé teszi egy könyvtári könyv kikölcsönzésének és visszahozásának, 
+a könyvtártagok tagdíj befizetéseinek és az olvasóterembe történő be- és kiléptetéseknek elektronikus
+rögzítését. 
+
+-----------------------------------------------------------------------------------
+
+5. Ütemterv 
+A program rendelkezésre bocsátása három lépcsőben történik a megrendelő számára, ezáltal lehetőséget biztosítva 
+arra, hogy a megrendelő megnézze megfelel-e számára az elkészült program, valamint lehetőség lesz a módosítások 
+végrehajtását elvégezni.
+
+FUNKCIÓ				FELADAT		PRIORITÁS	BECSLÉS	 AKT. BECSLÉS	ELTELT	HÁTRALEVŐ
+Funkcionális specifikáció			0		24		24		20	4		
+Adatbázis					1		24		24		14	10
+Form megvalósítása				1		24		24		12	12
+Funkciók kialakítása				1		24		24		12	12
+Funkciók, Form			Módosítások	1		24		24		0	24
+				elvégzése
+Tartalék idő					3		16		16		0	16								Tesztelés					1		40		40		0	40
+Projektvezetés					2		30		30		10	20
+						Órák		206		206		68	138
+						Embernap:	25,75		25,75		8,5	17,25
+A BEB Informatikai Kft. a végleges program leszállítását követően 1 év ingyenes hibajavítást vállal. A hibajavítási 
+garancia nem jelenti új funkciók ingyenes fejlesztését, de az átadott programban felfedezett hibák javítását 
+tartalmazza. A javítási határidő a bejelentéstől számított 2 munkanap.
+
+-----------------------------------------------------------------------------------
+
+6. Ár és átadási határidő
+
+Árajánlat
+Ajánlatot kiállító:
+BEB Informatikai Kft.
+3300 Eger, Rózsa Károly u. 18.
+Adószám: 12345678-1-12
+Tel: +36301122334
+Fax: +3636111222
+e-mail: bebinf@gmail.com
+web: www.beb.hu
+Ajánlatkérő
+Kellegyprogram Kft.
+3300 Eger, Pozsonyi út 2.
+Ajánlat kelte:
+2018.01.11.
+Érvényességi határidő:
+2018.01.26.
+FUNKCIÓ				FELADAT		PRIORITÁS	BECSLÉS	 AKT. BECSLÉS	ELTELT	HÁTRALEVŐ
+Funkcionális specifikáció			0		24		24		20	4		
+Adatbázis					1		24		24		14	10
+Form megvalósítása				1		24		24		12	12
+Funkciók kialakítása				1		24		24		12	12
+Funkciók, Form			Módosítások	1		24		24		0	24
+				elvégzése
+Tartalék idő					3		16		16		0	16								Tesztelés					1		40		40		0	40
+Projektvezetés					2		30		30		10	20
+						Órák		206		206		68	138
+						Embernap:	25,75		25,75		8,5	17,25
+Napidíj: 28.000 Ft
+Árajánlat: 721.000 Ft	
+
+
+Átadási határidő az ütemtervnek megfelelően.
+
+-----------------------------------------------------------------------------------
+
+7. Megtérülés, gazdasági előnyök
