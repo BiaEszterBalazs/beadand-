@@ -47,7 +47,7 @@ namespace konyvtar
         }
 
         //konstruktorban megadjuk az sql kapcsolatot és a tábla nevét
-        public TableForm(SQLiteConnection c, string s) 
+        public TableForm(SQLiteConnection c, string s)
         {
             InitializeComponent();
             Text = s;
@@ -63,7 +63,7 @@ namespace konyvtar
             _dataGridView.RowValidating += new DataGridViewCellCancelEventHandler(DataGridView_RowValidating);
             //törés ellenőrzés
             _dataGridView.UserDeletingRow += new DataGridViewRowCancelEventHandler(_dataGridView_UserDeletingRow);
-                        
+
         }
 
         //adatok betöltése a fizikai adatbázisból a logikai adatbázisba
@@ -87,219 +87,219 @@ namespace konyvtar
             switch (_dataset.Tables[_tn].TableName)
             {
                 case "befizetesek":
-                {
-                    CreateTagokAdapterForForeignKeys(_dataset);
-                    
-                    //azonosító automatikus növelése
-                    autoIdIncrease(_dataset, "bizonylatszam", "befizetesek");
-                    
-                    //tábla fejlécének formázása
-                    DataGridViewColumn[] columns = new DataGridViewColumn[4];
-                    
-                    columns[0] = new DataGridViewTextBoxColumn();
-                    columns[0].HeaderText = "Bizonylatszám";
-                    columns[0].DataPropertyName = "bizonylatszam";
-                    columns[0].Visible = false;
-                    
-                    //ezt kellene idegenkulcsként megjeleníteni
-                    columns[1] = new DataGridViewComboBoxColumn();
-                    columns[1].HeaderText = "Tag neve";
-                    columns[1].DataPropertyName = "tag_id";                        
-                    ((DataGridViewComboBoxColumn)columns[1]).DataSource = _bindingSourceTagok;
-                    ((DataGridViewComboBoxColumn)columns[1]).ValueMember = "tag_id";
-                    ((DataGridViewComboBoxColumn)columns[1]).DisplayMember = "nev";
-                                                
-                    columns[2] = new DataGridViewTextBoxColumn();
-                    columns[2].HeaderText = "Összeg";
-                    columns[2].DataPropertyName = "osszeg";
-                    
-                    columns[3] = new DataGridViewTextBoxColumn();
-                    columns[3].HeaderText = "Dátum";
-                    columns[3].DataPropertyName = "datum";
-                    
-                    addColumnsToDataGridView(columns);
-                    break;
-                }
+                    {
+                        CreateTagokAdapterForForeignKeys(_dataset);
+
+                        //azonosító automatikus növelése
+                        autoIdIncrease(_dataset, "bizonylatszam", "befizetesek");
+
+                        //tábla fejlécének formázása
+                        DataGridViewColumn[] columns = new DataGridViewColumn[4];
+
+                        columns[0] = new DataGridViewTextBoxColumn();
+                        columns[0].HeaderText = "Bizonylatszám";
+                        columns[0].DataPropertyName = "bizonylatszam";
+                        columns[0].Visible = false;
+
+                        //ezt kellene idegenkulcsként megjeleníteni
+                        columns[1] = new DataGridViewComboBoxColumn();
+                        columns[1].HeaderText = "Tag neve";
+                        columns[1].DataPropertyName = "tag_id";
+                        ((DataGridViewComboBoxColumn)columns[1]).DataSource = _bindingSourceTagok;
+                        ((DataGridViewComboBoxColumn)columns[1]).ValueMember = "tag_id";
+                        ((DataGridViewComboBoxColumn)columns[1]).DisplayMember = "nev";
+
+                        columns[2] = new DataGridViewTextBoxColumn();
+                        columns[2].HeaderText = "Összeg";
+                        columns[2].DataPropertyName = "osszeg";
+
+                        columns[3] = new DataGridViewTextBoxColumn();
+                        columns[3].HeaderText = "Dátum";
+                        columns[3].DataPropertyName = "datum";
+
+                        addColumnsToDataGridView(columns);
+                        break;
+                    }
                 case "kolcsonzesek":
-                {
-                    CreateTagokAdapterForForeignKeys(_dataset);
-                    _adapKonyvek = new SQLiteDataAdapter("SELECT * FROM konyvek", _con);
-                    _adapKonyvek.Fill(_dataset, "konyvek");
-                    _bindingSourceKonyvek = new BindingSource();
-                    _bindingSourceKonyvek.DataSource = _dataset.Tables["konyvek"];                      
-                    //azonosító automatikus növelése
-                    autoIdIncrease(_dataset, "kolcson_id", "kolcsonzesek");
+                    {
+                        CreateTagokAdapterForForeignKeys(_dataset);
+                        _adapKonyvek = new SQLiteDataAdapter("SELECT * FROM konyvek", _con);
+                        _adapKonyvek.Fill(_dataset, "konyvek");
+                        _bindingSourceKonyvek = new BindingSource();
+                        _bindingSourceKonyvek.DataSource = _dataset.Tables["konyvek"];
+                        //azonosító automatikus növelése
+                        autoIdIncrease(_dataset, "kolcson_id", "kolcsonzesek");
 
-                    //tábla fejlécének formázása
-                    DataGridViewColumn[] columns = new DataGridViewColumn[5];
-                    columns[0] = new DataGridViewTextBoxColumn();
-                    columns[0].HeaderText = "Kölcsönzés ID";
-                    columns[0].DataPropertyName = "kolcson_id";
-                    columns[0].Visible = false;
+                        //tábla fejlécének formázása
+                        DataGridViewColumn[] columns = new DataGridViewColumn[5];
+                        columns[0] = new DataGridViewTextBoxColumn();
+                        columns[0].HeaderText = "Kölcsönzés ID";
+                        columns[0].DataPropertyName = "kolcson_id";
+                        columns[0].Visible = false;
 
-                    columns[1] = new DataGridViewComboBoxColumn();
-                    columns[1].HeaderText = "Tag neve";
-                    columns[1].DataPropertyName = "tag_id";
-                    ((DataGridViewComboBoxColumn)columns[1]).DataSource = _bindingSourceTagok;
-                    ((DataGridViewComboBoxColumn)columns[1]).ValueMember = "tag_id";
-                    ((DataGridViewComboBoxColumn)columns[1]).DisplayMember = "nev";
+                        columns[1] = new DataGridViewComboBoxColumn();
+                        columns[1].HeaderText = "Tag neve";
+                        columns[1].DataPropertyName = "tag_id";
+                        ((DataGridViewComboBoxColumn)columns[1]).DataSource = _bindingSourceTagok;
+                        ((DataGridViewComboBoxColumn)columns[1]).ValueMember = "tag_id";
+                        ((DataGridViewComboBoxColumn)columns[1]).DisplayMember = "nev";
 
-                    columns[2] = new DataGridViewComboBoxColumn();
-                    columns[2].HeaderText = "Könyv címe";
-                    columns[2].DataPropertyName = "konyv_id";
-                    ((DataGridViewComboBoxColumn)columns[2]).DataSource = _bindingSourceKonyvek;
-                    ((DataGridViewComboBoxColumn)columns[2]).ValueMember = "konyv_id";
-                    ((DataGridViewComboBoxColumn)columns[2]).DisplayMember = "cim";
+                        columns[2] = new DataGridViewComboBoxColumn();
+                        columns[2].HeaderText = "Könyv címe";
+                        columns[2].DataPropertyName = "konyv_id";
+                        ((DataGridViewComboBoxColumn)columns[2]).DataSource = _bindingSourceKonyvek;
+                        ((DataGridViewComboBoxColumn)columns[2]).ValueMember = "konyv_id";
+                        ((DataGridViewComboBoxColumn)columns[2]).DisplayMember = "cim";
 
-                    columns[3] = new DataGridViewTextBoxColumn();
-                    columns[3].HeaderText = "Kezdet";
-                    columns[3].DataPropertyName = "kezdte";
+                        columns[3] = new DataGridViewTextBoxColumn();
+                        columns[3].HeaderText = "Kezdet";
+                        columns[3].DataPropertyName = "kezdte";
 
-                    columns[4] = new DataGridViewTextBoxColumn();
-                    columns[4].HeaderText = "Vissza";
-                    columns[4].DataPropertyName = "Vissza";
+                        columns[4] = new DataGridViewTextBoxColumn();
+                        columns[4].HeaderText = "Vissza";
+                        columns[4].DataPropertyName = "Vissza";
 
-                    addColumnsToDataGridView(columns);
-                    break;
-                }
+                        addColumnsToDataGridView(columns);
+                        break;
+                    }
                 case "konyvek":
-                {
-                    //azonosító automatikus növelése
-                    autoIdIncrease(_dataset, "konyv_id", "konyvek");
-                    
-                    //tábla fejlécének formázása
-                    DataGridViewColumn[] columns = new DataGridViewColumn[6];
+                    {
+                        //azonosító automatikus növelése
+                        autoIdIncrease(_dataset, "konyv_id", "konyvek");
 
-                    columns[0] = new DataGridViewTextBoxColumn();
-                    columns[0].HeaderText = "Könyv ID";
-                    columns[0].DataPropertyName = "konyv_id";
-                    columns[0].Visible = false;
+                        //tábla fejlécének formázása
+                        DataGridViewColumn[] columns = new DataGridViewColumn[6];
 
-                    columns[1] = new DataGridViewTextBoxColumn();
-                    columns[1].HeaderText = "Azonosító";
-                    columns[1].DataPropertyName = "azon";
-                    
-                    columns[2] = new DataGridViewTextBoxColumn();
-                    columns[2].HeaderText = "Cím";
-                    columns[2].DataPropertyName = "cim";
+                        columns[0] = new DataGridViewTextBoxColumn();
+                        columns[0].HeaderText = "Könyv ID";
+                        columns[0].DataPropertyName = "konyv_id";
+                        columns[0].Visible = false;
 
-                    columns[3] = new DataGridViewTextBoxColumn();
-                    columns[3].HeaderText = "Szerző";
-                    columns[3].DataPropertyName = "szerzo";
+                        columns[1] = new DataGridViewTextBoxColumn();
+                        columns[1].HeaderText = "Azonosító";
+                        columns[1].DataPropertyName = "azon";
 
-                    columns[4] = new DataGridViewTextBoxColumn();
-                    columns[4].HeaderText = "Példányszám";
-                    columns[4].DataPropertyName = "peldanyszam";
+                        columns[2] = new DataGridViewTextBoxColumn();
+                        columns[2].HeaderText = "Cím";
+                        columns[2].DataPropertyName = "cim";
 
-                    columns[5] = new DataGridViewTextBoxColumn();
-                    columns[5].HeaderText = "Szabad példányszám";
-                    columns[5].DataPropertyName = "szabad_peldanyszam";
+                        columns[3] = new DataGridViewTextBoxColumn();
+                        columns[3].HeaderText = "Szerző";
+                        columns[3].DataPropertyName = "szerzo";
 
-                    addColumnsToDataGridView(columns);
-                    break;
-                }
+                        columns[4] = new DataGridViewTextBoxColumn();
+                        columns[4].HeaderText = "Példányszám";
+                        columns[4].DataPropertyName = "peldanyszam";
+
+                        columns[5] = new DataGridViewTextBoxColumn();
+                        columns[5].HeaderText = "Szabad példányszám";
+                        columns[5].DataPropertyName = "szabad_peldanyszam";
+
+                        addColumnsToDataGridView(columns);
+                        break;
+                    }
                 case "olvasasok":
-                {
-                    //adatpter az indegen kulcshot
-                    CreateTagokAdapterForForeignKeys(_dataset);
+                    {
+                        //adatpter az indegen kulcshot
+                        CreateTagokAdapterForForeignKeys(_dataset);
 
-                    //azonosító automatikus növelése
-                    autoIdIncrease(_dataset, "olvas_id", "olvasasok");
+                        //azonosító automatikus növelése
+                        autoIdIncrease(_dataset, "olvas_id", "olvasasok");
 
-                    DataGridViewColumn[] columns = new DataGridViewColumn[4];
-                    columns[0] = new DataGridViewTextBoxColumn();
-                    columns[0].HeaderText = "Olvasás ID";
-                    columns[0].DataPropertyName = "olvas_id";
-                    columns[0].Visible = false;
-                                                
-                    columns[1] = new DataGridViewComboBoxColumn();
-                    columns[1].HeaderText = "Tag neve";
-                    columns[1].DataPropertyName = "tag_id";
-                    //oszlop adatainak feltöltése másik táblából
-                    ((DataGridViewComboBoxColumn)columns[1]).DataSource = _bindingSourceTagok;
-                    ((DataGridViewComboBoxColumn)columns[1]).ValueMember = "tag_id";
-                    ((DataGridViewComboBoxColumn)columns[1]).DisplayMember = "nev";
+                        DataGridViewColumn[] columns = new DataGridViewColumn[4];
+                        columns[0] = new DataGridViewTextBoxColumn();
+                        columns[0].HeaderText = "Olvasás ID";
+                        columns[0].DataPropertyName = "olvas_id";
+                        columns[0].Visible = false;
 
-                    columns[2] = new DataGridViewTextBoxColumn();
-                    columns[2].HeaderText = "Belépés";
-                    columns[2].DataPropertyName = "belepes";
-                    
-                    columns[3] = new DataGridViewTextBoxColumn();
-                    columns[3].HeaderText = "Kilépés";
-                    columns[3].DataPropertyName = "kilepes";
+                        columns[1] = new DataGridViewComboBoxColumn();
+                        columns[1].HeaderText = "Tag neve";
+                        columns[1].DataPropertyName = "tag_id";
+                        //oszlop adatainak feltöltése másik táblából
+                        ((DataGridViewComboBoxColumn)columns[1]).DataSource = _bindingSourceTagok;
+                        ((DataGridViewComboBoxColumn)columns[1]).ValueMember = "tag_id";
+                        ((DataGridViewComboBoxColumn)columns[1]).DisplayMember = "nev";
 
-                    addColumnsToDataGridView(columns);
-                    break;
-                }
+                        columns[2] = new DataGridViewTextBoxColumn();
+                        columns[2].HeaderText = "Belépés";
+                        columns[2].DataPropertyName = "belepes";
+
+                        columns[3] = new DataGridViewTextBoxColumn();
+                        columns[3].HeaderText = "Kilépés";
+                        columns[3].DataPropertyName = "kilepes";
+
+                        addColumnsToDataGridView(columns);
+                        break;
+                    }
                 case "statuszok":
-                {
-                    //azonosító automatikus növelése
-                    autoIdIncrease(_dataset, "statusz_id", "statuszok");
-                    
-                    //tábla fejlécének formázása
-                    DataGridViewColumn[] columns = new DataGridViewColumn[3];
+                    {
+                        //azonosító automatikus növelése
+                        autoIdIncrease(_dataset, "statusz_id", "statuszok");
 
-                    columns[0] = new DataGridViewTextBoxColumn();
-                    columns[0].HeaderText = "Státusz ID";
-                    columns[0].DataPropertyName = "statusz_id";
-                    columns[0].Visible = false;
-                    
-                    
-                    columns[1] = new DataGridViewTextBoxColumn();
-                    columns[1].HeaderText = "Státusz";
-                    columns[1].DataPropertyName = "statusz";
-                    
-                    columns[2] = new DataGridViewTextBoxColumn();
-                    columns[2].HeaderText = "Éves Tagdíj";
-                    columns[2].DataPropertyName = "tagdij";
-                    
-                    addColumnsToDataGridView(columns);
-                    break;
-                }
+                        //tábla fejlécének formázása
+                        DataGridViewColumn[] columns = new DataGridViewColumn[3];
+
+                        columns[0] = new DataGridViewTextBoxColumn();
+                        columns[0].HeaderText = "Státusz ID";
+                        columns[0].DataPropertyName = "statusz_id";
+                        columns[0].Visible = false;
+
+
+                        columns[1] = new DataGridViewTextBoxColumn();
+                        columns[1].HeaderText = "Státusz";
+                        columns[1].DataPropertyName = "statusz";
+
+                        columns[2] = new DataGridViewTextBoxColumn();
+                        columns[2].HeaderText = "Éves Tagdíj";
+                        columns[2].DataPropertyName = "tagdij";
+
+                        addColumnsToDataGridView(columns);
+                        break;
+                    }
                 case "tagok":
-                {
-                    //azonosító automatikus növelése
-                    autoIdIncrease(_dataset, "tag_id", "tagok");
+                    {
+                        //azonosító automatikus növelése
+                        autoIdIncrease(_dataset, "tag_id", "tagok");
 
-                    _adapStatuszok = new SQLiteDataAdapter("SELECT * FROM statuszok", _con);
-                    _adapStatuszok.Fill(_dataset, "statuszok");
-                    _bindingSourceStatuszok = new BindingSource();
-                    _bindingSourceStatuszok.DataSource = _dataset.Tables["statuszok"];                      
+                        _adapStatuszok = new SQLiteDataAdapter("SELECT * FROM statuszok", _con);
+                        _adapStatuszok.Fill(_dataset, "statuszok");
+                        _bindingSourceStatuszok = new BindingSource();
+                        _bindingSourceStatuszok.DataSource = _dataset.Tables["statuszok"];
 
-                    //tábla fejlécének formázása
-                    DataGridViewColumn[] columns = new DataGridViewColumn[6];
+                        //tábla fejlécének formázása
+                        DataGridViewColumn[] columns = new DataGridViewColumn[6];
 
-                    columns[0] = new DataGridViewTextBoxColumn();
-                    columns[0].HeaderText = "Tag ID";
-                    columns[0].DataPropertyName = "tag_id";
-                    columns[0].Visible = false;
-                    
-                    columns[1] = new DataGridViewTextBoxColumn();
-                    columns[1].HeaderText = "Név";
-                    columns[1].DataPropertyName = "nev";
-                                        
-                    columns[2] = new DataGridViewTextBoxColumn();
-                    columns[2].HeaderText = "Cím";
-                    columns[2].DataPropertyName = "cim";
+                        columns[0] = new DataGridViewTextBoxColumn();
+                        columns[0].HeaderText = "Tag ID";
+                        columns[0].DataPropertyName = "tag_id";
+                        columns[0].Visible = false;
 
-                    columns[3] = new DataGridViewTextBoxColumn();
-                    columns[3].HeaderText = "Azonosító";
-                    columns[3].DataPropertyName = "azon";
+                        columns[1] = new DataGridViewTextBoxColumn();
+                        columns[1].HeaderText = "Név";
+                        columns[1].DataPropertyName = "nev";
 
-                    columns[4] = new DataGridViewTextBoxColumn();
-                    columns[4].HeaderText = "Könyvtár jegy";
-                    columns[4].DataPropertyName = "konyvtarjegy";
+                        columns[2] = new DataGridViewTextBoxColumn();
+                        columns[2].HeaderText = "Cím";
+                        columns[2].DataPropertyName = "cim";
 
-                    columns[5] = new DataGridViewComboBoxColumn();
-                    columns[5].HeaderText = "Státusz";
-                    columns[5].DataPropertyName = "statusz_id";
-                    ((DataGridViewComboBoxColumn)columns[5]).DataSource = _bindingSourceStatuszok;
-                    ((DataGridViewComboBoxColumn)columns[5]).ValueMember = "statusz_id";
-                    ((DataGridViewComboBoxColumn)columns[5]).DisplayMember = "statusz";
+                        columns[3] = new DataGridViewTextBoxColumn();
+                        columns[3].HeaderText = "Azonosító";
+                        columns[3].DataPropertyName = "azon";
 
-                    addColumnsToDataGridView(columns);
-                    break;
-                }
+                        columns[4] = new DataGridViewTextBoxColumn();
+                        columns[4].HeaderText = "Könyvtár jegy";
+                        columns[4].DataPropertyName = "konyvtarjegy";
+
+                        columns[5] = new DataGridViewComboBoxColumn();
+                        columns[5].HeaderText = "Státusz";
+                        columns[5].DataPropertyName = "statusz_id";
+                        ((DataGridViewComboBoxColumn)columns[5]).DataSource = _bindingSourceStatuszok;
+                        ((DataGridViewComboBoxColumn)columns[5]).ValueMember = "statusz_id";
+                        ((DataGridViewComboBoxColumn)columns[5]).DisplayMember = "statusz";
+
+                        addColumnsToDataGridView(columns);
+                        break;
+                    }
                 default:
                     break;
             }
@@ -344,140 +344,140 @@ namespace konyvtar
         {
             //object o = new object();
             DataGridViewRowCancelEventArgs a = new DataGridViewRowCancelEventArgs(_dataGridView.CurrentRow);
-                        
+
             //olyan tag nem törölhető akinél van könyv,tartozik tagdíjjal és az olvasótermeben ül
             //olyan státusz törölhető ami nincs hozzárendelve egy taghoz sem
             //csak olyan könyv törölhető ami nincs kikölcsönözve
-            _dataGridView_UserDeletingRow(sender, a);           
+            _dataGridView_UserDeletingRow(sender, a);
         }
 
         //hibakezelés cellára
         private void DataGridViewCellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
-            switch(_dataSet.Tables[_tn].TableName)
+            switch (_dataSet.Tables[_tn].TableName)
             {
                 case "befizetesek":
-                {
-                    switch (e.ColumnIndex)
-                    { 
-                        case 2: //összeg oszlop
-                        {
-                            CheckNumber(e);
-                            break;
-                        }
-                        case 3: //dátum oszlop
-                        {
-                            CheckDateFormat(e);
-                            break;                        
-                        }
-                        default: break;
-                    }
-                    break;
-                }
-                case "kolcsonzesek":
-                {
-                    switch (e.ColumnIndex)
                     {
-                        case 3://kedted oszlop
+                        switch (e.ColumnIndex)
                         {
-                            CheckDateFormat(e);
-                            break;
+                            case 2: //összeg oszlop
+                                {
+                                    CheckNumber(e);
+                                    break;
+                                }
+                            case 3: //dátum oszlop
+                                {
+                                    CheckDateFormat(e);
+                                    break;
+                                }
+                            default: break;
                         }
-                        case 4://vissza oszlop
-                        {
-                            CheckDateFormat(e);
-                            break;
-                        }
-                        default: break;
-                    }
-                    break;
-                }
-                case "konyvek":
-                {
-                    switch (e.ColumnIndex)
-                    {
-                        case 1://azonosító oszlop
-                        {
-                            CheckIdentifer(e, 12);
-                            break;
-                        }
-                        case 4:// példányszám
-                        {
-                            CheckPositive(e);
-                            if (Convert.ToInt32(e.FormattedValue) < (Convert.ToInt32( _dataSet.Tables[_tn].Rows[e.RowIndex][4])))
-                            {
-                                MessageBox.Show("hiba, csak kissebb lehet","hiba");
-                                e.Cancel=true;
-                            }
-                            
-                            
-                            break;                        
-                        }
-                        case 5://szabad példányszám
-                        {
-                            CheckPositive(e);
-                            break;
-                        }
-
-                        default:
                         break;
                     }
-                    break;
-                }
+                case "kolcsonzesek":
+                    {
+                        switch (e.ColumnIndex)
+                        {
+                            case 3://kedted oszlop
+                                {
+                                    CheckDateFormat(e);
+                                    break;
+                                }
+                            case 4://vissza oszlop
+                                {
+                                    CheckDateFormat(e);
+                                    break;
+                                }
+                            default: break;
+                        }
+                        break;
+                    }
+                case "konyvek":
+                    {
+                        switch (e.ColumnIndex)
+                        {
+                            case 1://azonosító oszlop
+                                {
+                                    CheckIdentifer(e, 12);
+                                    break;
+                                }
+                            case 4:// példányszám
+                                {
+                                    CheckPositive(e);
+                                    if (Convert.ToInt32(e.FormattedValue) < (Convert.ToInt32(_dataSet.Tables[_tn].Rows[e.RowIndex][4])))
+                                    {
+                                        MessageBox.Show("hiba, csak kissebb lehet", "hiba");
+                                        e.Cancel = true;
+                                    }
+
+
+                                    break;
+                                }
+                            case 5://szabad példányszám
+                                {
+                                    CheckPositive(e);
+                                    break;
+                                }
+
+                            default:
+                                break;
+                        }
+                        break;
+                    }
                 case "olvasasok":
-                {
-                    switch (e.ColumnIndex)
                     {
-                        case 2:
+                        switch (e.ColumnIndex)
                         {
-                            CheckDateFormat(e);
-                            break;                           
+                            case 2:
+                                {
+                                    CheckDateFormat(e);
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    CheckDateFormat(e);
+                                    break;
+                                }
+                            default: break;
                         }
-                        case 3:
-                        {
-                            CheckDateFormat(e);
-                            break;
-                        }
-                        default: break;                   
+                        break;
                     }
-                    break;
-                }
                 case "statuszok":
-                {
-                    switch (e.ColumnIndex)
                     {
-                        case 1:
+                        switch (e.ColumnIndex)
                         {
-                            break;
+                            case 1:
+                                {
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    CheckPositive(e);
+                                    break;
+                                }
+                            default: break;
                         }
-                        case 2:
-                        {
-                            CheckPositive(e);
-                            break;
-                        }
-                        default: break;
+                        break;
                     }
-                    break;
-                }
                 case "tagok":
-                {
-                    switch (e.ColumnIndex)
                     {
-                        case 3:
+                        switch (e.ColumnIndex)
                         {
-                            CheckIdentifer(e, 6);
-                            break;
+                            case 3:
+                                {
+                                    CheckIdentifer(e, 6);
+                                    break;
+                                }
+                            case 4:
+                                {
+                                    CheckPositive(e);
+                                    break;
+                                }
                         }
-                        case 4:
-                        {
-                            CheckPositive(e);
-                            break;                        
-                        }                    
+                        break;
                     }
-                    break;
-                }
                 default:
-                break;
+                    break;
             }
         }
 
@@ -525,7 +525,7 @@ namespace konyvtar
             {
                 MessageBox.Show("Hiba! Az azonosítónak " + length.ToString() + " karakter hosszúnak kell lennie!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.Cancel = true;
-            }        
+            }
         }
 
         //adapter létrehozása a tagok táblára
@@ -534,7 +534,7 @@ namespace konyvtar
             _adapTagok = new SQLiteDataAdapter("SELECT * FROM tagok", _con);
             _adapTagok.Fill(_dataset, "tagok");
             _bindingSourceTagok = new BindingSource();
-            _bindingSourceTagok.DataSource = _dataset.Tables["tagok"];        
+            _bindingSourceTagok.DataSource = _dataset.Tables["tagok"];
         }
 
         //ellenőrzi, hogy a paraméter megfelelő dátumtípus-e
@@ -548,7 +548,7 @@ namespace konyvtar
             {
                 MessageBox.Show("Hiba! Helytelen dátum formátum!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.Cancel = true;
-            }        
+            }
         }
 
         //törlés ellenőrzése
@@ -568,101 +568,101 @@ namespace konyvtar
             }
             #region switch
             switch (_dataSet.Tables[_tn].TableName)
-                {
-                    case "tagok":
-                        {
-                            //csak olyan könyvtári tag törölhető, akinél nincs kikölcsönzött könyv
-                            //itt az kell ellenőrizni, hogy a tagnál van e könyv tehát az id-ja szerepel a kölcsönzések táblában
-                            _adapKolcsonzesek = new SQLiteDataAdapter("SELECT * FROM kolcsonzesek", _con);
-                            _adapKolcsonzesek.Fill(_dataSet, "kolcsonzesek");
+            {
+                case "tagok":
+                    {
+                        //csak olyan könyvtári tag törölhető, akinél nincs kikölcsönzött könyv
+                        //itt az kell ellenőrizni, hogy a tagnál van e könyv tehát az id-ja szerepel a kölcsönzések táblában
+                        _adapKolcsonzesek = new SQLiteDataAdapter("SELECT * FROM kolcsonzesek", _con);
+                        _adapKolcsonzesek.Fill(_dataSet, "kolcsonzesek");
                         _bindingSourceKolcsonzesek = new BindingSource()
                         {
                             DataSource = _dataSet.Tables["kolcsonzesek"]
                         };
                         DataTable dt = new DataTable();
-                            dt = _dataSet.Tables["kolcsonzesek"];
+                        dt = _dataSet.Tables["kolcsonzesek"];
 
-                            String value = e.Row.Cells[0].FormattedValue.ToString();
-                            bool found = dt.Select("tag_id=" + value).Length > 0;
-                            if (found)
-                            {
-                                MessageBox.Show("Hiba! A tag nem törölhető, mert még van nála könyv!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                e.Cancel = true;
-                            }
-
-                            //csak olyan könyvtári tag törölhető, aki nem tartozik tagdíjjal
-                            _adapBefizetesek = new SQLiteDataAdapter("SELECT * FROM befizetesek", _con);
-                            _adapBefizetesek.Fill(_dataSet, "befizetesek");
-                            _bindingSourceBefizetesek = new BindingSource();
-                            _bindingSourceBefizetesek.DataSource = _dataSet.Tables["befizetesek"];
-                            DataTable dt3 = new DataTable();
-                            dt3 = _dataSet.Tables["befizetesek"];
-
-
-                            bool k = dt3.Select("tag_id=" + value + "AND osszeg < 0").Length > 0;
-
-                            if (k)
-                            {
-                                MessageBox.Show("Hiba! A tag nem törölhető, mert tartozása van!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                e.Cancel = true;
-                            }
-                            //csak olyan könyvtári tag törölhető, aki nem ül az olvasó teremben
-                            _adapOlvasasok = new SQLiteDataAdapter("SELECT * FROM olvasasok", _con);
-                            _adapOlvasasok.Fill(_dataSet, "olvasasok");
-                            _bindingSourceOlvasasok = new BindingSource();
-                            _bindingSourceOlvasasok.DataSource = _dataSet.Tables["olvasasok"];
-                            DataTable dt2 = new DataTable();
-                            dt2 = _dataSet.Tables["olvasasok"];
-                            bool l = dt2.Select("tag_id=" + value).Length > 0;
-                            if (l)
-                            {
-                                MessageBox.Show("Hiba! A tag nem törölhető, mert az olvasóteremben ül!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                e.Cancel = true;
-                            }
-
-                            break;
-                        }
-                    case "statuszok":
+                        String value = e.Row.Cells[0].FormattedValue.ToString();
+                        bool found = dt.Select("tag_id=" + value).Length > 0;
+                        if (found)
                         {
-                            //csak olyan státusz törölhető, amely egyik könyvtári taghoz sincs hozzárendelve
-
-                            String value = e.Row.Cells[0].FormattedValue.ToString();
-                            DataTable dt = new DataTable();
-                            dt = _dataSet.Tables["statuszok"];
-                            bool l = dt.Select("statusz_id=" + value).Length > 0;
-
-                            if (l)
-                            {
-                                MessageBox.Show("Hiba! A státusz nem törölhető, mert hozzá van rendelve egy taghoz!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                e.Cancel = true;
-                            }
-
-
-                            break;
+                            MessageBox.Show("Hiba! A tag nem törölhető, mert még van nála könyv!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            e.Cancel = true;
                         }
-                    case "konyvek":
+
+                        //csak olyan könyvtári tag törölhető, aki nem tartozik tagdíjjal
+                        _adapBefizetesek = new SQLiteDataAdapter("SELECT * FROM befizetesek", _con);
+                        _adapBefizetesek.Fill(_dataSet, "befizetesek");
+                        _bindingSourceBefizetesek = new BindingSource();
+                        _bindingSourceBefizetesek.DataSource = _dataSet.Tables["befizetesek"];
+                        DataTable dt3 = new DataTable();
+                        dt3 = _dataSet.Tables["befizetesek"];
+
+
+                        bool k = dt3.Select("tag_id=" + value + "AND osszeg < 0").Length > 0;
+
+                        if (k)
                         {
-                            //csak olyan könyv törölhető, amely nincs kikölcsönözve
-                            _adapKolcsonzesek = new SQLiteDataAdapter("SELECT * FROM kolcsonzesek", _con);
-                            _adapKolcsonzesek.Fill(_dataSet, "kolcsonzesek");
-                            _bindingSourceKolcsonzesek = new BindingSource();
-                            _bindingSourceKolcsonzesek.DataSource = _dataSet.Tables["kolcsonzesek"];
-                            String value = e.Row.Cells[0].FormattedValue.ToString();
-                            DataTable dt = new DataTable();
-                            dt = _dataSet.Tables["kolcsonzesek"];
-                            bool l = dt.Select("konyv_id=" + value).Length > 0;
-                            if (l)
-                            {
-                                MessageBox.Show("Hiba! A könyv nem törölhető, mert ki van kölcsönözve!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                e.Cancel = true;
-                            }
-                            break;
+                            MessageBox.Show("Hiba! A tag nem törölhető, mert tartozása van!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            e.Cancel = true;
                         }
-                    default:
+                        //csak olyan könyvtári tag törölhető, aki nem ül az olvasó teremben
+                        _adapOlvasasok = new SQLiteDataAdapter("SELECT * FROM olvasasok", _con);
+                        _adapOlvasasok.Fill(_dataSet, "olvasasok");
+                        _bindingSourceOlvasasok = new BindingSource();
+                        _bindingSourceOlvasasok.DataSource = _dataSet.Tables["olvasasok"];
+                        DataTable dt2 = new DataTable();
+                        dt2 = _dataSet.Tables["olvasasok"];
+                        bool l = dt2.Select("tag_id=" + value).Length > 0;
+                        if (l)
+                        {
+                            MessageBox.Show("Hiba! A tag nem törölhető, mert az olvasóteremben ül!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            e.Cancel = true;
+                        }
+
                         break;
-                }
+                    }
+                case "statuszok":
+                    {
+                        //csak olyan státusz törölhető, amely egyik könyvtári taghoz sincs hozzárendelve
+
+                        String value = e.Row.Cells[0].FormattedValue.ToString();
+                        DataTable dt = new DataTable();
+                        dt = _dataSet.Tables["statuszok"];
+                        bool l = dt.Select("statusz_id=" + value).Length > 0;
+
+                        if (l)
+                        {
+                            MessageBox.Show("Hiba! A státusz nem törölhető, mert hozzá van rendelve egy taghoz!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            e.Cancel = true;
+                        }
+
+
+                        break;
+                    }
+                case "konyvek":
+                    {
+                        //csak olyan könyv törölhető, amely nincs kikölcsönözve
+                        _adapKolcsonzesek = new SQLiteDataAdapter("SELECT * FROM kolcsonzesek", _con);
+                        _adapKolcsonzesek.Fill(_dataSet, "kolcsonzesek");
+                        _bindingSourceKolcsonzesek = new BindingSource();
+                        _bindingSourceKolcsonzesek.DataSource = _dataSet.Tables["kolcsonzesek"];
+                        String value = e.Row.Cells[0].FormattedValue.ToString();
+                        DataTable dt = new DataTable();
+                        dt = _dataSet.Tables["kolcsonzesek"];
+                        bool l = dt.Select("konyv_id=" + value).Length > 0;
+                        if (l)
+                        {
+                            MessageBox.Show("Hiba! A könyv nem törölhető, mert ki van kölcsönözve!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            e.Cancel = true;
+                        }
+                        break;
+                    }
+                default:
+                    break;
+            }
             #endregion
 
-        }       
+        }
     }
 }

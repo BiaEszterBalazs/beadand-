@@ -14,6 +14,8 @@ namespace konyvtar
     public partial class MainForm : Form
     {
         private TableForm _tf;
+        private LendingFrom _lf;
+        private PaymentForm _pf;
         private SQLiteConnection _con;
 
         public MainForm()
@@ -30,11 +32,11 @@ namespace konyvtar
                 _con = new SQLiteConnection("Data Source=Konyvtar.db;Version=3;");
                 _con.Open();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\nHiba, nem sikerült kapcsolódni az adatbázishoz!","Hiba!",MessageBoxButtons.OK, MessageBoxIcon.Error);
-                _con.Close();            
-            }            
+                MessageBox.Show(ex.Message + "\nHiba, nem sikerült kapcsolódni az adatbázishoz!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _con.Close();
+            }
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -52,10 +54,10 @@ namespace konyvtar
                 _tf.MdiParent = this;
                 _tf.Show();
             }
-            catch (Exception ex)            
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "\nHiba, nem tudom lekérdezni a tábla adatait!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }        
+            }
         }
 
         private void MenuTable_befizetesek_Clicked(object sender, EventArgs e)
@@ -91,6 +93,42 @@ namespace konyvtar
         private void MenuTable_kilepes_Clicked(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void kölcsönzésToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                _lf = new LendingFrom(_con);
+                _lf.MdiParent = this;
+                _lf.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\nHiba, nem tudom lekérdezni a tábla adatait!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void tagdíjFizetésToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _pf = new PaymentForm(_con);
+                _pf.MdiParent = this;
+                _pf.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\nHiba, nem tudom lekérdezni a tábla adatait!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Hell");
         }
     }
 }
