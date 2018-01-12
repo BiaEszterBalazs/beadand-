@@ -1,0 +1,29 @@
+******************
+*  ************  *
+*  *Verzió 0.5*  *
+*  ************  *
+*                *
+* ************** *
+* *Az adatbázis* *
+* ************** *
+******************
+
+-- Felépítése és kapcsolatok
+
+Implementálva:
+•	könyvek
+•	kölcsönzések
+
+Könyvek ( könyvek adatait tartalmazó tábla )
+•	konyv_id - int(≤8) nincs nullérték, elsődleges kulcs /könyv belső azonosítója/
+•	azon - string(12), nincs nullérték, egyedi /könyv egyedi azonosítója/
+•	cim - string(≤30) /könyv címe/
+•	szerzo - string(≤50) /könyv szerzői/
+•	peldanyszam - int(≤3), nincs nullérték /teljes példányszáma/
+•	szabad_peldanyszam - int(≤3), nincs nullérték /kölcsönözhető példányszám/
+
+Kölcsönzések ( kölcsönzések adatait tartalmazó tábla )
+•	kolcson_id - int(≤8), nincs nullérték, elsődleges kulcs /kölcsönzés szám/
+•	konyv_id - int(≤8), nincs nullérték, idegenkulcs /lásd könyvek tábla/
+•	kezdet - datetime, nincs nullérték /kölcsönzés kezdete/
+•	vissza - datetime /kölcsönzés vége/
