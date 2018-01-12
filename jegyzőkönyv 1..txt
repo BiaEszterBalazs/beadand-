@@ -19,8 +19,16 @@ A megbeszéléskor kész program a könyveket és a kölcsönzések adatait tudj
 A könyveknél nyilvántartja az adott könyv címét, szerzőjét, példányszámát és hogy mennyi példány van még ami kölcsönözhető.
 A kölcsönzéseknél a kikölcsönzött könyv azonosítója, kölcsönzés dátuma és a visszahozatal dátuma van feltüntetve.
 
-Kérnénk, hogy az előbb felsoroltakon kívül a rendszer még meg tudja jeleníteni a tagokat is, a tagdíj befizetéseket és azt is
+Az előbb felsoroltakon kívül a rendszer még kérés alapján meg tudja jeleníteni a tagokat is, a tagdíj befizetéseket és azt is
  hogy az olvasó mikor jelent meg az olvasóterembe. 
 
-Meg szeretnénk az adatok alapján majd vizsgálni, hogy átlagosan mennyi időt töltenek olvasóink az olvasóterembe, mielőtt 
+A megrendelő szeretné az adatok alapján majd vizsgálni, hogy átlagosan mennyi időt töltenek olvasóink az olvasóterembe, mielőtt 
 döntés születik a kikölcsönözni kívánt könyvekről és hogy az olvasók mennyire figyelnek a tagdíj fizetésre. 
+
+Kérnék továbbá, hogy a programot teljes képernyős módba is használható legyen, ne csak kis ablakba az átláthatóbb kinézet miatt.
+
+A program kinézete tetszik a megrendelőnek.
+
+A megbeszélésen elhangzottak alapján  egy árajánlat módosításra kerül sor, hogy az új funkciókat is tartalmazza a program. 
+
+
