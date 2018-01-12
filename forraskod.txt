@@ -1,0 +1,2350 @@
+***********LENDING FORM***********
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using System.Data.SQLite;
+
+namespace konyvtar
+{
+
+    public partial class LendingFrom : Form
+    {
+        private SQLiteConnection _con;
+
+        private SQLiteDataAdapter _adapKolcsonzesek;
+        private SQLiteDataAdapter _adapTagok;
+        private SQLiteDataAdapter _adapKonyvek;
+        private SQLiteDataAdapter _adapStatuszok;
+        private BindingSource _bindingSourceStatuszok;
+        private int kolcson_id = 0;
+        
+
+        public LendingFrom(SQLiteConnection c)
+        {
+            InitializeComponent();
+
+            //eseménykezelő kapcsolt táblához
+            _dataGridViewTagok.SelectionChanged += new EventHandler(dataGridViewTagok_SelectionChanged);
+            
+
+            _con = c;
+
+            // hogy kézzel formázhassuk az oszlopokat
+            _dataGridViewKolcsonzesek.AutoGenerateColumns = false; 
+            _dataGridViewTagok.AutoGenerateColumns = false;
+            _dataGridViewKonyvek.AutoGenerateColumns = false;
+
+            //ne lehessen szerkeszteni
+            _dataGridViewTagok.ReadOnly = true;
+            _dataGridViewKolcsonzesek.ReadOnly = true;
+            _dataGridViewKonyvek.ReadOnly = true;
+
+            //csak teljes sorokat lehessen kijelölni
+            _dataGridViewTagok.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            _dataGridViewKolcsonzesek.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            _dataGridViewKonyvek.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            //csak egy sort lehessen kijelölni
+            _dataGridViewKolcsonzesek.MultiSelect = false;
+            _dataGridViewTagok.MultiSelect = false;
+            _dataGridViewKonyvek.MultiSelect = false;
+
+
+
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            SQLiteCommand command = _con.CreateCommand();
+            command.CommandText = "SELECT MAX(kolcson_id) FROM kolcsonzesek";
+            kolcson_id = Convert.ToInt32(command.ExecuteScalar());
+
+            _adapKolcsonzesek = new SQLiteDataAdapter("SELECT * FROM kolcsonzesek WHERE vissza is null", _con);
+            _adapTagok = new SQLiteDataAdapter("SELECT * FROM tagok", _con);
+            _adapKonyvek = new SQLiteDataAdapter("SELECT * FROM konyvek", _con);
+
+            SQLiteCommandBuilder _builderKolcsonzesek = new SQLiteCommandBuilder(_adapKolcsonzesek);
+            _adapKolcsonzesek.InsertCommand = _builderKolcsonzesek.GetInsertCommand();
+            _adapKolcsonzesek.DeleteCommand = _builderKolcsonzesek.GetDeleteCommand();
+            _adapKolcsonzesek.UpdateCommand = _builderKolcsonzesek.GetUpdateCommand();
+
+            SQLiteCommandBuilder _builderTagok = new SQLiteCommandBuilder(_adapTagok);
+            _adapTagok.InsertCommand = _builderTagok.GetInsertCommand();
+            _adapTagok.DeleteCommand = _builderTagok.GetDeleteCommand();
+            _adapTagok.UpdateCommand = _builderTagok.GetUpdateCommand();
+
+            SQLiteCommandBuilder _builderKonyvek = new SQLiteCommandBuilder(_adapKonyvek);
+            _adapKonyvek.InsertCommand = _builderKonyvek.GetInsertCommand();
+            _adapKonyvek.DeleteCommand = _builderKonyvek.GetDeleteCommand();
+            _adapKonyvek.UpdateCommand = _builderKonyvek.GetUpdateCommand();
+
+
+            _dataSet = new DataSet("kolcsonzes");
+
+                       
+            _adapKolcsonzesek.Fill(_dataSet, "kolcsonzesek");
+            _bindingSourceKolcsonzesek.DataSource = _dataSet.Tables["kolcsonzesek"];
+            _dataGridViewKolcsonzesek.DataSource = _bindingSourceKolcsonzesek;
+
+            _adapTagok.Fill(_dataSet, "tagok");
+            _bindingSourceTagok.DataSource = _dataSet.Tables["tagok"];
+            _dataGridViewTagok.DataSource = _bindingSourceTagok;
+
+            _adapKonyvek.Fill(_dataSet, "konyvek");
+            _bindingSourceKonyvek.DataSource = _dataSet.Tables["konyvek"];
+            _dataGridViewKonyvek.DataSource = _bindingSourceKonyvek;
+
+
+            FormatKolcsonzesekTable();
+            FormatTagokTable();
+            FormatKonyvekTable();
+        }
+
+        private void FormatKolcsonzesekTable()
+        {
+            _dataSet.Tables[0].Columns[0].AutoIncrement = true;
+            SQLiteCommand command = _con.CreateCommand();
+            command.CommandText = "SELECT MAX(kolcson_id) FROM kolcsonzesek";
+            _dataSet.Tables[0].Columns[0].AutoIncrementSeed = Convert.ToInt32(command.ExecuteScalar()) + 1;
+            _dataSet.Tables[0].Columns[0].AutoIncrementStep = 1;
+
+
+            //tábla fejlécének formázása
+            DataGridViewColumn[] columns = new DataGridViewColumn[6];
+            columns[0] = new DataGridViewTextBoxColumn();
+            columns[0].HeaderText = "Kölcsönzés ID";
+            columns[0].DataPropertyName = "kolcson_id";
+            columns[0].Visible = false;
+
+            columns[1] = new DataGridViewComboBoxColumn();
+            columns[1].HeaderText = "Tag neve";
+            columns[1].DataPropertyName = "tag_id";
+            ((DataGridViewComboBoxColumn)columns[1]).DataSource = _bindingSourceTagok;
+            ((DataGridViewComboBoxColumn)columns[1]).ValueMember = "tag_id";
+            ((DataGridViewComboBoxColumn)columns[1]).DisplayMember = "nev";
+
+            columns[2] = new DataGridViewComboBoxColumn();
+            columns[2].HeaderText = "Könyv címe";
+            columns[2].DataPropertyName = "konyv_id";
+            ((DataGridViewComboBoxColumn)columns[2]).DataSource = _bindingSourceKonyvek;
+            ((DataGridViewComboBoxColumn)columns[2]).ValueMember = "konyv_id";
+            ((DataGridViewComboBoxColumn)columns[2]).DisplayMember = "cim";
+
+            columns[3] = new DataGridViewTextBoxColumn();
+            columns[3].HeaderText = "Kezdet";
+            columns[3].DataPropertyName = "kezdte";
+
+            columns[4] = new DataGridViewTextBoxColumn();
+            columns[4].HeaderText = "Vissza";
+            columns[4].DataPropertyName = "Vissza";
+
+            columns[5] = new DataGridViewCheckBoxColumn();
+            columns[5].HeaderText = "Lejárt";
+            
+                        
+            foreach (DataGridViewColumn col in columns)
+            {
+               _dataGridViewKolcsonzesek.Columns.Add(col);
+            }            
+        }
+
+        private void FormatTagokTable()
+        {
+            _dataSet.Tables[1].Columns[0].AutoIncrement = true;
+            SQLiteCommand command = _con.CreateCommand();
+            command.CommandText = "SELECT MAX(tag_id) FROM tagok";
+            _dataSet.Tables[1].Columns[0].AutoIncrementSeed = Convert.ToInt32(command.ExecuteScalar()) + 1;
+            _dataSet.Tables[1].Columns[0].AutoIncrementStep = 1;
+
+            _adapStatuszok = new SQLiteDataAdapter("SELECT * FROM statuszok", _con);
+            _adapStatuszok.Fill(_dataSet, "statuszok");
+            _bindingSourceStatuszok = new BindingSource();
+            _bindingSourceStatuszok.DataSource = _dataSet.Tables["statuszok"]; 
+
+            //tábla fejlécének formázása
+            DataGridViewColumn[] columns = new DataGridViewColumn[6];
+
+            columns[0] = new DataGridViewTextBoxColumn();
+            columns[0].HeaderText = "Tag ID";
+            columns[0].DataPropertyName = "tag_id";
+            columns[0].Visible = false;
+
+            columns[1] = new DataGridViewTextBoxColumn();
+            columns[1].HeaderText = "Név";
+            columns[1].DataPropertyName = "nev";
+
+            columns[2] = new DataGridViewTextBoxColumn();
+            columns[2].HeaderText = "Cím";
+            columns[2].DataPropertyName = "cim";
+
+            columns[3] = new DataGridViewTextBoxColumn();
+            columns[3].HeaderText = "Azonosító";
+            columns[3].DataPropertyName = "azon";
+
+            columns[4] = new DataGridViewTextBoxColumn();
+            columns[4].HeaderText = "Könyvtár jegy";
+            columns[4].DataPropertyName = "konyvtarjegy";
+
+            columns[5] = new DataGridViewComboBoxColumn();
+            columns[5].HeaderText = "Státusz";
+            columns[5].DataPropertyName = "statusz_id";
+            ((DataGridViewComboBoxColumn)columns[5]).DataSource = _bindingSourceStatuszok;
+            ((DataGridViewComboBoxColumn)columns[5]).ValueMember = "statusz_id";
+            ((DataGridViewComboBoxColumn)columns[5]).DisplayMember = "statusz";
+
+            foreach (DataGridViewColumn col in columns)
+            {
+                _dataGridViewTagok.Columns.Add(col);
+            }        
+        }
+
+        private void FormatKonyvekTable()
+        {
+            _dataSet.Tables[2].Columns[0].AutoIncrement = true;
+            SQLiteCommand command = _con.CreateCommand();
+            command.CommandText = "SELECT MAX(konyv_id) FROM konyvek";
+            _dataSet.Tables[2].Columns[0].AutoIncrementSeed = Convert.ToInt32(command.ExecuteScalar()) + 1;
+            _dataSet.Tables[2].Columns[0].AutoIncrementStep = 1;
+
+            //tábla fejlécének formázása
+            DataGridViewColumn[] columns = new DataGridViewColumn[6];
+
+            columns[0] = new DataGridViewTextBoxColumn();
+            columns[0].HeaderText = "Könyv ID";
+            columns[0].DataPropertyName = "konyv_id";
+            columns[0].Visible = false;
+
+            columns[1] = new DataGridViewTextBoxColumn();
+            columns[1].HeaderText = "Azonosító";
+            columns[1].DataPropertyName = "azon";
+
+            columns[2] = new DataGridViewTextBoxColumn();
+            columns[2].HeaderText = "Cím";
+            columns[2].DataPropertyName = "cim";
+
+            columns[3] = new DataGridViewTextBoxColumn();
+            columns[3].HeaderText = "Szerző";
+            columns[3].DataPropertyName = "szerzo";
+
+            columns[4] = new DataGridViewTextBoxColumn();
+            columns[4].HeaderText = "Példányszám";
+            columns[4].DataPropertyName = "peldanyszam";
+
+            columns[5] = new DataGridViewTextBoxColumn();
+            columns[5].HeaderText = "Szabad példányszám";
+            columns[5].DataPropertyName = "szabad_peldanyszam";
+
+            foreach (DataGridViewColumn col in columns)
+            {
+                _dataGridViewKonyvek.Columns.Add(col);
+            }        
+        }
+
+        private void dataGridViewTagok_SelectionChanged(object sender, EventArgs e)
+        {
+            String s="";
+
+            for (int i = 0; i < _dataGridViewTagok.SelectedRows.Count; i++)
+            {
+                s += "tag_id = " + _dataSet.Tables["tagok"].Rows[_dataGridViewTagok.SelectedRows[i].Index][0] + " OR ";
+            }
+
+            if (s.Length > 4)
+            {
+                s = s.Substring(0, s.Length - 4);
+            }
+
+            _bindingSourceKolcsonzesek.Filter = s;
+
+            setCheckBox();
+        }
+
+        private void setCheckBox()
+        {
+            for (int i = 0; i < _dataGridViewKolcsonzesek.Rows.Count-1; i++)
+            {            
+                DateTime _time = Convert.ToDateTime(_dataGridViewKolcsonzesek.Rows[i].Cells[3].Value);
+                if (_time < (DateTime.Now - new TimeSpan(30, 0, 0, 0)))
+                {
+                    _dataGridViewKolcsonzesek.Rows[i].Cells[5].Value = true;
+                }
+            }
+        }
+
+        private void _kolcsonzesButton_Click(object sender, EventArgs e)
+        {
+            bool l = true; 
+            bool k = true;
+            bool j = true;
+            string error_msg="";            
+
+            //ellenőrzöm, hogy kijelölünk-e egy tagot
+            if (_dataGridViewTagok.SelectedRows.Count != 1)
+            {
+                error_msg += "A kölcsönéshez egy tagot jelölj ki!\n";
+                l = false;
+            }
+
+            //ellenőrzöm, hogy kijelöltünk-e egy könyvet
+            if (_dataGridViewKonyvek.SelectedRows.Count != 1)
+            {
+                error_msg += "A kölcsönéshez egy könyvet jelölj ki!\n";
+                k = false;
+            }
+
+            //ellenőrzöm, hogy van-e szabad pédány a könyvből
+            if (_dataGridViewKonyvek.SelectedRows.Count > 0)
+            {
+                if (Convert.ToInt32(_dataGridViewKonyvek.SelectedCells[5].FormattedValue) < 1)
+                {
+                    error_msg += "A könyv példányszám hiány miatt nem kikölcsönözhető!\n";
+                    j = false;
+                }
+            }
+                
+            //ha hiba történ kiírom
+            if (!k || !l  ||!j)
+            {
+                MessageBox.Show(error_msg, "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);            
+            }
+            
+            //csak akkor végzem el a kölcsönzést, ha nem volt hiba
+            if (k && l && j)
+            {
+                //kölcsönzés id, tag id, könyv id
+                kolcson_id += 1;
+
+
+                Validate();
+                _bindingSourceKolcsonzesek.EndEdit();
+                _bindingSourceKonyvek.EndEdit();
+                
+
+                DataRow row = _dataSet.Tables["kolcsonzesek"].NewRow();
+                row["kolcson_id"] = kolcson_id;
+                row["tag_id"] = Convert.ToInt32(_dataGridViewTagok.SelectedCells[0].FormattedValue);
+                row["konyv_id"] = Convert.ToInt32(_dataGridViewKonyvek.SelectedCells[0].FormattedValue);
+                row["kezdte"] = DateTime.Now;
+            
+                _dataSet.Tables["kolcsonzesek"].Rows.Add(row);
+
+                //példányszám csökkentése
+                int index_of_the_book=_dataGridViewKonyvek.SelectedRows[0].Index;
+                _dataGridViewKonyvek[5, index_of_the_book].Value = Convert.ToInt32(_dataGridViewKonyvek[5, index_of_the_book].Value)-1;              
+            } 
+        }
+
+        private void _visszaadasButton_Click(object sender, EventArgs e)
+        {
+            Validate();
+            _bindingSourceKolcsonzesek.EndEdit();
+            _bindingSourceKonyvek.EndEdit();
+
+            //ellenőrzöm, hogy kijelöltünk-e egy kölcsönzést
+            if (_dataGridViewKolcsonzesek.SelectedRows.Count != 1)
+            {
+                MessageBox.Show("A visszadáshoz egy bejegyzést jelölj ki!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);            
+            }
+
+            //könyv visszadása
+            int current_row = _dataGridViewKolcsonzesek.SelectedRows[0].Index; //aktuális sor indexe
+            _dataGridViewKolcsonzesek[4, current_row].Value = DateTime.Now;
+
+            //példányszám növelése
+            //megkeresem melyik sorban van a könyv amit vissza szeretnék adni
+            int index_of_the_book = 0;
+            for (int j = 0; j < _dataGridViewKonyvek.Rows.Count; j++)
+            {
+                if (Convert.ToInt32( _dataGridViewKonyvek.Rows[j].Cells[0].Value) ==Convert.ToInt32( _dataGridViewKolcsonzesek.SelectedCells[2].Value))
+                {
+                    index_of_the_book = j; 
+                }
+            }
+            _dataGridViewKonyvek[5, index_of_the_book].Value = Convert.ToInt32(_dataGridViewKonyvek[5, index_of_the_book].Value) + 1;
+        }
+
+        private void _rogzitesButton_Click(object sender, EventArgs e)
+        {
+
+            Validate();
+            _bindingSourceKolcsonzesek.EndEdit();
+            _bindingSourceKonyvek.EndEdit();
+
+            if (MessageBox.Show("Rögzítsem a változásokat?", "Rögzítés", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            {
+                try
+                {
+                    DataSet changes = _dataSet.GetChanges(); // lekérjük a változtatásokat
+                    if (changes == null)
+                    {
+                        return; // ha nem történt változás, visszatérünk
+                    }
+
+                    DataRow[] badRows = changes.Tables["kolcsonzesek"].GetErrors(); // lekérdezzük a hibás sorokat
+                    DataRow[] badRows2 = changes.Tables["konyvek"].GetErrors();
+
+                    if (badRows.Length == 0 && badRows2.Length == 0) // ha nem volt hiba
+                    {
+                        _adapKolcsonzesek.Update(_dataSet, "kolcsonzesek");
+                        _adapKonyvek.Update(_dataSet, "konyvek");
+                    }
+                    else // ha voltak hibák
+                    {
+                        String errorText = String.Empty; // egy szövegben összegyűjtjük
+                        foreach (DataRow row in badRows)
+                        {
+                            foreach (DataColumn col in row.GetColumnsInError()) // oszlopokban lévő hibák összegyűjtése
+                            {
+                                errorText += row.GetColumnError(col) + System.Environment.NewLine;
+                            }
+                        }
+
+                        foreach (DataRow row in badRows2)
+                        {
+                            foreach (DataColumn col in row.GetColumnsInError()) // oszlopokban lévő hibák összegyűjtése
+                            {
+                                errorText += row.GetColumnError(col) + System.Environment.NewLine;
+                            }
+                        }
+                        MessageBox.Show("A következő hibák léptek fel, kérem javítsa:" + System.Environment.NewLine + errorText, "Hiba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Váratlan hiba lépett fel mentéskor, a változtatásokat visszavonom!", "Hiba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _dataSet.RejectChanges(); // változtatások visszavonása
+                }
+            }
+        }             
+    }
+}
+
+*******************LENDING FORM DESIGNER********************
+
+namespace konyvtar
+{
+    partial class LendingFrom
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this._dataGridViewKolcsonzesek = new System.Windows.Forms.DataGridView();
+            this._dataSet = new System.Data.DataSet();
+            this._bindingSourceKolcsonzesek = new System.Windows.Forms.BindingSource(this.components);
+            this._dataGridViewTagok = new System.Windows.Forms.DataGridView();
+            this._bindingSourceTagok = new System.Windows.Forms.BindingSource(this.components);
+            this._dataGridViewKonyvek = new System.Windows.Forms.DataGridView();
+            this._bindingSourceKonyvek = new System.Windows.Forms.BindingSource(this.components);
+            this._kolcsonzesButton = new System.Windows.Forms.Button();
+            this._visszaadasButton = new System.Windows.Forms.Button();
+            this._rogzitesButton = new System.Windows.Forms.Button();
+            this._groupBoxKolcsonzes = new System.Windows.Forms.GroupBox();
+            ((System.ComponentModel.ISupportInitialize)(this._dataGridViewKolcsonzesek)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._dataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingSourceKolcsonzesek)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._dataGridViewTagok)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingSourceTagok)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._dataGridViewKonyvek)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingSourceKonyvek)).BeginInit();
+            this._groupBoxKolcsonzes.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // _dataGridViewKolcsonzesek
+            // 
+            this._dataGridViewKolcsonzesek.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this._dataGridViewKolcsonzesek.Location = new System.Drawing.Point(5, 209);
+            this._dataGridViewKolcsonzesek.Name = "_dataGridViewKolcsonzesek";
+            this._dataGridViewKolcsonzesek.Size = new System.Drawing.Size(676, 172);
+            this._dataGridViewKolcsonzesek.TabIndex = 0;
+            // 
+            // _dataSet
+            // 
+            this._dataSet.DataSetName = "NewDataSet";
+            // 
+            // _dataGridViewTagok
+            // 
+            this._dataGridViewTagok.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this._dataGridViewTagok.Location = new System.Drawing.Point(5, 9);
+            this._dataGridViewTagok.Name = "_dataGridViewTagok";
+            this._dataGridViewTagok.Size = new System.Drawing.Size(676, 163);
+            this._dataGridViewTagok.TabIndex = 1;
+            // 
+            // _dataGridViewKonyvek
+            // 
+            this._dataGridViewKonyvek.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this._dataGridViewKonyvek.Location = new System.Drawing.Point(687, 9);
+            this._dataGridViewKonyvek.Name = "_dataGridViewKonyvek";
+            this._dataGridViewKonyvek.Size = new System.Drawing.Size(572, 163);
+            this._dataGridViewKonyvek.TabIndex = 2;
+            // 
+            // _kolcsonzesButton
+            // 
+            this._kolcsonzesButton.Location = new System.Drawing.Point(6, 19);
+            this._kolcsonzesButton.Name = "_kolcsonzesButton";
+            this._kolcsonzesButton.Size = new System.Drawing.Size(75, 23);
+            this._kolcsonzesButton.TabIndex = 3;
+            this._kolcsonzesButton.Text = "Kölcsönzés";
+            this._kolcsonzesButton.UseVisualStyleBackColor = true;
+            this._kolcsonzesButton.Click += new System.EventHandler(this._kolcsonzesButton_Click);
+            // 
+            // _visszaadasButton
+            // 
+            this._visszaadasButton.Location = new System.Drawing.Point(6, 48);
+            this._visszaadasButton.Name = "_visszaadasButton";
+            this._visszaadasButton.Size = new System.Drawing.Size(75, 23);
+            this._visszaadasButton.TabIndex = 4;
+            this._visszaadasButton.Text = "Visszaadás";
+            this._visszaadasButton.UseVisualStyleBackColor = true;
+            this._visszaadasButton.Click += new System.EventHandler(this._visszaadasButton_Click);
+            // 
+            // _rogzitesButton
+            // 
+            this._rogzitesButton.Location = new System.Drawing.Point(6, 77);
+            this._rogzitesButton.Name = "_rogzitesButton";
+            this._rogzitesButton.Size = new System.Drawing.Size(75, 23);
+            this._rogzitesButton.TabIndex = 5;
+            this._rogzitesButton.Text = "Rögzítés";
+            this._rogzitesButton.UseVisualStyleBackColor = true;
+            this._rogzitesButton.Click += new System.EventHandler(this._rogzitesButton_Click);
+            // 
+            // _groupBoxKolcsonzes
+            // 
+            this._groupBoxKolcsonzes.Controls.Add(this._kolcsonzesButton);
+            this._groupBoxKolcsonzes.Controls.Add(this._rogzitesButton);
+            this._groupBoxKolcsonzes.Controls.Add(this._visszaadasButton);
+            this._groupBoxKolcsonzes.Location = new System.Drawing.Point(698, 209);
+            this._groupBoxKolcsonzes.Name = "_groupBoxKolcsonzes";
+            this._groupBoxKolcsonzes.Size = new System.Drawing.Size(94, 112);
+            this._groupBoxKolcsonzes.TabIndex = 6;
+            this._groupBoxKolcsonzes.TabStop = false;
+            this._groupBoxKolcsonzes.Text = "Kölcsönzés";
+            // 
+            // LendingFrom
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1262, 556);
+            this.Controls.Add(this._groupBoxKolcsonzes);
+            this.Controls.Add(this._dataGridViewKonyvek);
+            this.Controls.Add(this._dataGridViewTagok);
+            this.Controls.Add(this._dataGridViewKolcsonzesek);
+            this.Name = "LendingFrom";
+            this.Text = "Kölcsönzés";
+            ((System.ComponentModel.ISupportInitialize)(this._dataGridViewKolcsonzesek)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._dataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingSourceKolcsonzesek)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._dataGridViewTagok)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingSourceTagok)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._dataGridViewKonyvek)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingSourceKonyvek)).EndInit();
+            this._groupBoxKolcsonzes.ResumeLayout(false);
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.DataGridView _dataGridViewKolcsonzesek;
+        private System.Data.DataSet _dataSet;
+        private System.Windows.Forms.BindingSource _bindingSourceKolcsonzesek;
+        private System.Windows.Forms.DataGridView _dataGridViewTagok;
+        private System.Windows.Forms.BindingSource _bindingSourceTagok;
+        private System.Windows.Forms.DataGridView _dataGridViewKonyvek;
+        private System.Windows.Forms.BindingSource _bindingSourceKonyvek;
+        private System.Windows.Forms.Button _kolcsonzesButton;
+        private System.Windows.Forms.Button _visszaadasButton;
+        private System.Windows.Forms.Button _rogzitesButton;
+        private System.Windows.Forms.GroupBox _groupBoxKolcsonzes;
+    }
+}
+
+********************MAIN FORM*************************
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using System.Data.SQLite;
+using System.IO;
+
+namespace konyvtar
+{
+    public partial class MainForm : Form
+    {
+        private TableForm _tf;
+        private LendingFrom _lf;
+        private PaymentForm _pf;
+        private SQLiteConnection _con;
+
+        public MainForm()
+        {
+            InitializeComponent();
+            Load += new EventHandler(MainForm_Load);
+
+        }
+
+        void MainForm_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                _con = new SQLiteConnection("Data Source=Konyvtar.db;Version=3;");
+                _con.Open();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\nHiba, nem sikerült kapcsolódni az adatbázishoz!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _con.Close();
+            }
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            if (_con != null && _con.State == ConnectionState.Open)
+                _con.Close();
+        }
+
+        private void OnMenuTableClicked(String _table_name)
+        {
+            try
+            {
+                _tf = new TableForm(_con, _table_name);
+                _tf.MdiParent = this;
+                _tf.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\nHiba, nem tudom lekérdezni a tábla adatait!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void MenuTable_befizetesek_Clicked(object sender, EventArgs e)
+        {
+            OnMenuTableClicked("befizetesek");
+        }
+
+        private void MenuTable_kolcsonzesek_Clicked(object sender, EventArgs e)
+        {
+            OnMenuTableClicked("kolcsonzesek");
+        }
+
+        private void MenuTable_Konyvek_Clicked(object sender, EventArgs e)
+        {
+            OnMenuTableClicked("konyvek");
+        }
+
+        private void MenuTable_olvasasok_Clicked(object sender, EventArgs e)
+        {
+            OnMenuTableClicked("olvasasok");
+        }
+
+        private void MenuTable_statuszok_Clicked(object sender, EventArgs e)
+        {
+            OnMenuTableClicked("statuszok");
+        }
+
+        private void MenuTable_tagok_Clicked(object sender, EventArgs e)
+        {
+            OnMenuTableClicked("tagok");
+        }
+
+        private void MenuTable_kilepes_Clicked(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void kölcsönzésToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                _lf = new LendingFrom(_con);
+                _lf.MdiParent = this;
+                _lf.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\nHiba, nem tudom lekérdezni a tábla adatait!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void tagdíjFizetésToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _pf = new PaymentForm(_con);
+                _pf.MdiParent = this;
+                _pf.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\nHiba, nem tudom lekérdezni a tábla adatait!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Hell");
+        }
+    }
+}
+
+**********************MAIN FORM DESIGNER*********************
+
+namespace konyvtar
+{
+    partial class MainForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this._tablesMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.karbantartásToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.könyvekToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tagokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statuszokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kolcsonzesekToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.olvasásokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.befizetésekToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kölcsönzésToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tagdijFizetesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._kilepes = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // menuStrip
+            // 
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._tablesMenu,
+            this._kilepes});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(771, 24);
+            this.menuStrip.TabIndex = 0;
+            this.menuStrip.Text = "menuStrip";
+            // 
+            // _tablesMenu
+            // 
+            this._tablesMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.karbantartásToolStripMenuItem,
+            this.kölcsönzésToolStripMenuItem,
+            this.tagdijFizetesToolStripMenuItem});
+            this._tablesMenu.Name = "_tablesMenu";
+            this._tablesMenu.Size = new System.Drawing.Size(45, 20);
+            this._tablesMenu.Text = "Menü";
+            // 
+            // karbantartásToolStripMenuItem
+            // 
+            this.karbantartásToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.könyvekToolStripMenuItem,
+            this.tagokToolStripMenuItem,
+            this.statuszokToolStripMenuItem,
+            this.kolcsonzesekToolStripMenuItem,
+            this.olvasásokToolStripMenuItem,
+            this.befizetésekToolStripMenuItem});
+            this.karbantartásToolStripMenuItem.Name = "karbantartásToolStripMenuItem";
+            this.karbantartásToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.karbantartásToolStripMenuItem.Text = "Karbantartás";
+            // 
+            // könyvekToolStripMenuItem
+            // 
+            this.könyvekToolStripMenuItem.Name = "könyvekToolStripMenuItem";
+            this.könyvekToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.könyvekToolStripMenuItem.Text = "Könyvek";
+            this.könyvekToolStripMenuItem.Click += new System.EventHandler(this.MenuTable_Konyvek_Clicked);
+            // 
+            // tagokToolStripMenuItem
+            // 
+            this.tagokToolStripMenuItem.Name = "tagokToolStripMenuItem";
+            this.tagokToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.tagokToolStripMenuItem.Text = "Tagok";
+            this.tagokToolStripMenuItem.Click += new System.EventHandler(this.MenuTable_tagok_Clicked);
+            // 
+            // statuszokToolStripMenuItem
+            // 
+            this.statuszokToolStripMenuItem.Name = "statuszokToolStripMenuItem";
+            this.statuszokToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.statuszokToolStripMenuItem.Text = "Státuszok";
+            this.statuszokToolStripMenuItem.Click += new System.EventHandler(this.MenuTable_statuszok_Clicked);
+            // 
+            // kolcsonzesekToolStripMenuItem
+            // 
+            this.kolcsonzesekToolStripMenuItem.Name = "kolcsonzesekToolStripMenuItem";
+            this.kolcsonzesekToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.kolcsonzesekToolStripMenuItem.Text = "Kölcsönzések";
+            this.kolcsonzesekToolStripMenuItem.Click += new System.EventHandler(this.MenuTable_kolcsonzesek_Clicked);
+            // 
+            // olvasásokToolStripMenuItem
+            // 
+            this.olvasásokToolStripMenuItem.Name = "olvasásokToolStripMenuItem";
+            this.olvasásokToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.olvasásokToolStripMenuItem.Text = "Olvasások";
+            this.olvasásokToolStripMenuItem.Click += new System.EventHandler(this.MenuTable_olvasasok_Clicked);
+            // 
+            // befizetésekToolStripMenuItem
+            // 
+            this.befizetésekToolStripMenuItem.Name = "befizetésekToolStripMenuItem";
+            this.befizetésekToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.befizetésekToolStripMenuItem.Text = "Befizetések";
+            this.befizetésekToolStripMenuItem.Click += new System.EventHandler(this.MenuTable_befizetesek_Clicked);
+            // 
+            // kölcsönzésToolStripMenuItem
+            // 
+            this.kölcsönzésToolStripMenuItem.Name = "kölcsönzésToolStripMenuItem";
+            this.kölcsönzésToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.kölcsönzésToolStripMenuItem.Text = "Kölcsönzés";
+            this.kölcsönzésToolStripMenuItem.Click += new System.EventHandler(this.kölcsönzésToolStripMenuItem_Click);
+            // 
+            // tagdijFizetesToolStripMenuItem
+            // 
+            this.tagdijFizetesToolStripMenuItem.Name = "tagdijFizetesToolStripMenuItem";
+            this.tagdijFizetesToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.tagdijFizetesToolStripMenuItem.Text = "Tagdíj fizetés";
+            this.tagdijFizetesToolStripMenuItem.Click += new System.EventHandler(this.tagdíjFizetésToolStripMenuItem_Click);
+            // 
+            // _kilepes
+            // 
+            this._kilepes.Name = "_kilepes";
+            this._kilepes.Size = new System.Drawing.Size(52, 20);
+            this._kilepes.Text = "Kilépés";
+            this._kilepes.Click += new System.EventHandler(this.MenuTable_kilepes_Clicked);
+            // 
+            // MainForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(771, 437);
+            this.Controls.Add(this.menuStrip);
+            this.IsMdiContainer = true;
+            this.MainMenuStrip = this.menuStrip;
+            this.Name = "MainForm";
+            this.Text = "Könyvtári nyivántartás";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.ToolStripMenuItem _tablesMenu;
+        private System.Windows.Forms.ToolStripMenuItem _kilepes;
+        private System.Windows.Forms.ToolStripMenuItem karbantartásToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem könyvekToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tagokToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem statuszokToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem kölcsönzésToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem kolcsonzesekToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem olvasásokToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem befizetésekToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tagdijFizetesToolStripMenuItem;
+    }
+}
+
+********************PAYMENT FORM***********************
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using System.Data.SQLite;
+
+
+namespace konyvtar
+{
+    public partial class PaymentForm : Form
+    {
+
+        private SQLiteConnection _con;
+
+        private SQLiteDataAdapter _adapTagok;
+        private SQLiteDataAdapter _adapStatuszok;
+        private SQLiteDataAdapter _adapBefizetesek;
+        private int bizonylatszam = 0;
+
+        public PaymentForm(SQLiteConnection c)
+        {
+            InitializeComponent();
+
+            _dataGridViewTagok.SelectionChanged += new EventHandler(dataGridViewTagok_SelectionChanged);
+
+            _con = c;
+
+            _dataGridViewTagok.AutoGenerateColumns = false;
+            _dataGridViewTagok.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            _dataGridViewTagok.ReadOnly = true;
+
+            _dataGridViewBefizetesek.AutoGenerateColumns = false;
+            _dataGridViewBefizetesek.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            _dataGridViewBefizetesek.ReadOnly = true;
+
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            SQLiteCommand command = _con.CreateCommand();
+            command.CommandText = "SELECT MAX(bizonylatszam) FROM befizetesek";
+            bizonylatszam = Convert.ToInt32(command.ExecuteScalar());
+
+            _adapTagok = new SQLiteDataAdapter("SELECT * FROM tagok", _con);
+            _adapBefizetesek = new SQLiteDataAdapter("SELECT * FROM befizetesek", _con);
+
+            SQLiteCommandBuilder _builderTagok = new SQLiteCommandBuilder(_adapTagok);
+            _adapTagok.InsertCommand = _builderTagok.GetInsertCommand();
+            _adapTagok.DeleteCommand = _builderTagok.GetDeleteCommand();
+            _adapTagok.UpdateCommand = _builderTagok.GetUpdateCommand();
+
+            SQLiteCommandBuilder _builderBefizetesek = new SQLiteCommandBuilder(_adapBefizetesek);
+            _adapBefizetesek.InsertCommand = _builderBefizetesek.GetInsertCommand();
+            _adapBefizetesek.DeleteCommand = _builderBefizetesek.GetDeleteCommand();
+            _adapBefizetesek.UpdateCommand = _builderBefizetesek.GetUpdateCommand();
+
+            _dataSet = new DataSet("befizetesek");
+
+            _adapTagok.Fill(_dataSet, "tagok");
+            _bindingSourceTagok.DataSource = _dataSet.Tables["tagok"];
+            _dataGridViewTagok.DataSource = _bindingSourceTagok;
+
+            _adapBefizetesek.Fill(_dataSet, "befizetesek");
+            _bindingSourceBefizetesek.DataSource = _dataSet.Tables["befizetesek"];
+            _dataGridViewBefizetesek.DataSource = _bindingSourceBefizetesek;
+
+            FormatTagokTable();
+            FormatBefizetesekTable();
+
+        }
+
+        private void FormatTagokTable()
+        {
+
+            _dataSet.Relations.Add("Eredo", _dataSet.Tables["tagok"].Columns["tag_id"], _dataSet.Tables["befizetesek"].Columns["tag_id"]);
+            _dataSet.Tables["tagok"].Columns.Add("eredo", typeof(Int32), "Sum(Child.osszeg)");
+
+
+
+            _dataSet.Tables[0].Columns[0].AutoIncrement = true;
+            SQLiteCommand command = _con.CreateCommand();
+            command.CommandText = "SELECT MAX(tag_id) FROM tagok";
+            _dataSet.Tables[0].Columns[0].AutoIncrementSeed = Convert.ToInt32(command.ExecuteScalar()) + 1;
+            _dataSet.Tables[0].Columns[0].AutoIncrementStep = 1;
+
+            _adapStatuszok = new SQLiteDataAdapter("SELECT * FROM statuszok", _con);
+            _adapStatuszok.Fill(_dataSet, "statuszok");
+            _bindingSourceStatuszok = new BindingSource();
+            _bindingSourceStatuszok.DataSource = _dataSet.Tables["statuszok"];
+
+            //tábla fejlécének formázása
+            DataGridViewColumn[] columns = new DataGridViewColumn[7];
+
+            columns[0] = new DataGridViewTextBoxColumn();
+            columns[0].HeaderText = "Tag ID";
+            columns[0].DataPropertyName = "tag_id";
+            columns[0].Visible = false;
+
+            columns[1] = new DataGridViewTextBoxColumn();
+            columns[1].HeaderText = "Név";
+            columns[1].DataPropertyName = "nev";
+
+            columns[2] = new DataGridViewTextBoxColumn();
+            columns[2].HeaderText = "Cím";
+            columns[2].DataPropertyName = "cim";
+
+            columns[3] = new DataGridViewTextBoxColumn();
+            columns[3].HeaderText = "Azonosító";
+            columns[3].DataPropertyName = "azon";
+
+            columns[4] = new DataGridViewTextBoxColumn();
+            columns[4].HeaderText = "Könyvtár jegy";
+            columns[4].DataPropertyName = "konyvtarjegy";
+
+            columns[5] = new DataGridViewComboBoxColumn();
+            columns[5].HeaderText = "Státusz";
+            columns[5].DataPropertyName = "statusz_id";
+            ((DataGridViewComboBoxColumn)columns[5]).DataSource = _bindingSourceStatuszok;
+            ((DataGridViewComboBoxColumn)columns[5]).ValueMember = "statusz_id";
+            ((DataGridViewComboBoxColumn)columns[5]).DisplayMember = "statusz";
+
+            columns[6] = new DataGridViewTextBoxColumn();
+            columns[6].HeaderText = "Eredő";
+            columns[6].DataPropertyName = "eredo";
+
+
+            foreach (DataGridViewColumn col in columns)
+            {
+                _dataGridViewTagok.Columns.Add(col);
+            }
+
+        }
+
+        private void FormatBefizetesekTable()
+        {
+            //azonosító automatikus növelése
+            _dataSet.Tables[1].Columns[0].AutoIncrement = true;
+            SQLiteCommand command = _con.CreateCommand();
+            command.CommandText = "SELECT MAX(bizonylatszam) FROM befizetesek";
+            _dataSet.Tables[1].Columns[0].AutoIncrementSeed = Convert.ToInt32(command.ExecuteScalar()) + 1;
+            _dataSet.Tables[1].Columns[0].AutoIncrementStep = 1;
+
+
+            //tábla fejlécének formázása
+            DataGridViewColumn[] columns = new DataGridViewColumn[4];
+
+            columns[0] = new DataGridViewTextBoxColumn();
+            columns[0].HeaderText = "Bizonylatszám";
+            columns[0].DataPropertyName = "bizonylatszam";
+            columns[0].Visible = false;
+
+            //ezt kéne idegenkulcsként megjeleníteni
+            columns[1] = new DataGridViewComboBoxColumn();
+            columns[1].HeaderText = "Tag neve";
+            columns[1].DataPropertyName = "tag_id";
+            ((DataGridViewComboBoxColumn)columns[1]).DataSource = _bindingSourceTagok;
+            ((DataGridViewComboBoxColumn)columns[1]).ValueMember = "tag_id";
+            ((DataGridViewComboBoxColumn)columns[1]).DisplayMember = "nev";
+
+            columns[2] = new DataGridViewTextBoxColumn();
+            columns[2].HeaderText = "Összeg";
+            columns[2].DataPropertyName = "osszeg";
+
+            columns[3] = new DataGridViewTextBoxColumn();
+            columns[3].HeaderText = "Dátum";
+            columns[3].DataPropertyName = "datum";
+
+
+            foreach (DataGridViewColumn col in columns)
+            {
+                _dataGridViewBefizetesek.Columns.Add(col);
+            }
+
+        }
+
+        private void dataGridViewTagok_SelectionChanged(object sender, EventArgs e)
+        {
+            SetTagokFilter();
+        }
+
+        private void SetFilter()
+        {
+
+            string s = "";
+
+
+            if (_numericUpDown.Value != 0)
+            {
+                s += "convert(datum,'System.String') LIKE'%" + _numericUpDown.Value.ToString() + "%' AND ";
+            }
+
+
+            if (s.Length > 5)
+            {
+                s = s.Substring(0, s.Length - 5);
+            }
+            _bindingSourceBefizetesek.Filter = s;
+
+
+        }
+
+        private void SetTagokFilter()
+        {
+            String s = "";
+
+            for (int i = 0; i < _dataGridViewTagok.SelectedRows.Count; i++)
+            {
+                s += "tag_id = " + _dataSet.Tables["tagok"].Rows[_dataGridViewTagok.SelectedRows[i].Index][0] + " OR ";
+            }
+
+            if (s.Length > 4)
+            {
+                s = s.Substring(0, s.Length - 4);
+            }
+
+            _bindingSourceBefizetesek.Filter = s;
+        }
+
+        private void _numericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            SetFilter();
+        }
+
+        private void _buttonRemoveFilter_Click(object sender, EventArgs e)
+        {
+            _bindingSourceBefizetesek.Filter = "";
+            _numericUpDown.Value = 2010;
+            SetTagokFilter();
+        }
+
+        private void _buttonBefizetes_Click(object sender, EventArgs e)
+        {
+            bool l = true;
+            bool k = true;
+
+            //ellenőrzöm, hogy lett-e kijelölve tag
+            if (_dataGridViewTagok.SelectedRows.Count != 1)
+            {
+                MessageBox.Show("A befizetéshez egy tagot jelölj ki!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                l = false;
+            }
+
+            //ellenőrzöm, hogy írt-e valamit a textboxba és ha igen az helyese
+            Int32 n;
+            if (!Int32.TryParse(_textBoxBefizetes.Text, out n) || n <= -1) // ha nem pozitív számot írtunk be
+            {
+                MessageBox.Show("Hiba! A mezőben csak pozitív szám szerepelhet!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                k = false;
+            }
+
+            if (l && k)
+            {               
+
+                bizonylatszam += 1;
+                Validate();
+                _bindingSourceTagok.EndEdit();
+                _bindingSourceBefizetesek.EndEdit();
+                DataRow row = _dataSet.Tables["befizetesek"].NewRow();
+                row["bizonylatszam"] = bizonylatszam;
+                row["tag_id"] = Convert.ToInt32(_dataGridViewTagok.SelectedCells[0].FormattedValue);
+                row["osszeg"] = Convert.ToInt32(_textBoxBefizetes.Text);
+                row["datum"] = DateTime.Now;
+                _dataSet.Tables["befizetesek"].Rows.Add(row);
+            }
+        }
+
+        private void _buttonSztorno_Click(object sender, EventArgs e)
+        {
+            bool l = true;
+            bool k = true;
+            //ellenőrzöm, hogy lett-e kijelölve bizonylat
+            if (_dataGridViewBefizetesek.SelectedRows.Count != 1)
+            {
+                MessageBox.Show("A sztornózáshoz egy befizetést jelölj ki!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                l = false;
+            }
+
+            //sztornót nem lehet sztornózni...
+            if (Convert.ToInt32(_dataGridViewBefizetesek.Rows[_dataGridViewBefizetesek.SelectedRows[0].Index].Cells[2].FormattedValue) < 0)
+            {
+                MessageBox.Show("Sztornózott bejgyzés nem sztornózható!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                k = false;
+            
+            }
+
+            //csak akkor sztornózok ha nem volt hiba
+            if (l && k)
+            {
+                bizonylatszam += 1;
+
+
+                Validate();
+                _bindingSourceTagok.EndEdit();
+                _bindingSourceBefizetesek.EndEdit();
+
+                DataRow row = _dataSet.Tables["befizetesek"].NewRow();
+
+                row["bizonylatszam"] = bizonylatszam;
+                row["tag_id"] = Convert.ToInt32(_dataGridViewBefizetesek.SelectedCells[1].Value);
+                row["osszeg"] = Convert.ToInt32(_dataGridViewBefizetesek.SelectedCells[2].FormattedValue) * -1;
+                row["datum"] = DateTime.Now;
+//                row["sztorno"] = Convert.ToInt32(_dataGridViewBefizetesek.SelectedCells[0].FormattedValue);
+                _dataSet.Tables["befizetesek"].Rows.Add(row);
+            }
+
+        }
+
+        private void _buttonRogzites_Click(object sender, EventArgs e)
+        {
+            Validate();
+            _bindingSourceBefizetesek.EndEdit();
+            
+            try
+            {
+                _adapBefizetesek.Update(_dataSet, "befizetesek");
+            }
+            catch (SQLiteException)
+            {
+                MessageBox.Show("Az adatok mentése sikertelen!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+           
+            
+        }        
+    }
+}
+
+*******************PAYMENT FORM DESIGNER********************
+
+namespace konyvtar
+{
+    partial class PaymentForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this._dataGridViewTagok = new System.Windows.Forms.DataGridView();
+            this._dataSet = new System.Data.DataSet();
+            this._bindingSourceTagok = new System.Windows.Forms.BindingSource(this.components);
+            this._bindingSourceStatuszok = new System.Windows.Forms.BindingSource(this.components);
+            this._dataGridViewBefizetesek = new System.Windows.Forms.DataGridView();
+            this._bindingSourceBefizetesek = new System.Windows.Forms.BindingSource(this.components);
+            this._numericUpDown = new System.Windows.Forms.NumericUpDown();
+            this._buttonRemoveFilter = new System.Windows.Forms.Button();
+            this._buttonBefizetes = new System.Windows.Forms.Button();
+            this._textBoxBefizetes = new System.Windows.Forms.TextBox();
+            this._groupBox = new System.Windows.Forms.GroupBox();
+            this._buttonSztorno = new System.Windows.Forms.Button();
+            this._buttonRogzites = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this._dataGridViewTagok)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._dataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingSourceTagok)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingSourceStatuszok)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._dataGridViewBefizetesek)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingSourceBefizetesek)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._numericUpDown)).BeginInit();
+            this._groupBox.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // _dataGridViewTagok
+            // 
+            this._dataGridViewTagok.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this._dataGridViewTagok.Location = new System.Drawing.Point(12, 12);
+            this._dataGridViewTagok.Name = "_dataGridViewTagok";
+            this._dataGridViewTagok.Size = new System.Drawing.Size(711, 244);
+            this._dataGridViewTagok.TabIndex = 0;
+            // 
+            // _dataSet
+            // 
+            this._dataSet.DataSetName = "NewDataSet";
+            // 
+            // _dataGridViewBefizetesek
+            // 
+            this._dataGridViewBefizetesek.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this._dataGridViewBefizetesek.Location = new System.Drawing.Point(12, 272);
+            this._dataGridViewBefizetesek.Name = "_dataGridViewBefizetesek";
+            this._dataGridViewBefizetesek.Size = new System.Drawing.Size(563, 180);
+            this._dataGridViewBefizetesek.TabIndex = 1;
+            // 
+            // _numericUpDown
+            // 
+            this._numericUpDown.Location = new System.Drawing.Point(729, 35);
+            this._numericUpDown.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this._numericUpDown.Minimum = new decimal(new int[] {
+            1900,
+            0,
+            0,
+            0});
+            this._numericUpDown.Name = "_numericUpDown";
+            this._numericUpDown.Size = new System.Drawing.Size(60, 20);
+            this._numericUpDown.TabIndex = 2;
+            this._numericUpDown.Value = new decimal(new int[] {
+            2010,
+            0,
+            0,
+            0});
+            this._numericUpDown.ValueChanged += new System.EventHandler(this._numericUpDown_ValueChanged);
+            // 
+            // _buttonRemoveFilter
+            // 
+            this._buttonRemoveFilter.Location = new System.Drawing.Point(729, 61);
+            this._buttonRemoveFilter.Name = "_buttonRemoveFilter";
+            this._buttonRemoveFilter.Size = new System.Drawing.Size(85, 23);
+            this._buttonRemoveFilter.TabIndex = 3;
+            this._buttonRemoveFilter.Text = "Szűrő törlése";
+            this._buttonRemoveFilter.UseVisualStyleBackColor = true;
+            this._buttonRemoveFilter.Click += new System.EventHandler(this._buttonRemoveFilter_Click);
+            // 
+            // _buttonBefizetes
+            // 
+            this._buttonBefizetes.Location = new System.Drawing.Point(112, 18);
+            this._buttonBefizetes.Name = "_buttonBefizetes";
+            this._buttonBefizetes.Size = new System.Drawing.Size(75, 23);
+            this._buttonBefizetes.TabIndex = 4;
+            this._buttonBefizetes.Text = "Befizetés";
+            this._buttonBefizetes.UseVisualStyleBackColor = true;
+            this._buttonBefizetes.Click += new System.EventHandler(this._buttonBefizetes_Click);
+            // 
+            // _textBoxBefizetes
+            // 
+            this._textBoxBefizetes.Location = new System.Drawing.Point(6, 20);
+            this._textBoxBefizetes.Name = "_textBoxBefizetes";
+            this._textBoxBefizetes.Size = new System.Drawing.Size(100, 20);
+            this._textBoxBefizetes.TabIndex = 5;
+            // 
+            // _groupBox
+            // 
+            this._groupBox.Controls.Add(this._buttonRogzites);
+            this._groupBox.Controls.Add(this._buttonSztorno);
+            this._groupBox.Controls.Add(this._buttonBefizetes);
+            this._groupBox.Controls.Add(this._textBoxBefizetes);
+            this._groupBox.Location = new System.Drawing.Point(589, 272);
+            this._groupBox.Name = "_groupBox";
+            this._groupBox.Size = new System.Drawing.Size(200, 108);
+            this._groupBox.TabIndex = 6;
+            this._groupBox.TabStop = false;
+            this._groupBox.Text = "Befizetések";
+            // 
+            // _buttonSztorno
+            // 
+            this._buttonSztorno.Location = new System.Drawing.Point(112, 47);
+            this._buttonSztorno.Name = "_buttonSztorno";
+            this._buttonSztorno.Size = new System.Drawing.Size(75, 23);
+            this._buttonSztorno.TabIndex = 6;
+            this._buttonSztorno.Text = "Sztornó";
+            this._buttonSztorno.UseVisualStyleBackColor = true;
+            this._buttonSztorno.Click += new System.EventHandler(this._buttonSztorno_Click);
+            // 
+            // _buttonRogzites
+            // 
+            this._buttonRogzites.Location = new System.Drawing.Point(112, 76);
+            this._buttonRogzites.Name = "_buttonRogzites";
+            this._buttonRogzites.Size = new System.Drawing.Size(75, 23);
+            this._buttonRogzites.TabIndex = 7;
+            this._buttonRogzites.Text = "Rögzítés";
+            this._buttonRogzites.UseVisualStyleBackColor = true;
+            this._buttonRogzites.Click += new System.EventHandler(this._buttonRogzites_Click);
+            // 
+            // PaymentForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(826, 464);
+            this.Controls.Add(this._groupBox);
+            this.Controls.Add(this._buttonRemoveFilter);
+            this.Controls.Add(this._numericUpDown);
+            this.Controls.Add(this._dataGridViewBefizetesek);
+            this.Controls.Add(this._dataGridViewTagok);
+            this.Name = "PaymentForm";
+            this.Text = "Tagdíj fizetés";
+            ((System.ComponentModel.ISupportInitialize)(this._dataGridViewTagok)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._dataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingSourceTagok)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingSourceStatuszok)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._dataGridViewBefizetesek)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingSourceBefizetesek)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._numericUpDown)).EndInit();
+            this._groupBox.ResumeLayout(false);
+            this._groupBox.PerformLayout();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.DataGridView _dataGridViewTagok;
+        private System.Data.DataSet _dataSet;
+        private System.Windows.Forms.BindingSource _bindingSourceTagok;
+        private System.Windows.Forms.BindingSource _bindingSourceStatuszok;
+        private System.Windows.Forms.DataGridView _dataGridViewBefizetesek;
+        private System.Windows.Forms.BindingSource _bindingSourceBefizetesek;
+        private System.Windows.Forms.NumericUpDown _numericUpDown;
+        private System.Windows.Forms.Button _buttonRemoveFilter;
+        private System.Windows.Forms.Button _buttonBefizetes;
+        private System.Windows.Forms.TextBox _textBoxBefizetes;
+        private System.Windows.Forms.GroupBox _groupBox;
+        private System.Windows.Forms.Button _buttonRogzites;
+        private System.Windows.Forms.Button _buttonSztorno;
+    }
+}
+
+*********************TABLE FORM******************************
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using System.Data.SQLite;
+
+namespace konyvtar
+{
+    public partial class TableForm : Form
+    {
+        private SQLiteConnection _con;
+        private string _tn;
+        private SQLiteCommand sql_cmd;
+
+        private SQLiteDataAdapter _adap;
+        private SQLiteDataAdapter _adapTagok;
+        private SQLiteDataAdapter _adapKonyvek;
+        private SQLiteDataAdapter _adapKolcsonzesek;
+        private SQLiteDataAdapter _adapOlvasasok;
+        private SQLiteDataAdapter _adapStatuszok;
+        private SQLiteDataAdapter _adapBefizetesek;
+
+        private BindingSource _bindingSourceTagok;
+        private BindingSource _bindingSourceKonyvek;
+        private BindingSource _bindingSourceKolcsonzesek;
+        private BindingSource _bindingSourceOlvasasok;
+        private BindingSource _bindingSourceStatuszok;
+        private BindingSource _bindingSourceBefizetesek;
+
+        private void SetConnection()
+        {
+            _con = new SQLiteConnection("Data Source=Konyvtar.db;Version=3;");
+        }
+
+        private void ExecuteQuery(string txtQuery)
+        {
+            SetConnection();
+            _con.Open();
+            sql_cmd = _con.CreateCommand();
+            sql_cmd.CommandText = txtQuery;
+            sql_cmd.ExecuteNonQuery();
+            _con.Close();
+        }
+
+        //konstruktorban megadjuk az sql kapcsolatot és a tábla nevét
+        public TableForm(SQLiteConnection c, string s)
+        {
+            InitializeComponent();
+            Text = s;
+            _con = c;
+            _tn = s;
+            _dataGridView.AutoGenerateColumns = false;
+            _dataGridView.AllowUserToDeleteRows = true;
+            LoadData();
+
+            // hibakezelés cellára:
+            _dataGridView.CellValidating += new DataGridViewCellValidatingEventHandler(DataGridViewCellValidating);
+            // hibakezelés sorra:
+            _dataGridView.RowValidating += new DataGridViewCellCancelEventHandler(DataGridView_RowValidating);
+            //törés ellenőrzés
+            _dataGridView.UserDeletingRow += new DataGridViewRowCancelEventHandler(_dataGridView_UserDeletingRow);
+
+        }
+
+        //adatok betöltése a fizikai adatbázisból a logikai adatbázisba
+        private void LoadData()
+        {
+            _adap = new SQLiteDataAdapter("SELECT * FROM " + _tn, _con);
+            SQLiteCommandBuilder builder = new SQLiteCommandBuilder(_adap);
+            _adap.InsertCommand = builder.GetInsertCommand();
+            _adap.DeleteCommand = builder.GetDeleteCommand();
+            _adap.UpdateCommand = builder.GetUpdateCommand();
+
+            _dataSet = new DataSet(_tn);
+            _adap.Fill(_dataSet, _tn);
+            _bindingSource.DataSource = _dataSet.Tables[_tn];
+            FormatTables(_dataSet);
+        }
+
+        //táblák kézzel történő formázása
+        private void FormatTables(DataSet _dataset)
+        {
+            switch (_dataset.Tables[_tn].TableName)
+            {
+                case "befizetesek":
+                    {
+                        CreateTagokAdapterForForeignKeys(_dataset);
+
+                        //azonosító automatikus növelése
+                        autoIdIncrease(_dataset, "bizonylatszam", "befizetesek");
+
+                        //tábla fejlécének formázása
+                        DataGridViewColumn[] columns = new DataGridViewColumn[4];
+
+                        columns[0] = new DataGridViewTextBoxColumn();
+                        columns[0].HeaderText = "Bizonylatszám";
+                        columns[0].DataPropertyName = "bizonylatszam";
+                        columns[0].Visible = false;
+
+                        //ezt kellene idegenkulcsként megjeleníteni
+                        columns[1] = new DataGridViewComboBoxColumn();
+                        columns[1].HeaderText = "Tag neve";
+                        columns[1].DataPropertyName = "tag_id";
+                        ((DataGridViewComboBoxColumn)columns[1]).DataSource = _bindingSourceTagok;
+                        ((DataGridViewComboBoxColumn)columns[1]).ValueMember = "tag_id";
+                        ((DataGridViewComboBoxColumn)columns[1]).DisplayMember = "nev";
+
+                        columns[2] = new DataGridViewTextBoxColumn();
+                        columns[2].HeaderText = "Összeg";
+                        columns[2].DataPropertyName = "osszeg";
+
+                        columns[3] = new DataGridViewTextBoxColumn();
+                        columns[3].HeaderText = "Dátum";
+                        columns[3].DataPropertyName = "datum";
+
+                        addColumnsToDataGridView(columns);
+                        break;
+                    }
+                case "kolcsonzesek":
+                    {
+                        CreateTagokAdapterForForeignKeys(_dataset);
+                        _adapKonyvek = new SQLiteDataAdapter("SELECT * FROM konyvek", _con);
+                        _adapKonyvek.Fill(_dataset, "konyvek");
+                        _bindingSourceKonyvek = new BindingSource();
+                        _bindingSourceKonyvek.DataSource = _dataset.Tables["konyvek"];
+                        //azonosító automatikus növelése
+                        autoIdIncrease(_dataset, "kolcson_id", "kolcsonzesek");
+
+                        //tábla fejlécének formázása
+                        DataGridViewColumn[] columns = new DataGridViewColumn[5];
+                        columns[0] = new DataGridViewTextBoxColumn();
+                        columns[0].HeaderText = "Kölcsönzés ID";
+                        columns[0].DataPropertyName = "kolcson_id";
+                        columns[0].Visible = false;
+
+                        columns[1] = new DataGridViewComboBoxColumn();
+                        columns[1].HeaderText = "Tag neve";
+                        columns[1].DataPropertyName = "tag_id";
+                        ((DataGridViewComboBoxColumn)columns[1]).DataSource = _bindingSourceTagok;
+                        ((DataGridViewComboBoxColumn)columns[1]).ValueMember = "tag_id";
+                        ((DataGridViewComboBoxColumn)columns[1]).DisplayMember = "nev";
+
+                        columns[2] = new DataGridViewComboBoxColumn();
+                        columns[2].HeaderText = "Könyv címe";
+                        columns[2].DataPropertyName = "konyv_id";
+                        ((DataGridViewComboBoxColumn)columns[2]).DataSource = _bindingSourceKonyvek;
+                        ((DataGridViewComboBoxColumn)columns[2]).ValueMember = "konyv_id";
+                        ((DataGridViewComboBoxColumn)columns[2]).DisplayMember = "cim";
+
+                        columns[3] = new DataGridViewTextBoxColumn();
+                        columns[3].HeaderText = "Kezdet";
+                        columns[3].DataPropertyName = "kezdte";
+
+                        columns[4] = new DataGridViewTextBoxColumn();
+                        columns[4].HeaderText = "Vissza";
+                        columns[4].DataPropertyName = "Vissza";
+
+                        addColumnsToDataGridView(columns);
+                        break;
+                    }
+                case "konyvek":
+                    {
+                        //azonosító automatikus növelése
+                        autoIdIncrease(_dataset, "konyv_id", "konyvek");
+
+                        //tábla fejlécének formázása
+                        DataGridViewColumn[] columns = new DataGridViewColumn[6];
+
+                        columns[0] = new DataGridViewTextBoxColumn();
+                        columns[0].HeaderText = "Könyv ID";
+                        columns[0].DataPropertyName = "konyv_id";
+                        columns[0].Visible = false;
+
+                        columns[1] = new DataGridViewTextBoxColumn();
+                        columns[1].HeaderText = "Azonosító";
+                        columns[1].DataPropertyName = "azon";
+
+                        columns[2] = new DataGridViewTextBoxColumn();
+                        columns[2].HeaderText = "Cím";
+                        columns[2].DataPropertyName = "cim";
+
+                        columns[3] = new DataGridViewTextBoxColumn();
+                        columns[3].HeaderText = "Szerző";
+                        columns[3].DataPropertyName = "szerzo";
+
+                        columns[4] = new DataGridViewTextBoxColumn();
+                        columns[4].HeaderText = "Példányszám";
+                        columns[4].DataPropertyName = "peldanyszam";
+
+                        columns[5] = new DataGridViewTextBoxColumn();
+                        columns[5].HeaderText = "Szabad példányszám";
+                        columns[5].DataPropertyName = "szabad_peldanyszam";
+
+                        addColumnsToDataGridView(columns);
+                        break;
+                    }
+                case "olvasasok":
+                    {
+                        //adatpter az indegen kulcshot
+                        CreateTagokAdapterForForeignKeys(_dataset);
+
+                        //azonosító automatikus növelése
+                        autoIdIncrease(_dataset, "olvas_id", "olvasasok");
+
+                        DataGridViewColumn[] columns = new DataGridViewColumn[4];
+                        columns[0] = new DataGridViewTextBoxColumn();
+                        columns[0].HeaderText = "Olvasás ID";
+                        columns[0].DataPropertyName = "olvas_id";
+                        columns[0].Visible = false;
+
+                        columns[1] = new DataGridViewComboBoxColumn();
+                        columns[1].HeaderText = "Tag neve";
+                        columns[1].DataPropertyName = "tag_id";
+                        //oszlop adatainak feltöltése másik táblából
+                        ((DataGridViewComboBoxColumn)columns[1]).DataSource = _bindingSourceTagok;
+                        ((DataGridViewComboBoxColumn)columns[1]).ValueMember = "tag_id";
+                        ((DataGridViewComboBoxColumn)columns[1]).DisplayMember = "nev";
+
+                        columns[2] = new DataGridViewTextBoxColumn();
+                        columns[2].HeaderText = "Belépés";
+                        columns[2].DataPropertyName = "belepes";
+
+                        columns[3] = new DataGridViewTextBoxColumn();
+                        columns[3].HeaderText = "Kilépés";
+                        columns[3].DataPropertyName = "kilepes";
+
+                        addColumnsToDataGridView(columns);
+                        break;
+                    }
+                case "statuszok":
+                    {
+                        //azonosító automatikus növelése
+                        autoIdIncrease(_dataset, "statusz_id", "statuszok");
+
+                        //tábla fejlécének formázása
+                        DataGridViewColumn[] columns = new DataGridViewColumn[3];
+
+                        columns[0] = new DataGridViewTextBoxColumn();
+                        columns[0].HeaderText = "Státusz ID";
+                        columns[0].DataPropertyName = "statusz_id";
+                        columns[0].Visible = false;
+
+
+                        columns[1] = new DataGridViewTextBoxColumn();
+                        columns[1].HeaderText = "Státusz";
+                        columns[1].DataPropertyName = "statusz";
+
+                        columns[2] = new DataGridViewTextBoxColumn();
+                        columns[2].HeaderText = "Éves Tagdíj";
+                        columns[2].DataPropertyName = "tagdij";
+
+                        addColumnsToDataGridView(columns);
+                        break;
+                    }
+                case "tagok":
+                    {
+                        //azonosító automatikus növelése
+                        autoIdIncrease(_dataset, "tag_id", "tagok");
+
+                        _adapStatuszok = new SQLiteDataAdapter("SELECT * FROM statuszok", _con);
+                        _adapStatuszok.Fill(_dataset, "statuszok");
+                        _bindingSourceStatuszok = new BindingSource();
+                        _bindingSourceStatuszok.DataSource = _dataset.Tables["statuszok"];
+
+                        //tábla fejlécének formázása
+                        DataGridViewColumn[] columns = new DataGridViewColumn[6];
+
+                        columns[0] = new DataGridViewTextBoxColumn();
+                        columns[0].HeaderText = "Tag ID";
+                        columns[0].DataPropertyName = "tag_id";
+                        columns[0].Visible = false;
+
+                        columns[1] = new DataGridViewTextBoxColumn();
+                        columns[1].HeaderText = "Név";
+                        columns[1].DataPropertyName = "nev";
+
+                        columns[2] = new DataGridViewTextBoxColumn();
+                        columns[2].HeaderText = "Cím";
+                        columns[2].DataPropertyName = "cim";
+
+                        columns[3] = new DataGridViewTextBoxColumn();
+                        columns[3].HeaderText = "Azonosító";
+                        columns[3].DataPropertyName = "azon";
+
+                        columns[4] = new DataGridViewTextBoxColumn();
+                        columns[4].HeaderText = "Könyvtár jegy";
+                        columns[4].DataPropertyName = "konyvtarjegy";
+
+                        columns[5] = new DataGridViewComboBoxColumn();
+                        columns[5].HeaderText = "Státusz";
+                        columns[5].DataPropertyName = "statusz_id";
+                        ((DataGridViewComboBoxColumn)columns[5]).DataSource = _bindingSourceStatuszok;
+                        ((DataGridViewComboBoxColumn)columns[5]).ValueMember = "statusz_id";
+                        ((DataGridViewComboBoxColumn)columns[5]).DisplayMember = "statusz";
+
+                        addColumnsToDataGridView(columns);
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+
+        //belső azonosítók automatikus növelése
+        private void autoIdIncrease(DataSet _dataset, String _id, String _table)
+        {
+            _dataset.Tables[0].Columns[0].AutoIncrement = true;
+            SQLiteCommand command = _con.CreateCommand();
+            command.CommandText = "SELECT MAX(" + _id + ") FROM " + _table;
+            _dataset.Tables[0].Columns[0].AutoIncrementSeed = Convert.ToInt32(command.ExecuteScalar()) + 1;
+            _dataset.Tables[0].Columns[0].AutoIncrementStep = 1;
+        }
+
+        //sorok hozzáadás az adatrácshoz
+        private void addColumnsToDataGridView(DataGridViewColumn[] columns)
+        {
+            foreach (DataGridViewColumn col in columns)
+            {
+                _dataGridView.Columns.Add(col);
+            }
+        }
+
+        //navigátor mentés gombjára kattintás
+        private void bindingNavigatorSaveItem_Click(object sender, EventArgs e)
+        {
+            Validate();
+            _bindingSource.EndEdit();
+            try
+            {
+                _adap.Update(_dataSet, _tn);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\nAz adatok mentése sikertelen!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        //navigátor törlés gombjára kattintás
+        private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e)
+        {
+            //object o = new object();
+            DataGridViewRowCancelEventArgs a = new DataGridViewRowCancelEventArgs(_dataGridView.CurrentRow);
+
+            //olyan tag nem törölhető akinél van könyv,tartozik tagdíjjal és az olvasótermeben ül
+            //olyan státusz törölhető ami nincs hozzárendelve egy taghoz sem
+            //csak olyan könyv törölhető ami nincs kikölcsönözve
+            _dataGridView_UserDeletingRow(sender, a);
+        }
+
+        //hibakezelés cellára
+        private void DataGridViewCellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            switch (_dataSet.Tables[_tn].TableName)
+            {
+                case "befizetesek":
+                    {
+                        switch (e.ColumnIndex)
+                        {
+                            case 2: //összeg oszlop
+                                {
+                                    CheckNumber(e);
+                                    break;
+                                }
+                            case 3: //dátum oszlop
+                                {
+                                    CheckDateFormat(e);
+                                    break;
+                                }
+                            default: break;
+                        }
+                        break;
+                    }
+                case "kolcsonzesek":
+                    {
+                        switch (e.ColumnIndex)
+                        {
+                            case 3://kedted oszlop
+                                {
+                                    CheckDateFormat(e);
+                                    break;
+                                }
+                            case 4://vissza oszlop
+                                {
+                                    CheckDateFormat(e);
+                                    break;
+                                }
+                            default: break;
+                        }
+                        break;
+                    }
+                case "konyvek":
+                    {
+                        switch (e.ColumnIndex)
+                        {
+                            case 1://azonosító oszlop
+                                {
+                                    CheckIdentifer(e, 12);
+                                    break;
+                                }
+                            case 4:// példányszám
+                                {
+                                    CheckPositive(e);
+                                    if (Convert.ToInt32(e.FormattedValue) < (Convert.ToInt32(_dataSet.Tables[_tn].Rows[e.RowIndex][4])))
+                                    {
+                                        MessageBox.Show("hiba, csak kissebb lehet", "hiba");
+                                        e.Cancel = true;
+                                    }
+
+
+                                    break;
+                                }
+                            case 5://szabad példányszám
+                                {
+                                    CheckPositive(e);
+                                    break;
+                                }
+
+                            default:
+                                break;
+                        }
+                        break;
+                    }
+                case "olvasasok":
+                    {
+                        switch (e.ColumnIndex)
+                        {
+                            case 2:
+                                {
+                                    CheckDateFormat(e);
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    CheckDateFormat(e);
+                                    break;
+                                }
+                            default: break;
+                        }
+                        break;
+                    }
+                case "statuszok":
+                    {
+                        switch (e.ColumnIndex)
+                        {
+                            case 1:
+                                {
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    CheckPositive(e);
+                                    break;
+                                }
+                            default: break;
+                        }
+                        break;
+                    }
+                case "tagok":
+                    {
+                        switch (e.ColumnIndex)
+                        {
+                            case 3:
+                                {
+                                    CheckIdentifer(e, 6);
+                                    break;
+                                }
+                            case 4:
+                                {
+                                    CheckPositive(e);
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+
+        //hibakezelés sorra
+        private void DataGridView_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            try
+            {
+                // megpróbáljuk menteni az adatokat
+                _bindingSource.EndEdit();
+            }
+            catch (NoNullAllowedException ex) // valahova nem írtunk adatot, ahova kellett volna
+            {
+                MessageBox.Show(ex.Message.Substring(0, 15) + " oszlop kitöltése kötelező!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true; // akkor ne mentse az adatokat
+            }
+        }
+
+        //ellenőrzi, hogy a praméter pozitív szám-e
+        private void CheckPositive(DataGridViewCellValidatingEventArgs e)
+        {
+            Int32 n;
+            if (!Int32.TryParse(e.FormattedValue.ToString(), out n) || n <= 0) // ha nem pozitív számot írtunk be
+            {
+                MessageBox.Show("Hiba! A mezőben csak pozitív szám szerepelhet!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true; //          
+            }
+        }
+
+        //ellenőrzi, hogy a paraméter szám-e
+        private void CheckNumber(DataGridViewCellValidatingEventArgs e)
+        {
+            Int32 n;
+            if (!Int32.TryParse(e.FormattedValue.ToString(), out n)) // ha nem pozitív számot írtunk be
+            {
+                MessageBox.Show("Hiba! A mezőben csak  szám szerepelhet!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true; //          
+            }
+        }
+
+        //ellenőrzi, hogy a paraméter azonosító-e
+        private void CheckIdentifer(DataGridViewCellValidatingEventArgs e, int length)
+        {
+            if (e.FormattedValue.ToString().Length != length)
+            {
+                MessageBox.Show("Hiba! Az azonosítónak " + length.ToString() + " karakter hosszúnak kell lennie!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true;
+            }
+        }
+
+        //adapter létrehozása a tagok táblára
+        private void CreateTagokAdapterForForeignKeys(DataSet _dataset)
+        {
+            _adapTagok = new SQLiteDataAdapter("SELECT * FROM tagok", _con);
+            _adapTagok.Fill(_dataset, "tagok");
+            _bindingSourceTagok = new BindingSource();
+            _bindingSourceTagok.DataSource = _dataset.Tables["tagok"];
+        }
+
+        //ellenőrzi, hogy a paraméter megfelelő dátumtípus-e
+        private void CheckDateFormat(DataGridViewCellValidatingEventArgs e)
+        {
+            System.IFormatProvider format = new System.Globalization.CultureInfo("hu-HU", true);
+            DateTime outDate;
+            bool isDate = DateTime.TryParseExact(e.FormattedValue.ToString(), "yyyy.MM.dd. HH:mm", format, System.Globalization.DateTimeStyles.AllowWhiteSpaces, out outDate);
+
+            if (!isDate)
+            {
+                MessageBox.Show("Hiba! Helytelen dátum formátum!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true;
+            }
+        }
+
+        //törlés ellenőrzése
+        private void _dataGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            //olyan tag nem törölhető akinél van könyv,tartozik tagdíjjal és az olvasótermeben ül
+            //olyan státusz törölhető ami nincs hozzárendelve egy taghoz sem
+            //csak olyan könyv törölhető ami nincs kikölcsönözve 
+
+            if (!e.Row.IsNewRow)
+            {
+                DialogResult res = MessageBox.Show("Biztos vagy benne, hogy törölni szeretnéd ezt a sort?", "Törlés megerősítés", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (res == DialogResult.No)
+                {
+                    e.Cancel = true;
+                }
+            }
+            #region switch
+            switch (_dataSet.Tables[_tn].TableName)
+            {
+                case "tagok":
+                    {
+                        //csak olyan könyvtári tag törölhető, akinél nincs kikölcsönzött könyv
+                        //itt az kell ellenőrizni, hogy a tagnál van e könyv tehát az id-ja szerepel a kölcsönzések táblában
+                        _adapKolcsonzesek = new SQLiteDataAdapter("SELECT * FROM kolcsonzesek", _con);
+                        _adapKolcsonzesek.Fill(_dataSet, "kolcsonzesek");
+                        _bindingSourceKolcsonzesek = new BindingSource()
+                        {
+                            DataSource = _dataSet.Tables["kolcsonzesek"]
+                        };
+                        DataTable dt = new DataTable();
+                        dt = _dataSet.Tables["kolcsonzesek"];
+
+                        String value = e.Row.Cells[0].FormattedValue.ToString();
+                        bool found = dt.Select("tag_id=" + value).Length > 0;
+                        if (found)
+                        {
+                            MessageBox.Show("Hiba! A tag nem törölhető, mert még van nála könyv!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            e.Cancel = true;
+                        }
+
+                        //csak olyan könyvtári tag törölhető, aki nem tartozik tagdíjjal
+                        _adapBefizetesek = new SQLiteDataAdapter("SELECT * FROM befizetesek", _con);
+                        _adapBefizetesek.Fill(_dataSet, "befizetesek");
+                        _bindingSourceBefizetesek = new BindingSource();
+                        _bindingSourceBefizetesek.DataSource = _dataSet.Tables["befizetesek"];
+                        DataTable dt3 = new DataTable();
+                        dt3 = _dataSet.Tables["befizetesek"];
+
+
+                        bool k = dt3.Select("tag_id=" + value + "AND osszeg < 0").Length > 0;
+
+                        if (k)
+                        {
+                            MessageBox.Show("Hiba! A tag nem törölhető, mert tartozása van!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            e.Cancel = true;
+                        }
+                        //csak olyan könyvtári tag törölhető, aki nem ül az olvasó teremben
+                        _adapOlvasasok = new SQLiteDataAdapter("SELECT * FROM olvasasok", _con);
+                        _adapOlvasasok.Fill(_dataSet, "olvasasok");
+                        _bindingSourceOlvasasok = new BindingSource();
+                        _bindingSourceOlvasasok.DataSource = _dataSet.Tables["olvasasok"];
+                        DataTable dt2 = new DataTable();
+                        dt2 = _dataSet.Tables["olvasasok"];
+                        bool l = dt2.Select("tag_id=" + value).Length > 0;
+                        if (l)
+                        {
+                            MessageBox.Show("Hiba! A tag nem törölhető, mert az olvasóteremben ül!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            e.Cancel = true;
+                        }
+
+                        break;
+                    }
+                case "statuszok":
+                    {
+                        //csak olyan státusz törölhető, amely egyik könyvtári taghoz sincs hozzárendelve
+
+                        String value = e.Row.Cells[0].FormattedValue.ToString();
+                        DataTable dt = new DataTable();
+                        dt = _dataSet.Tables["statuszok"];
+                        bool l = dt.Select("statusz_id=" + value).Length > 0;
+
+                        if (l)
+                        {
+                            MessageBox.Show("Hiba! A státusz nem törölhető, mert hozzá van rendelve egy taghoz!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            e.Cancel = true;
+                        }
+
+
+                        break;
+                    }
+                case "konyvek":
+                    {
+                        //csak olyan könyv törölhető, amely nincs kikölcsönözve
+                        _adapKolcsonzesek = new SQLiteDataAdapter("SELECT * FROM kolcsonzesek", _con);
+                        _adapKolcsonzesek.Fill(_dataSet, "kolcsonzesek");
+                        _bindingSourceKolcsonzesek = new BindingSource();
+                        _bindingSourceKolcsonzesek.DataSource = _dataSet.Tables["kolcsonzesek"];
+                        String value = e.Row.Cells[0].FormattedValue.ToString();
+                        DataTable dt = new DataTable();
+                        dt = _dataSet.Tables["kolcsonzesek"];
+                        bool l = dt.Select("konyv_id=" + value).Length > 0;
+                        if (l)
+                        {
+                            MessageBox.Show("Hiba! A könyv nem törölhető, mert ki van kölcsönözve!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            e.Cancel = true;
+                        }
+                        break;
+                    }
+                default:
+                    break;
+            }
+            #endregion
+
+        }
+    }
+}
+
+********************TABLE FORM DESIGNER**********************
+
+namespace konyvtar
+{
+    partial class TableForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TableForm));
+            this._dataGridView = new System.Windows.Forms.DataGridView();
+            this._bindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this._bindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
+            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
+            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.bindingNavigatorPositionItem = new System.Windows.Forms.ToolStripTextBox();
+            this.bindingNavigatorSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.bindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
+            this._dataSet = new System.Data.DataSet();
+            ((System.ComponentModel.ISupportInitialize)(this._dataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingNavigator)).BeginInit();
+            this._bindingNavigator.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._dataSet)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // _dataGridView
+            // 
+            this._dataGridView.AutoGenerateColumns = false;
+            this._dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this._dataGridView.DataSource = this._bindingSource;
+            this._dataGridView.Location = new System.Drawing.Point(12, 28);
+            this._dataGridView.Name = "_dataGridView";
+            this._dataGridView.Size = new System.Drawing.Size(592, 335);
+            this._dataGridView.TabIndex = 0;
+            // 
+            // _bindingNavigator
+            // 
+            this._bindingNavigator.AddNewItem = this.bindingNavigatorAddNewItem;
+            this._bindingNavigator.BindingSource = this._bindingSource;
+            this._bindingNavigator.CountItem = this.bindingNavigatorCountItem;
+            this._bindingNavigator.DeleteItem = this.bindingNavigatorDeleteItem;
+            this._bindingNavigator.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bindingNavigatorMoveFirstItem,
+            this.bindingNavigatorMovePreviousItem,
+            this.bindingNavigatorSeparator,
+            this.bindingNavigatorPositionItem,
+            this.bindingNavigatorCountItem,
+            this.bindingNavigatorSeparator1,
+            this.bindingNavigatorMoveNextItem,
+            this.bindingNavigatorMoveLastItem,
+            this.bindingNavigatorSeparator2,
+            this.bindingNavigatorAddNewItem,
+            this.bindingNavigatorDeleteItem,
+            this.bindingNavigatorSaveItem});
+            this._bindingNavigator.Location = new System.Drawing.Point(0, 0);
+            this._bindingNavigator.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
+            this._bindingNavigator.MoveLastItem = this.bindingNavigatorMoveLastItem;
+            this._bindingNavigator.MoveNextItem = this.bindingNavigatorMoveNextItem;
+            this._bindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
+            this._bindingNavigator.Name = "_bindingNavigator";
+            this._bindingNavigator.PositionItem = this.bindingNavigatorPositionItem;
+            this._bindingNavigator.Size = new System.Drawing.Size(608, 25);
+            this._bindingNavigator.TabIndex = 1;
+            this._bindingNavigator.Text = "bindingNavigator1";
+            // 
+            // bindingNavigatorAddNewItem
+            // 
+            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
+            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
+            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorAddNewItem.Text = "Hozzáadás";
+            // 
+            // bindingNavigatorCountItem
+            // 
+            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(36, 22);
+            this.bindingNavigatorCountItem.Text = "of {0}";
+            this.bindingNavigatorCountItem.ToolTipText = "Elemek száma";
+            // 
+            // bindingNavigatorDeleteItem
+            // 
+            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
+            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
+            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorDeleteItem.Text = "Törlés";
+            this.bindingNavigatorDeleteItem.Click += new System.EventHandler(this.bindingNavigatorDeleteItem_Click);
+            // 
+            // bindingNavigatorMoveFirstItem
+            // 
+            this.bindingNavigatorMoveFirstItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
+            this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
+            this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMoveFirstItem.Text = "Ugrás az elsőre";
+            // 
+            // bindingNavigatorMovePreviousItem
+            // 
+            this.bindingNavigatorMovePreviousItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
+            this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
+            this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMovePreviousItem.Text = "Ugrás előzőre";
+            // 
+            // bindingNavigatorSeparator
+            // 
+            this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 25);
+            // 
+            // bindingNavigatorPositionItem
+            // 
+            this.bindingNavigatorPositionItem.AccessibleName = "Position";
+            this.bindingNavigatorPositionItem.AutoSize = false;
+            this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
+            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 21);
+            this.bindingNavigatorPositionItem.Text = "0";
+            this.bindingNavigatorPositionItem.ToolTipText = "Jelenlegi pozíció";
+            // 
+            // bindingNavigatorSeparator1
+            // 
+            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
+            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // bindingNavigatorMoveNextItem
+            // 
+            this.bindingNavigatorMoveNextItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
+            this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
+            this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMoveNextItem.Text = "Ugrás következőre";
+            // 
+            // bindingNavigatorMoveLastItem
+            // 
+            this.bindingNavigatorMoveLastItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMoveLastItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveLastItem.Image")));
+            this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
+            this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMoveLastItem.Text = "Ugrás a végére";
+            // 
+            // bindingNavigatorSeparator2
+            // 
+            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
+            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // bindingNavigatorSaveItem
+            // 
+            this.bindingNavigatorSaveItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorSaveItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorSaveItem.Image")));
+            this.bindingNavigatorSaveItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.bindingNavigatorSaveItem.Name = "bindingNavigatorSaveItem";
+            this.bindingNavigatorSaveItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorSaveItem.Text = "Mentés";
+            this.bindingNavigatorSaveItem.Click += new System.EventHandler(this.bindingNavigatorSaveItem_Click);
+            // 
+            // _dataSet
+            // 
+            this._dataSet.DataSetName = "NewDataSet";
+            // 
+            // TableForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(608, 367);
+            this.Controls.Add(this._bindingNavigator);
+            this.Controls.Add(this._dataGridView);
+            this.Name = "TableForm";
+            this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this._dataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingNavigator)).EndInit();
+            this._bindingNavigator.ResumeLayout(false);
+            this._bindingNavigator.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._dataSet)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.DataGridView _dataGridView;
+        private System.Windows.Forms.BindingSource _bindingSource;
+        private System.Windows.Forms.BindingNavigator _bindingNavigator;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
+        private System.Windows.Forms.ToolStripLabel bindingNavigatorCountItem;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorDeleteItem;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveFirstItem;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorMovePreviousItem;
+        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator;
+        private System.Windows.Forms.ToolStripTextBox bindingNavigatorPositionItem;
+        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator1;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveNextItem;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
+        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
+        private System.Data.DataSet _dataSet;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorSaveItem;
+    }
+}
