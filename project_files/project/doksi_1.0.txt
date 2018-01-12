@@ -1,0 +1,95 @@
+******************
+*  ************  *
+*  *Verzió 1.0*  *
+*  ************  *
+*                *
+* ************** *
+* *Az adatbázis* *
+* ************** *
+******************
+
+-- Felépítése és kapcsolatok
+
+Implementálva:
+•	könyvek
+•	kölcsönzések
+•	karbantartás
+•	tagok
+•	státuszok
+•	olvasások
+•	befizetések
+
+Könyvek ( könyvek adatait tartalmazó tábla )
+•	konyv_id - int(≤8) nincs nullérték, elsődleges kulcs /könyv belső azonosítója/
+•	azon - string(12), nincs nullérték, egyedi /könyv egyedi azonosítója/
+•	cim - string(≤30) /könyv címe/
+•	szerzo - string(≤50) /könyv szerzői/
+•	peldanyszam - int(≤3), nincs nullérték /teljes példányszáma/
+•	szabad_peldanyszam - int(≤3), nincs nullérték /kölcsönözhető példányszám/
+
+Kölcsönzések ( kölcsönzések adatait tartalmazó tábla )
+•	kolcson_id - int(≤8), nincs nullérték, elsődleges kulcs /kölcsönzés szám/
+•	konyv_id - int(≤8), nincs nullérték, idegenkulcs /lásd könyvek tábla/
+•	kezdet - datetime, nincs nullérték /kölcsönzés kezdete/
+•	vissza - datetime /kölcsönzés vége/
+
+Tagok (tagok adatait tartalmazó tábla)
+•	tag_id - int(≤8), nincs nullérték, elsődleges kulcs /könyvtári tag belső azonosítója/
+•	nev - string(≤30), nincs nullérték /könyvtári tag neve/
+•	cim - string(≤50) /könyvtári tag lakcíme/
+•	azon - string(8), nincs nullérték, egyedi /könyvtári tag azonosítója (szem. ig. szám)/
+•	konyvtarjegy - int(≤6), nincs nullérték, egyedi / tag könyvtárjegyének száma/
+•	statusz_id – int(≤8), nincs nullérték, idegenkulcs
+
+Státuszok (könyvtártagság státuszait tartalmazó tábla)
+•	statusz_id - int(2), nincs nullérték, elsődleges kulcs /státusz azonosítója/
+•	statusz - string(≤10) /értéke például: felnőtt, diák, nyugdíjas, tanár/
+•	tagdij - int /éves tagdíj/
+
+Olvasások ( olvasó terembe történt belépések adatait tartalmazó tábla )
+•	olvas_id - int(≤8), nincs nullérték, elsődleges kulcs /belépés azonosítója /
+•	tag_id - nincs nullérték, idegen kulcs (lásd. tagok tábla)
+•	belepes - datetime, nincs nullérték /belépés ideje/
+•	kilepes - datetime /kilépés ideje/
+
+Befizetesek ( tagdíj befizetések bizonylatait tartalmazó tábla)
+•	bizonylatszam - int(≤8), nincs nullérték, elsődleges kulcs /befizetést azonosít/
+•	tag_id - int(≤8), nincs nullérték, idegenkulcs /lásd tagok tábla/
+•	osszeg - int(≤6), nincs nullérték /pozitív, sztornózás esetén negatív/
+•	datum - datetime /befizetés dátuma/
+
+************************************************************************************************
+
+Karbantartás menü:
+•	A tagok, a könyvek és a státuszok adattábláinak karbantartását külön-külön űrlapon végeztük.
+•	Ezeket a tevékenységeket külön-külön menüpont aktiválja.
+•	Megjeleníthetjük az adott tábla összes adatát, de nem látszódnak belső kódok:
+ha ez a kulcs, akkor el rejtjük, ha idegenkulcs, akkor a megfelelő másik tábla tartalmat mutatjuk meg.
+•	Lehetséges a táblába új sort beszúrni, egy sort törölni, illetve adatait módosítani.
+•	Törléskor figyelembe vesszük, hogy csak olyan könyvtári tag törölhető, akinél nincs kikölcsönzött könyv,
+nem tartozik tagdíjjal és nem ül az olvasó teremben; csak olyan státusz törölhető,
+amely egyik könyvtári taghoz sincs hozzárendelve; csak olyan könyv törölhető, amelyik nincs kikölcsönözve.
+
+************************************************************************************************
+
+A program:
+•	A program nem engedi a tábla megkötésének nem eleget tevő adatokat,  negatív számot sem enged felvenni.
+•	Egy több ablakkezelő alkalmazás.
+•	Egy MainForm osztályból és egy TableForm osztályból áll.
+•	A MainForm felelős a táblák megnyitásáért, a TableFrom pedig azok kezeléséért.
+
+•	A MainFormon egy ToolStripMenu és egy Label található.
+•	A menü egy elemére való kattintás hívja meg azt az eseményt, aminek eredményeképpen megnyílik egy TableForm. 
+
+************************************************************************************************
+
+A TableForm osztály:
+•	Az adatbázis elemei egy DataGridView-n jelennek meg, ügyelve arra, hogy az elsődleges és az idegen kulcsokat elrejtsük a felhasználó elől.
+•	Az idegen kulcsok elrejtését ComboBox-al oldottuk meg. 
+•	A „Save” gombra kattintva a felhasználó mentheti a változásokat, és az adatbázisba tölti azokat.
+•	Erre a gombra a módosítások után kell rákattintani.
+•	Módosítás alatt a törlést, beszúrást és módosítást értjük.
+•	Amennyiben a felhasználó nem teszi meg, úgy az adatbázis nem kerül mentésre.
+•	Törlésre a „Delete”gombbal van lehetőség. Ki kell jelölni a törlendő sort és a gombra kattintani.
+•	Ha új sort akarunk az adatbázishoz adni, akkor a „Add”gombra kell kattintani, melynek hatására megjelenik a táblázat alján egy új sor,
+azt kijelölve, az Adatok módosítása felületen kitöltjük, Edit gombbal pedig hozzáadjuk a táblázathoz.
