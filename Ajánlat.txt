@@ -37,7 +37,7 @@ Cégbemutató:
 A cég 2015-ben alakult BEB Informatikai Kft. néven, mely azóta sikeresen működő társaság.
 Alapító tagjai és egyben tulajdonosai belföldi magánszemélyek: Cene Balázs, Gáborné Oravecz
 Eszter és Zsiros-Hudák Bianka. Mindannyian az Eszterházy Károly Egyetemen szereztek diplomát, 
-piacképes informatikai és gazdasági ismereteket. 
+piacképes informatikai és gazdasági ismeretekkel. 
 A Kft. működésének első évében még nem foglalkoztattak alkalmazottakat, azonban ma már 3 
 alkalmazott segíti a tulajdonosok munkáját.
 A társaság székhelye: 3300 Eger, Rózsa Károly u. 18. A cég egy saját tulajdonú irodát működtet 
@@ -106,10 +106,12 @@ Form megvalósítása				1		24		24		12	12
 Funkciók kialakítása				1		24		24		12	12
 Funkciók, Form			Módosítások	1		24		24		0	24
 				elvégzése
-Tartalék idő					3		16		16		0	16								Tesztelés					1		40		40		0	40
+Tartalék idő					3		16		16		0	16								
+Tesztelés					1		40		40		0	40
 Projektvezetés					2		30		30		10	20
 						Órák		206		206		68	138
 						Embernap:	25,75		25,75		8,5	17,25
+
 A BEB Informatikai Kft. a végleges program leszállítását követően 1 év ingyenes hibajavítást vállal. A hibajavítási 
 garancia nem jelenti új funkciók ingyenes fejlesztését, de az átadott programban felfedezett hibák javítását 
 tartalmazza. A javítási határidő a bejelentéstől számított 2 munkanap.
@@ -141,12 +143,13 @@ Form megvalósítása				1		24		24		12	12
 Funkciók kialakítása				1		24		24		12	12
 Funkciók, Form			Módosítások	1		24		24		0	24
 				elvégzése
-Tartalék idő					3		16		16		0	16								Tesztelés					1		40		40		0	40
+Tartalék idő					3		16		16		0	16								
+Tesztelés					1		40		40		0	40
 Projektvezetés					2		30		30		10	20
 						Órák		206		206		68	138
 						Embernap:	25,75		25,75		8,5	17,25
 Napidíj: 28.000 Ft
-Árajánlat: 721.000 Ft	
+Árajánlat: 721.000 Ft + ÁFA	
 
 
 Átadási határidő az ütemtervnek megfelelően.
@@ -154,3 +157,48 @@ Napidíj: 28.000 Ft
 -----------------------------------------------------------------------------------
 
 7. Megtérülés, gazdasági előnyök
+
+A megrendelő beruházása hosszútávon térül meg. Ez egy egyszeri kiadás a megrendelő részéről, a folyamatos üzemeltetés
+során fizetési kötelezettsége nem lesz.
+A munkavégzést gyorsítja a program használata, hatékonyabbá válik a tagok kiszolgálása. Manapság az adatok egyre 
+szélesebb körét adatbázisokban tárolják. Az informatika a versenyben maradás elengedhetetlen eszközévé, ún. 
+stratégiai szükségszerûséggé vált. A naprakész adatbázisok előnyt jelenthetnek az erős piaci vesenyben. 
+Ezért is fontos, hogy a program igény esetén továbbfejleszthető.
+
+8. Árajánlat érvényessége, szerződéskötési feltételek
+Az árajánlat 2018. év január hónap 26.napig érvényes.
+
+Általános szerződési feltételek
+I. FEJEZET
+Általános rendelkezések
+1. Szolgáltatás
+A szolgáltatás tárgya a BEB Informatikai Kft. szoftverének használatának biztosítása (továbbiakban Szolgáltatás),
+valamint a szoftverekhez tartozó kiegészítő szolgáltatások nyújtása. 
+2. Alkalmazás
+A Felhasználó által alkalmazott általános szerződési feltételek nem képezik a felek között létrejött szerződés részét, 
+kivéve, ha a felek kifejezetten írásban eltérően állapodtak meg. Amennyiben a jelen ÁSZF olyan szerződési feltételt tartalmaz, 
+amely a szokásos szerződési gyakorlattól, vagy a szerződésre vonatkozó rendelkezésektől lényegesen eltér, az külön figyelemfelhívó
+tájékoztatásként vastag betűvel került megjelölésre. 
+A Felhasználó a jelen ÁSZF elfogadásával megerősíti, hogy ezen szerződési feltételről kifejezett tájékoztatásban részesült és
+azt a külön figyelemfelhívó tájékoztatást követően kifejezetten elfogadja.
+II. FEJEZET
+Használati feltételek
+3. A szerződés kezdete, futamideje és felmondása
+3.1. A Felhasználó a Szolgáltatóval Felhasználói szerződést köt az adott szoftver megvásárlására.
+A szerződés a Felhasználó, szóbeli vagy írásbeli megrendelését, és annak Szolgáltató általi befogadását követően jön létre. 
+Felhasználó a vételár megfizetésével a szerződéskötés tényét és az általános szerződési feltételeket elfogadja. 
+3.2. A szerződés határozatlan időre szól. 
+3.3. A szerződés megszűnésével véget ér a Szolgáltató kötelezettsége.
+
+4. Fizetési feltételek
+4.1. A Szolgáltató szolgáltatásai ellenében történő fizetés mértéke és lejárta, a szerződéskötéskor érvényes árlista alapján 
+történik. 
+
+5. A Szolgáltató a jelen ÁSZF feltételeit módosíthatja, amennyiben arról írásos tájékoztatást küld az ügyfeleknek, legalább
+2 hónappal a módosítást megelőzően. 
+
+6. A jelen szerződésben nem szabályozott kérdésekben a hatályos jogszabályok, továbbá a hatályos internet szokások alkalmazandók.
+Ezen Általános Szerződési Feltételek hatályba lépésének ideje: 2018.01.01.
+
+
+Kelt: Eger, 2018. január 12.
