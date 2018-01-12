@@ -1,0 +1,26 @@
+﻿Jegyzőkönyv
+
+----------------------------------------------
+
+Jelen vannak:
+
+A BEB Informatikai Kft. képviseletében:
+- Cene Balázs
+- Gáborné Oravecz Eszter
+
+A Kellegyprogram Kft. képviseletében:
+- Hudák Bianka
+
+A megbeszélés ideje: 2018.01.12.
+
+A megbeszélés tárgya: a bemutatott program módosítása
+
+A megbeszéléskor kész program a könyveket és a kölcsönzések adatait tudja eltárolni. 
+A könyveknél nyilvántartja az adott könyv címét, szerzőjét, példányszámát és hogy mennyi példány van még ami kölcsönözhető.
+A kölcsönzéseknél a kikölcsönzött könyv azonosítója, kölcsönzés dátuma és a visszahozatal dátuma van feltüntetve.
+
+Kérnénk, hogy az előbb felsoroltakon kívül a rendszer még meg tudja jeleníteni a tagokat is, a tagdíj befizetéseket és azt is
+ hogy az olvasó mikor jelent meg az olvasóterembe. 
+
+Meg szeretnénk az adatok alapján majd vizsgálni, hogy átlagosan mennyi időt töltenek olvasóink az olvasóterembe, mielőtt 
+döntés születik a kikölcsönözni kívánt könyvekről és hogy az olvasók mennyire figyelnek a tagdíj fizetésre. 
