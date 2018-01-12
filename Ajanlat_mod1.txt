@@ -1,0 +1,53 @@
+﻿Árajánlat módosítás
+a Kellegyprogram Kft.
+(3300 Eger, Pozsonyi út 2.)
+részére
+--------------------------------------------------------------------------------
+
+A 2018.01.12-én történt megbeszélésen a Kellegyprogram Kft. az alábbi módosításokat kérte társaságunktól:
+- a rendszer meg tudja jeleníteni a tagokat is, a tagdíj befizetéseket és azt is
+ hogy az olvasó mikor jelent meg az olvasóteremben, 
+- olyan szűrő elkészítése, amely megjeleníti, hogy átlagosan mennyi időt töltenek az olvasók az olvasóteremben,
+mielőtt döntés születik a kikölcsönözni kívánt könyvekről, valamint
+- az olvasók mennyire figyelnek a tagdíj fizetésre. 
+
+--------------------------------------------------------------------------------
+A 2018. január 12-én kelt árajánlat 4. pontja kiegészül a fenti feladatokkal, valamint az ajánlat 6. pontjának
+módosítása is szükséges, amely változást jelent mind a funkciók, mind a form megvalósítására fordított munkaórák
+számában.
+
+Árajánlat
+Ajánlatot kiállító:
+BEB Informatikai Kft.
+3300 Eger, Rózsa Károly u. 18.
+Adószám: 12345678-1-12
+Tel: +36301122334
+Fax: +3636111222
+e-mail: bebinf@gmail.com
+web: www.beb.hu
+Ajánlatkérő
+Kellegyprogram Kft.
+3300 Eger, Pozsonyi út 2.
+Ajánlat kelte:
+2018.01.11.
+Érvényességi határidő:
+2018.01.26.
+FUNKCIÓ				FELADAT		PRIORITÁS	BECSLÉS	 AKT. BECSLÉS	ELTELT	HÁTRALEVŐ
+Funkcionális specifikáció			0		24		24		20	4		
+Adatbázis					1		24		24		14	10
+Form megvalósítása				1		32		32		12	20
+Funkciók kialakítása				1		32		32		12	20
+Funkciók, Form			Módosítások	1		24		24		0	24
+				elvégzése
+Tartalék idő					3		16		16		0	16								
+Tesztelés					1		40		40		0	40
+Projektvezetés					2		30		30		10	20
+						Órák		222		222		68	154
+						Embernap:	27,75		27,75		8,5	19,25
+Napidíj: 28.000 Ft
+Árajánlat: 777.000 Ft + ÁFA	
+
+
+Átadási határidő a megváltozott ütemtervnek megfelelően.
+
+Kelt: Eger, 2018. január 12.
