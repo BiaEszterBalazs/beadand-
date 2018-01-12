@@ -64,58 +64,40 @@ c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\proj
 c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt\konyvtar\bin\Debug\EntityFramework.xml
 c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt\konyvtar\bin\Debug\EntityFramework.SqlServer.xml
 c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt\konyvtar\bin\Debug\System.Data.SQLite.xml
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0,5\konyvtar\bin\Debug\konyvtar.exe.config
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0,5\konyvtar\obj\x86\Debug\konyvtar.exe
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0,5\konyvtar\obj\x86\Debug\konyvtar.pdb
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0,5\konyvtar\bin\Debug\konyvtar.exe
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0,5\konyvtar\bin\Debug\konyvtar.pdb
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0,5\konyvtar\bin\Debug\EntityFramework.dll
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0,5\konyvtar\bin\Debug\EntityFramework.SqlServer.dll
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0,5\konyvtar\bin\Debug\System.Data.SQLite.dll
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0,5\konyvtar\bin\Debug\System.Data.SQLite.EF6.dll
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0,5\konyvtar\bin\Debug\System.Data.SQLite.Linq.dll
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0,5\konyvtar\bin\Debug\EntityFramework.xml
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0,5\konyvtar\bin\Debug\EntityFramework.SqlServer.xml
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0,5\konyvtar\bin\Debug\System.Data.SQLite.xml
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0,5\konyvtar\obj\x86\Debug\konyvtar.csprojResolveAssemblyReference.cache
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0,5\konyvtar\obj\x86\Debug\konyvtar.MainForm.resources
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0,5\konyvtar\obj\x86\Debug\konyvtar.Properties.Resources.resources
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0,5\konyvtar\obj\x86\Debug\konyvtar.TableForm.resources
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0,5\konyvtar\obj\x86\Debug\konyvtar.csproj.GenerateResource.Cache
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\konyvtar.exe.config
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\obj\x86\Debug\konyvtar.exe
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\obj\x86\Debug\konyvtar.pdb
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\obj\x86\Debug\konyvtar.csprojResolveAssemblyReference.cache
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\obj\x86\Debug\konyvtar.MainForm.resources
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\obj\x86\Debug\konyvtar.Properties.Resources.resources
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\obj\x86\Debug\konyvtar.TableForm.resources
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\obj\x86\Debug\konyvtar.csproj.GenerateResource.Cache
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\konyvtar.exe
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\konyvtar.pdb
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\EntityFramework.dll
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\EntityFramework.SqlServer.dll
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\System.Data.SQLite.dll
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\System.Data.SQLite.EF6.dll
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\System.Data.SQLite.Linq.dll
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\EntityFramework.xml
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\EntityFramework.SqlServer.xml
-c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\System.Data.SQLite.xml
-c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\konyvtar.exe.config
-c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\konyvtar.exe
-c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\konyvtar.pdb
-c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\EntityFramework.dll
-c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\EntityFramework.SqlServer.dll
-c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\System.Data.SQLite.dll
-c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\System.Data.SQLite.EF6.dll
-c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\System.Data.SQLite.Linq.dll
-c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\EntityFramework.xml
-c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\EntityFramework.SqlServer.xml
-c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\System.Data.SQLite.xml
-c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\bin\Debug\System.Data.SQLite.dll.config
-c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\obj\x86\Debug\konyvtar.csprojResolveAssemblyReference.cache
-c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\obj\x86\Debug\konyvtar.MainForm.resources
-c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\obj\x86\Debug\konyvtar.Properties.Resources.resources
-c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\obj\x86\Debug\konyvtar.TableForm.resources
-c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\obj\x86\Debug\konyvtar.csproj.GenerateResource.Cache
-c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\obj\x86\Debug\konyvtar.exe
-c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.5\konyvtar\obj\x86\Debug\konyvtar.pdb
+c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\konyvtar.exe.config
+c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\obj\x86\Debug\konyvtar.exe
+c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\obj\x86\Debug\konyvtar.pdb
+c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\konyvtar.exe
+c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\konyvtar.pdb
+c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\EntityFramework.dll
+c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\EntityFramework.SqlServer.dll
+c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\System.Data.SQLite.dll
+c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\System.Data.SQLite.EF6.dll
+c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\System.Data.SQLite.Linq.dll
+c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\EntityFramework.xml
+c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\EntityFramework.SqlServer.xml
+c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\System.Data.SQLite.xml
+c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\obj\x86\Debug\konyvtar.csprojResolveAssemblyReference.cache
+c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\obj\x86\Debug\konyvtar.MainForm.resources
+c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\obj\x86\Debug\konyvtar.Properties.Resources.resources
+c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\obj\x86\Debug\konyvtar.TableForm.resources
+c:\Users\cebal\Dropbox\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\obj\x86\Debug\konyvtar.csproj.GenerateResource.Cache
+c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\konyvtar.exe.config
+c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\konyvtar.exe
+c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\konyvtar.pdb
+c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\EntityFramework.dll
+c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\EntityFramework.SqlServer.dll
+c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\System.Data.SQLite.dll
+c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\System.Data.SQLite.EF6.dll
+c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\System.Data.SQLite.Linq.dll
+c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\EntityFramework.xml
+c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\EntityFramework.SqlServer.xml
+c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\System.Data.SQLite.xml
+c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\bin\Debug\System.Data.SQLite.dll.config
+c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\obj\x86\Debug\konyvtar.csprojResolveAssemblyReference.cache
+c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\obj\x86\Debug\konyvtar.MainForm.resources
+c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\obj\x86\Debug\konyvtar.Properties.Resources.resources
+c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\obj\x86\Debug\konyvtar.TableForm.resources
+c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\obj\x86\Debug\konyvtar.csproj.GenerateResource.Cache
+c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\obj\x86\Debug\konyvtar.exe
+c:\Users\cebalazs\Dropbox (Personal)\Suli\A Rendszerfejlesztés technológiája\Beadandó\projekt_0.9\konyvtar\obj\x86\Debug\konyvtar.pdb

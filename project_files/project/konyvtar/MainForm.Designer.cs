@@ -32,7 +32,11 @@
             this._tablesMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.karbantartásToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.könyvekToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tagokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.státuszokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._tablesMenu_kolcsonzesek = new System.Windows.Forms.ToolStripMenuItem();
+            this._tablesMenu_olvasasok = new System.Windows.Forms.ToolStripMenuItem();
+            this._tablesMenu_befizetesek = new System.Windows.Forms.ToolStripMenuItem();
             this._kilepes = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -52,7 +56,9 @@
             // 
             this._tablesMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.karbantartásToolStripMenuItem,
-            this._tablesMenu_kolcsonzesek,});
+            this._tablesMenu_kolcsonzesek,
+            this._tablesMenu_olvasasok,
+            this._tablesMenu_befizetesek});
             this._tablesMenu.Name = "_tablesMenu";
             this._tablesMenu.Size = new System.Drawing.Size(45, 20);
             this._tablesMenu.Text = "Menü";
@@ -60,8 +66,10 @@
             // karbantartásToolStripMenuItem
             // 
             this.karbantartásToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.könyvekToolStripMenuItem, });
-            karbantartásToolStripMenuItem.Name = "karbantartásToolStripMenuItem";
+            this.könyvekToolStripMenuItem,
+            this.tagokToolStripMenuItem,
+            this.státuszokToolStripMenuItem});
+            this.karbantartásToolStripMenuItem.Name = "karbantartásToolStripMenuItem";
             this.karbantartásToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.karbantartásToolStripMenuItem.Text = "Karbantartás";
             // 
@@ -72,13 +80,41 @@
             this.könyvekToolStripMenuItem.Text = "Könyvek";
             this.könyvekToolStripMenuItem.Click += new System.EventHandler(this.MenuTable_Konyvek_Clicked);
             // 
+            // tagokToolStripMenuItem
+            // 
+            this.tagokToolStripMenuItem.Name = "tagokToolStripMenuItem";
+            this.tagokToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.tagokToolStripMenuItem.Text = "Tagok";
+            this.tagokToolStripMenuItem.Click += new System.EventHandler(this.MenuTable_tagok_Clicked);
+            // 
+            // státuszokToolStripMenuItem
+            // 
+            this.státuszokToolStripMenuItem.Name = "státuszokToolStripMenuItem";
+            this.státuszokToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.státuszokToolStripMenuItem.Text = "Státuszok";
+            this.státuszokToolStripMenuItem.Click += new System.EventHandler(this.MenuTable_statuszok_Clicked);
+            // 
             // _tablesMenu_kolcsonzesek
             // 
-            /*this._tablesMenu_kolcsonzesek.Name = "_tablesMenu_kolcsonzesek";
+            this._tablesMenu_kolcsonzesek.Name = "_tablesMenu_kolcsonzesek";
             this._tablesMenu_kolcsonzesek.Size = new System.Drawing.Size(148, 22);
             this._tablesMenu_kolcsonzesek.Text = "Kölcsönzések";
             this._tablesMenu_kolcsonzesek.Click += new System.EventHandler(this.MenuTable_kolcsonzesek_Clicked);
-            // */
+            // 
+            // _tablesMenu_olvasasok
+            // 
+            this._tablesMenu_olvasasok.Name = "_tablesMenu_olvasasok";
+            this._tablesMenu_olvasasok.Size = new System.Drawing.Size(148, 22);
+            this._tablesMenu_olvasasok.Text = "Olvasások";
+            this._tablesMenu_olvasasok.Click += new System.EventHandler(this.MenuTable_olvasasok_Clicked);
+            // 
+            // _tablesMenu_befizetesek
+            // 
+            this._tablesMenu_befizetesek.Name = "_tablesMenu_befizetesek";
+            this._tablesMenu_befizetesek.Size = new System.Drawing.Size(148, 22);
+            this._tablesMenu_befizetesek.Text = "Befizetések";
+            this._tablesMenu_befizetesek.Click += new System.EventHandler(this.MenuTable_befizetesek_Clicked);
+            // 
             // _kilepes
             // 
             this._kilepes.Name = "_kilepes";
@@ -107,10 +143,14 @@
 
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem _tablesMenu;
+        private System.Windows.Forms.ToolStripMenuItem _tablesMenu_befizetesek;
         private System.Windows.Forms.ToolStripMenuItem _tablesMenu_kolcsonzesek;
+        private System.Windows.Forms.ToolStripMenuItem _tablesMenu_olvasasok;
         private System.Windows.Forms.ToolStripMenuItem _kilepes;
         private System.Windows.Forms.ToolStripMenuItem karbantartásToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem könyvekToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tagokToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem státuszokToolStripMenuItem;
     }
 }
 

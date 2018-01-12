@@ -58,14 +58,34 @@ namespace konyvtar
             }        
         }
 
-        /*private void MenuTable_kolcsonzesek_Clicked(object sender, EventArgs e)
+        private void MenuTable_befizetesek_Clicked(object sender, EventArgs e)
+        {
+            OnMenuTableClicked("befizetesek");
+        }
+
+        private void MenuTable_kolcsonzesek_Clicked(object sender, EventArgs e)
         {
             OnMenuTableClicked("kolcsonzesek");
-        }*/
+        }
 
         private void MenuTable_Konyvek_Clicked(object sender, EventArgs e)
         {
             OnMenuTableClicked("konyvek");
+        }
+
+        private void MenuTable_olvasasok_Clicked(object sender, EventArgs e)
+        {
+            OnMenuTableClicked("olvasasok");
+        }
+
+        private void MenuTable_statuszok_Clicked(object sender, EventArgs e)
+        {
+            OnMenuTableClicked("statuszok");
+        }
+
+        private void MenuTable_tagok_Clicked(object sender, EventArgs e)
+        {
+            OnMenuTableClicked("tagok");
         }
 
         private void MenuTable_kilepes_Clicked(object sender, EventArgs e)

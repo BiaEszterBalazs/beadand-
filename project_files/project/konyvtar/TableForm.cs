@@ -16,13 +16,6 @@ namespace konyvtar
         private string _tn;
         private SQLiteCommand sql_cmd;
 
-        private SQLiteDataAdapter _adap;
-        private SQLiteDataAdapter _adapKonyvek;
-        private SQLiteDataAdapter _adapTagok;
-
-        private BindingSource _bindingSourceKonyvek;
-        private BindingSource _bindingSourceTagok;
-
         private void SetConnection()
         {
             _con = new SQLiteConnection("Data Source=Konyvtar.db;Version=3;");
@@ -54,14 +47,7 @@ namespace konyvtar
         //adatok betöltése a fizikai adatbázisból a logikai adatbázisba
         private void LoadData()
         {
-            _adap = new SQLiteDataAdapter("SELECT * FROM " + _tn, _con);
-            SQLiteCommandBuilder builder = new SQLiteCommandBuilder(_adap);
-            _adap.InsertCommand = builder.GetInsertCommand();
-            _adap.DeleteCommand = builder.GetDeleteCommand();
-            _adap.UpdateCommand = builder.GetUpdateCommand();
-
             _dataSet = new DataSet(_tn);
-            _adap.Fill(_dataSet, _tn);
             _bindingSource.DataSource = _dataSet.Tables[_tn];
             FormatTables(_dataSet);
         }
@@ -71,12 +57,43 @@ namespace konyvtar
         {
             switch (_dataset.Tables[_tn].TableName)
             {
+                case "befizetesek":
+                {
+                    CreateTagokAdapterForForeignKeys(_dataset);
+                    
+                    //azonosító automatikus növelése
+                    autoIdIncrease(_dataset, "bizonylatszam", "befizetesek");
+                    
+                    //tábla fejlécének formázása
+                    DataGridViewColumn[] columns = new DataGridViewColumn[4];
+                    
+                    columns[0] = new DataGridViewTextBoxColumn();
+                    columns[0].HeaderText = "Bizonylatszám";
+                    columns[0].DataPropertyName = "bizonylatszam";
+                    columns[0].Visible = false;
+                    
+                    //ezt kellene idegenkulcsként megjeleníteni
+                    columns[1] = new DataGridViewComboBoxColumn();
+                    columns[1].HeaderText = "Tag neve";
+                    columns[1].DataPropertyName = "tag_id";                        
+
+                    ((DataGridViewComboBoxColumn)columns[1]).ValueMember = "tag_id";
+                    ((DataGridViewComboBoxColumn)columns[1]).DisplayMember = "nev";
+                                                
+                    columns[2] = new DataGridViewTextBoxColumn();
+                    columns[2].HeaderText = "Összeg";
+                    columns[2].DataPropertyName = "osszeg";
+                    
+                    columns[3] = new DataGridViewTextBoxColumn();
+                    columns[3].HeaderText = "Dátum";
+                    columns[3].DataPropertyName = "datum";
+                    
+                    addColumnsToDataGridView(columns);
+                    break;
+                }
                 case "kolcsonzesek":
                 {
-                    _adapKonyvek = new SQLiteDataAdapter("SELECT * FROM konyvek", _con);
-                    _adapKonyvek.Fill(_dataset, "konyvek");
-                    _bindingSourceKonyvek = new BindingSource();
-                    _bindingSourceKonyvek.DataSource = _dataset.Tables["konyvek"];                      
+                    CreateTagokAdapterForForeignKeys(_dataset);                  
                     //azonosító automatikus növelése
                     autoIdIncrease(_dataset, "kolcson_id", "kolcsonzesek");
 
@@ -148,10 +165,116 @@ namespace konyvtar
                     addColumnsToDataGridView(columns);
                     break;
                 }
+                case "olvasasok":
+                {
+                    //adatpter az indegen kulcshot
+                    CreateTagokAdapterForForeignKeys(_dataset);
 
+                    //azonosító automatikus növelése
+                    autoIdIncrease(_dataset, "olvas_id", "olvasasok");
+
+                    DataGridViewColumn[] columns = new DataGridViewColumn[4];
+                    columns[0] = new DataGridViewTextBoxColumn();
+                    columns[0].HeaderText = "Olvasás ID";
+                    columns[0].DataPropertyName = "olvas_id";
+                    columns[0].Visible = false;
+                                                
+                    columns[1] = new DataGridViewComboBoxColumn();
+                    columns[1].HeaderText = "Tag neve";
+                    columns[1].DataPropertyName = "tag_id";
+                    //oszlop adatainak feltöltése másik táblából
+                    ((DataGridViewComboBoxColumn)columns[1]).DataSource = _bindingSourceTagok;
+                    ((DataGridViewComboBoxColumn)columns[1]).ValueMember = "tag_id";
+                    ((DataGridViewComboBoxColumn)columns[1]).DisplayMember = "nev";
+
+                    columns[2] = new DataGridViewTextBoxColumn();
+                    columns[2].HeaderText = "Belépés";
+                    columns[2].DataPropertyName = "belepes";
+                    
+                    columns[3] = new DataGridViewTextBoxColumn();
+                    columns[3].HeaderText = "Kilépés";
+                    columns[3].DataPropertyName = "kilepes";
+
+                    addColumnsToDataGridView(columns);
+                    break;
+                }
+                case "statuszok":
+                {
+                    //azonosító automatikus növelése
+                    autoIdIncrease(_dataset, "statusz_id", "statuszok");
+                    
+                    //tábla fejlécének formázása
+                    DataGridViewColumn[] columns = new DataGridViewColumn[3];
+
+                    columns[0] = new DataGridViewTextBoxColumn();
+                    columns[0].HeaderText = "Státusz ID";
+                    columns[0].DataPropertyName = "statusz_id";
+                    columns[0].Visible = false;
+                    
+                    
+                    columns[1] = new DataGridViewTextBoxColumn();
+                    columns[1].HeaderText = "Státusz";
+                    columns[1].DataPropertyName = "statusz";
+                    
+                    columns[2] = new DataGridViewTextBoxColumn();
+                    columns[2].HeaderText = "Éves Tagdíj";
+                    columns[2].DataPropertyName = "tagdij";
+                    
+                    addColumnsToDataGridView(columns);
+                    break;
+                }
+                case "tagok":
+                {
+                    //azonosító automatikus növelése
+                    autoIdIncrease(_dataset, "tag_id", "tagok");
+
+                    _adapStatuszok = new SQLiteDataAdapter("SELECT * FROM statuszok", _con);
+                    _adapStatuszok.Fill(_dataset, "statuszok");
+                    _bindingSourceStatuszok = new BindingSource();
+                    _bindingSourceStatuszok.DataSource = _dataset.Tables["statuszok"];                      
+
+                    //tábla fejlécének formázása
+                    DataGridViewColumn[] columns = new DataGridViewColumn[6];
+
+                    columns[0] = new DataGridViewTextBoxColumn();
+                    columns[0].HeaderText = "Tag ID";
+                    columns[0].DataPropertyName = "tag_id";
+                    columns[0].Visible = false;
+                    
+                    columns[1] = new DataGridViewTextBoxColumn();
+                    columns[1].HeaderText = "Név";
+                    columns[1].DataPropertyName = "nev";
+                                        
+                    columns[2] = new DataGridViewTextBoxColumn();
+                    columns[2].HeaderText = "Cím";
+                    columns[2].DataPropertyName = "cim";
+
+                    columns[3] = new DataGridViewTextBoxColumn();
+                    columns[3].HeaderText = "Azonosító";
+                    columns[3].DataPropertyName = "azon";
+
+                    columns[4] = new DataGridViewTextBoxColumn();
+                    columns[4].HeaderText = "Könyvtár jegy";
+                    columns[4].DataPropertyName = "konyvtarjegy";
+
+                    columns[5] = new DataGridViewComboBoxColumn();
+                    columns[5].HeaderText = "Státusz";
+                    columns[5].DataPropertyName = "statusz_id";
+                    ((DataGridViewComboBoxColumn)columns[5]).DataSource = _bindingSourceStatuszok;
+                    ((DataGridViewComboBoxColumn)columns[5]).ValueMember = "statusz_id";
+                    ((DataGridViewComboBoxColumn)columns[5]).DisplayMember = "statusz";
+
+                    addColumnsToDataGridView(columns);
+                    break;
+                }
                 default:
                     break;
             }
+        }
+
+        private void CreateTagokAdapterForForeignKeys(DataSet _dataset)
+        {
+            throw new NotImplementedException();
         }
 
         //belső azonosítók automatikus növelése
@@ -188,14 +311,21 @@ namespace konyvtar
             }
         }
 
-        //adapter létrehozása a tagok táblára
-        private void CreateTagokAdapterForForeignKeys(DataSet _dataset)
+        //navigátor törlés gombjára kattintás
+        private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e)
         {
-            _adapTagok = new SQLiteDataAdapter("SELECT * FROM tagok", _con);
-            _adapTagok.Fill(_dataset, "tagok");
-            _bindingSourceTagok = new BindingSource();
-            _bindingSourceTagok.DataSource = _dataset.Tables["tagok"];
+            //object o = new object();
+            DataGridViewRowCancelEventArgs a = new DataGridViewRowCancelEventArgs(_dataGridView.CurrentRow);
+                        
+            //olyan tag nem törölhető akinél van könyv,tartozik tagdíjjal és az olvasótermeben ül
+            //olyan státusz törölhető ami nincs hozzárendelve egy taghoz sem
+            //csak olyan könyv törölhető ami nincs kikölcsönözve
+            _dataGridView_UserDeletingRow(sender, a);           
         }
 
+        private void _dataGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs a)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
