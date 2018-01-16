@@ -1,0 +1,409 @@
+﻿-----------------------------------------------------------------
+|                       Rendszerterv                            |
+-----------------------------------------------------------------
+
+	------------------
+	|A rendszer célja|
+	------------------
+
+	Egy olyan alkalmazás, amely lehetővé teszi egy könyvtári könyv kikölcsönzésének és visszahozásának
+	a könyvtártagok tagdíj-befizetéseinek és az olvasó terembe történő be- és
+	kiléptetéseknek elektronikus rögzítését.
+	Az alkalmazás funkcióit két csoportba sorolhatjuk.
+	Az egyikbe tartoznak a könyvtári tagok, a könyvek, és a státuszok adatainak megjelenítését
+	és karbantartását biztosító tevékenységek, a másikba az alkalmazás három fő szolgáltatása:
+	a kölcsönzés, a tagdíj befizetés és az olvasóterem felügyelet. A belső azonosítókat
+	automatikusan generáljuk.
+	
+	A program nem engedi a tábla megkötésének nem eleget tevő adatokat, negatív számot sem 	enged felvenni.
+	A program egy több ablakkezelő alkalmazás.
+	A program egy MainForm osztályból egy TableForm , egy LendingForm, és egy PaymentForm osztályból áll.
+	A MainForm felelős a táblák megnyitásáért,
+	a TableFrom azok kezeléséért,
+	a PaymentForm a befizetéske kezeléséért,
+	a LendingForm pedig a kölcsönzések kezeléséért.
+	A MainFormon egy ToolStripMenu és egy Label található.
+	A menü egy elemére való kattintás hívja meg azt az eseményt, aminek eredményeképpen	megnyílik egy TableForm.
+
+	-------------------------------------------------------------
+	|Használandó programozási nyelvek, leíró nyelvek, környezetek|
+	-------------------------------------------------------------
+
+		-.NET
+		-C#
+		-SQL
+		-SQLite
+		-GitHub
+
+	----------------------------------------
+	|Az adatbázis felépítése és kapcsolatok|
+	----------------------------------------
+
+	Könyvek ( könyvek adatait tartalmazó tábla )
+	•	konyv_id - int(≤8) nincs nullérték, elsődleges kulcs /könyv belső azonosítója/
+	•	azon - string(12), nincs nullérték, egyedi /könyv egyedi azonosítója/
+	•	cim - string(≤30) /könyv címe/
+	•	szerzo - string(≤50) /könyv szerzői/
+	•	peldanyszam - int(≤3), nincs nullérték /teljes példányszáma/
+	•	szabad_peldanyszam - int(≤3), nincs nullérték /kölcsönözhető példányszám/
+	
+	Kölcsönzések ( kölcsönzések adatait tartalmazó tábla )
+	•	kolcson_id - int(≤8), nincs nullérték, elsődleges kulcs /kölcsönzés szám/
+	•	tag_id - int(≤8), nincs nullérték, idegenkulcs /lásd tagok tábla/
+	•	konyv_id - int(≤8), nincs nullérték, idegenkulcs /lásd könyvek tábla/
+	•	kezdet - datetime, nincs nullérték /kölcsönzés kezdete/
+	•	vissza - datetime /kölcsönzés vége/
+	
+	Tagok (tagok adatait tartalmazó tábla)
+	•	tag_id - int(≤8), nincs nullérték, elsődleges kulcs /könyvtári tag belső azonosítója/
+	•	nev - string(≤30), nincs nullérték /könyvtári tag neve/
+	•	cim - string(≤50) /könyvtári tag lakcíme/
+	•	azon - string(8), nincs nullérték, egyedi /könyvtári tag azonosítója (szem. ig. szám)/
+	•	konyvtarjegy - int(≤6), nincs nullérték, egyedi / tag könyvtárjegyének száma/
+	•	statusz_id – int(≤8), nincs nullérték, idegenkulcs
+	
+	Státuszok (könyvtártagság státuszait tartalmazó tábla)
+	•	statusz_id - int(2), nincs nullérték, elsődleges kulcs /státusz azonosítója/
+	•	statusz - string(≤10) /értéke például: felnőtt, diák, nyugdíjas, tanár/
+	•	tagdij - int /éves tagdíj/
+	
+	Olvasások ( olvasó terembe történt belépések adatait tartalmazó tábla )
+	•	olvas_id - int(≤8), nincs nullérték, elsődleges kulcs /belépés azonosítója /
+	•	tag_id - nincs nullérték, idegen kulcs (lásd. tagok tábla)
+	•	belepes - datetime, nincs nullérték /belépés ideje/
+	•	kilepes - datetime /kilépés ideje/
+	
+	Befizetesek ( tagdíj befizetések bizonylatait tartalmazó tábla)
+	•	bizonylatszam - int(≤8), nincs nullérték, elsődleges kulcs /befizetést azonosít/
+	•	tag_id - int(≤8), nincs nullérték, idegenkulcs /lásd tagok tábla/
+	•	osszeg - int(≤6), nincs nullérték /pozitív, sztornózás esetén negatív/
+	•	datum - datetime /befizetés dátuma/
+
+	-------------------------------------------------------------------------------------
+	|			Áttekintő ábra	                               		    |
+	-------------------------------------------------------------------------------------
+
+*******************************
+* FELHASZNÁLÓI ESETEK DIAGRAM *
+*******************************
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//																																																		  //
+//																																																		  //
+//                                                                                                                             `````                                                                      //
+//                                                                                                                       `......``.......`                                                                //
+//                                                                                                                     .-.             ``..`                                                              //
+//                                                                                                                    -...             ````-.                                                             //
+//                                                                                                                   .-...  * KÖNYVEK *  ```/`                                                            //
+//                                                                                                                   `:...               ```/-`                  `............`                           //
+//                                                                                                            `......`.-..             ```.:``-`              `.-.             ..`                        //
+//                                                                                                   ````....``        `.--.           .--.`  `-`            -..             ````.-`                      //
+//                                                         ``.......`.`                     ````....````                  ``..--..----.``      `-           .-..`               ```:                      //
+//                                                      `.-..``````````...`         ````....``                                  ```             `-          --..`  * BESZÚRÁS *  ``/                      //
+//                                                    `-..             ```..```.....``                                   ``.............`        `-          -..                ``:`                      //
+//                                                   `:.....             ``.-``                                        `....             ..`      `-          .--.             .--`                       //
+//                                                   --..`* KARBANTARTÁS *``/..             ``````                    -...             ````-`      `.           `..-........--.``       `````````         //
+//                                                   `:...             ````-:`              `````````................--...               ```/`      `.               .-`````       `.....````````...``    //
+//                                                    `...             ``.-.`...````                                 .-...``  * TAGOK *  ```/..      `.              -`           ....             ``..   //
+//                                                      `.-.....```....--.` ```  ```...````                           .-..               ``:. `.`     ..            `-           -...                ``-  //
+//                                                          .-`....`````.`.``---.`     ```...````                      `.-..           ..-.`    `.`    ..           -`           :...    * TÖRLÉS *  ``:. //
+//                                                         `-            ..``..`....``        ```...````                 ``.---.....---.`         ..`   ..          -            -...                ``:` //
+//                                                        `-              `.```.```....``           ```...````            ``...-----..``           `.`   ..        ..            `...              ``.-`  //
+//                                                       `-`                `.` `..```.....``              ```...```   `.....```````````..`          `.`  ..       -               `.-....``````...--.    //
+//                                                      `-`                   `.` ``.` ``......`                 `````.-..             ```.-`          ..` ..     `-                ````....--....`       //
+//                                                      -`                      `.`  `..`  `..``..``                 `:...                ``:`          `.` .`````-.              `.`                     //
+//                                                     -`                         `.   ``.`   `..```..`              .-...  * STÁTUSZOK   ``/`..`        `.......`......`       `.`                       //
+//                                           `````..``-.`                          `.`    `.`    `..```..``           -...               ``--   `..``  ....             ...`  `.`     ```.........```     //
+//               -.`.:                    `......`````.....`                         `.`    `..`    `..````..``        .-..             `.-.       `..-..                ``-`..     `....``````````....`  //
+//               -...:`                 `-..             ``..`                         `.`     `.`     `..`` `..``       `.--...``....--.`           -...  .* SZERKESZT * ``/`    `-..             ````.. //
+//            ```.-/-.```              `-...             ````-.                          `.`     `..`     ``.`` ``..`       ``.----..``              .-..                ``./.....:...                ``:`//
+//                 :    .............../....  * MENÜ *   `````:                            ..      `..`      `..``  ``  `......`````.....`        ``.`-..                `.:`     :...  * MÓDOSÍTÁS * ``-.//
+//                _:_                  .-...             ````-:`                            `.`       `.`       ``.`  `...             ``..``....```   `.-...``````````.--.       .-..               ``.: //
+//                | |                   `-..             ``.-. `.`                            `.`       `..`       `..-...             ````-.            ``...-----:-...`          `.-..             .--  //
+//              `-` `-`                   `.--.`````````.--.`    `.`                            `.`        `.`       -.... * OLVASÁSOK * ```/         `.. `-       `-                `..---..``..----.    //
+//           * FELHASZNÁLÓ *                 ``.-:......`          `.`                            `.         `..     .-...`.             ``.-        ..  `.         -`                     ``..``         //
+//                 -                            -`                   `.`                            ..         `..`   .-..             ```--       ..   ..           -                                    //
+//                 -                            -                      `.`                           `.`          `.`   .--.``````````.---`      ..    .`         `..-.........`                          //
+//                 -                           .`                        `.`                           `.`          `..`   `..-------.`        ..    `-        ..-.````````````...`                       //
+//                 -                           -                           `.`                           `.`           `  `............`     ..`    `.       `-..             ````..                      //
+//                 -                          ..                             `.`                           ..          `.-.             ... `      ..        :...`               ``-`                     //
+//                 -                          -                                `.`                           ..       --..             ````-`     -`         :...`  * MENTÉS *  ```-.                     //
+//               ``:.....``                  ..                                  `.`                           ..    `-..                 ``/   `-           `-...             ```.:                      //
+//           `..-.````````....`              -                                     `.`                          `.`  .-.. * BEFIZETÉSEK * ``/  `.              .--.````````````.--.                       //
+//         `-..             ```.`           `-                                       `.`                          `.` .-..                `:. ..                 `.------------.`                         //
+//        `-...             ````-.          -                                          ..`                          ..``--.             .--` .`                                                           //
+//        :...` * KILÉPÉS *  ````:         `-                                            ..                           ..  `.----..-----.`  `-`                                                            //
+//        `-..               ```--         -`                                              ..                          `..     ` ```      `.                                                              //
+//         `-..             ``.-.          -                                                 ..                          ```...........`  `                                                               //
+//           `..-..```````..--.`          .`                                                   ..                      `.-...```````````..`                                                               //
+//              ``...---..``              -                                                      ..                   .-..             ````-`                                                             //
+//                                       ..                                                        ..                `-..                ```:                                                             //
+//                                       -                                                           .`              .-.. * KÖLCSÖNZÉSEK * `/`                                                            //
+//                                      ..                                                            `.`             -...                `--                                                             //
+//                                    ``-                                                               `.`            .-..             ..-.                                                              //
+//                             ``.......-....``                                                           `.`            `.--.........--.`                                                                //
+//                          `.-..             ..`                                                           `.`              `````````                                                                    //
+//                         `-..             ````.-                                                            `````.........```                                                                           //
+//                         :..                 ``-.                                                           .....```````````..`                                                                         //
+//                         :.  `* BEFIZETÉS *  ``--                                                         `-..             ````-`                                                                       //
+//                         `-..               ``.:`                                                         :..                ```:                                                                       //
+//                          `.-...           ..-.                                                          `:..  * KÖLCSÖNZÉS * ``:`                                                                      //
+//                             `..--......--..`                                                             --..               ``.:                                                                       //
+//                             ..    `.-`    `.`                                                             .-..             `.-.                                                                        //
+//                           `.`      `-      `..                                                              ..---...`....--..`                                                                         //
+//                          ..        `-        `.`                                                          `.`    ``..:.``    `.`                                                                       //
+//                        `.`          -          `.`                                                      ``.`         ..        ..`                                                                     //
+//                       `.            -            ..                                                    ..`            :          `.`                                                                   //
+//                     `.`             -             `.`                                                `.`              -`           `.`                                                                 //
+//                    `.`              :               `.`                                            `.`                `-             `..                                                               //
+//       `.............`        ``............``        `.............``               ``...........```             ``....-......``       `` ``...........``                                              //
+//     ....````````````...`   `...             ..`    `...             ...          `....```````````...`          `...````````````...`     ....````````````...`                                           //
+//   `-..             ````-. -...             ````-` .-..             ````-`       .-..             ```.-`      `-..             ````..  `-..               ``..                                          //
+//   :..                ```:--.                  ``:`:...               ```:       :--                   :      -.--                 `-. :..                 ``:`                                         //
+//   :..* SZTORNÓZÁS *  ```::-* TÉTEL BEFIZETÉSE *`/`:..  * RÖGZÍTÉS *  ```/`     `::* KÖNYV KÖLCSÖNZÉSE *      :.* KÖNYV VISSZAADÁSA *- :.. * RÖGZÍTÉS *    ``-.                                         //
+//   `-...              ``--`-.                  `:` .-..             ````:.       --..             ````:.      `-..                 .:` .-..               ``.:`                                         //
+//    `.-.             .--.   `.-.             .--`   `.-.             .--`         `--.             `--`        `.-.              .--`   `.-.             `.-.                                           //
+//       `..----.------.`        ..-----.------`         `.------------`               ..----...-----.`             `.----....-----`         ..----....-----`                                             //
+//                                                                                           ```                          ````                     ````                                                   //
+//                                                                                                                                                                                                        //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+-------------------------------------------------------------
+
+
+-------------------------------------------------------------
+-------------------------------------------------------------
+|		A használt osztályok szöveges leírása       |
+-------------------------------------------------------------
+-------------------------------------------------------------
+
+	---------------------
+	|A TableForm osztály|
+	---------------------
+	
+	Az adatbázis elemei egy DataGridView-n jelennek meg, ügyelve arra, hogy az elsődleges és
+	az idegen kulcsokat elrejtsük a felhasználó elől. Az idegen kulcsok elrejtését ComboBoxszal
+	oldjuk meg.
+	
+	A „Save” gombra kattintva a felhasználó mentheti a változásokat, és az adatbázisba tölti
+	azokat. Erre a gombra a módosítások után kell rákattintani. Módosítás alatt a törlést, beszúrást
+	és módosítást értjük. Amennyiben a felhasználó nem teszi meg, úgy az adatbázis nem kerül
+	mentésre.
+	
+	Törlésre az „Delete”gombbal van lehetőség. Ki kell jelölni a törlendő sort és a gombra
+	kattintani.
+	
+	Ha új sort akarunk az adatbázishoz adni, akkor a „Add”gombra kell kattintani, melynek
+	hatására megjelenik a táblázat alján egy új sor, azt kijelölve, az Adatok módosítása felületen
+	kitöltjük, Edit gombbal pedig hozzáadjuk a táblázathoz.
+	
+	-----------------------
+	|A LendingForm osztály|
+	-----------------------
+	
+	Kikölcsönzéskor a könyvtári tagot és a könyvet jelöljük ki, nyomjuk meg a kölcsönzés
+	gombot.Egy korábban kölcsönvett könyv visszaadásakor nyomjuk meg a visszadás gombot. A
+	változások mentéséhez nyomuk meg a rögzítés gombot.
+	
+	-----------------------
+	|A PaymentForm osztály|
+	-----------------------
+	
+	Befizetéskor először a könyvtári tagot jelöljük ki, majd megadva a befizetett összeget (pozitív
+	egész szám) kattintsunk a befizetések gombra.
+	Legyen lehetőség egy korábban felvitt tétel	sztornózására (érvénytelenítésére).
+	Sztornózáshoz válasszuk ki az érvénytelenítendő bizonylatot, és nyomjuk
+	meg a sztornózás gombot.
+	A változások mentéséhez a rögzítés gombra kell kattintanunk.
+
+-----------------------------------------------------
+-----------------------------------------------------
+|			Osztályok bemutatása	    |
+-----------------------------------------------------
+-----------------------------------------------------
+
+-----------------
+|MainForm	|
+|Class		|
+|	-->Form	|
+-----------------
+
+	|*|Fields
+		_con
+		_kilepes
+		_lf
+		_pf
+		_tablesMenu
+		_tf
+		befizetésekToolStripMenuItem
+		components
+		karbantartásToolStripMenuItem
+		kolcsonzesekToolStripMenuItem
+		kölcsönzésToolStripMenuItem
+		könyvekToolStripMenuItem
+		menuStrip
+		olvasásokToolStripMenuItem
+		statuszokToolStripMenuItem
+		tagdijFizetesToolpMenuItem
+		tagokToolStripMenuItem
+		
+	|*|Methods
+		Dispose
+		Init InitializeComponent
+		kölcsönzésToolStripMenuItem_Click
+		MainForm
+		MainForm_Load
+		MenuTable_befizetesek_Clicked
+		MenuTable_kilepes_Clicked
+		MenuTable_kolcsonzesek_Clicked
+		MenuTable_Konyvek_Clicked
+		MenuTable_olvasasok_Clicked
+		MenuTable_statuszok_Clicked
+		MenuTable_tagok_Clicked
+		OnClosing
+		OnMenuTableClicked
+		tagdíjFizetésToolStripMenuItem_Click
+		
+-----------------
+|LendingForm	|
+|Class			|
+|	-->Form		|
+-----------------
+
+	|*|Fields
+		_adapKolcsonzesek
+		_adapKonyvek
+		_adapStatuszok
+		_adapTagok
+		_bindingSourceKolcsonzesek
+		_bindingSourceKonyvek
+		_bindingSourceStatuszok
+		_bindingSourceTagok
+		_con
+		_dataGridViewKolcsonzesek
+		_dataGridViewKonyvek
+		_dataGridViewTagok
+		_dataSet
+		_groupBoxKolcsonzes
+		_kolcsonzesButton
+		_rogzitesButton
+		_visszaadasButton
+		components
+		kolcson_id
+		
+	|*|Methods
+		_kolcsonzesButton_Click
+		_rogzitesButton_Click
+		_visszaadasButton_Click
+		dataGridViewTagok_SelectionChanged
+		Dispose
+		FormatKolcsonzesekTable
+		FormatKonyvekTable
+		FormatTagokTable
+		Init InitializeComponent
+		LendingFrom
+		LoadData
+		setCheckBox
+
+-----------------
+|TableForm	|
+|Class	  	|
+|	-->Form	|
+-----------------
+
+	|*|Fields
+		_adap
+		_adapBefizetesek
+		_adapKolcsonzesek
+		_adapKonyvek
+		_adapOlvasasok
+		_adapStatuszok
+		_adapTagok
+		_bindingNavigator
+		_bindingSource
+		_bindingSourceBefizetesek
+		_bindingSourceKolcsonzesek
+		_bindingSourceKonyvek
+		_bindingSourceOlvasasok
+		_bindingSourceStatuszok
+		_bindingSourceTagok
+		_con
+		_dataGridView
+		_dataSet
+		_tn
+		bindingNavigatorAddNewItem
+		bindingNavigatorCountItem
+		bindingNavigatorDeleteItem
+		bindingNavigatorMoveFirstItem
+		bindingNavigatorMovePreviousItem
+		bindingNavigatorSeparator
+		bindingNavigatorPositionItem
+		bindingNavigatorSeparator1
+		bindingNavigatorMoveNextItem
+		bindingNavigatorMoveLastItem
+		bindingNavigatorSeparator2
+		bindingNavigatorSaveItem
+		components
+		
+	|*|Methods
+		_dataGridView_UserDeletingRow
+		addColumnsToDataGridView
+		autoIdIncrease
+		bindingNavigatorDeleteItem_Click
+		bindingNavigatorSaveItem_Click
+		checkDateFormat
+		checkIdentifer
+		checkNumber
+		checkPositive
+		createTagokAdapterForForeignKeys
+		dataGridView_RowValidating
+		dataGridViewCellValidating
+		Dispose
+		FormatTables
+		InitializeComponent
+		LoadData
+		TableForm
+		
+-----------------
+|PaymentForm 	|
+|Class			|
+|	-->Form		|
+-----------------
+
+	|*|Fields
+		_adapBefizetesek
+		_adapStatuszok
+		_adapTagok
+		_bindingSourceBefizetesek
+		_bindingSourceStatuszok
+		_bindingSourceTagok
+		_buttonBefizetes
+		_buttonRemoveFilter
+		_buttonRogzites
+		_buttonSztorno
+		_con
+		_dataGridViewBefizetesek
+		_dataGridViewTagok
+		_dataSet
+		_groupBox
+		_numericUpDown
+		_textBoxBefizetes
+		bizonylatszam
+		components
+		
+	|*|Methods
+		_buttonBefizetes_Click
+		_buttonRemoveFilter_Click
+		_buttonRogzites_Click
+		_buttonSztorno_Click
+		_numericUpDown_ValueChanged
+		dataGridViewTagok_SelectionChanged
+		Dispose
+		FormatBefizetesekTable
+		FormatTagokTable
+		Init ializeComponent
+		LoadData
+		PaymentForm
+		SetFilter
+		SetTagokFilter
