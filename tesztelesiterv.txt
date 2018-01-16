@@ -1,0 +1,34 @@
+﻿
+Tesztelési terv
+-----------------
+
+A rendszertesztelési terv feladata a tesztelés folyamatának általános ismertetése, valamint a 
+tesztjegyzőkönyvek minimálisan szükséges, részrendszer-specifikus adattartalmának bemutatása.
+A tesztelési tervek általában kitérnek az elvégzendő fejlesztői, szervezői, felhasználói, 
+funkcionális, teljesítmény és egyéb tesztek folyamatára, ütemezésére, valamint a tesztadatok feltöltésére.
+
+
+A tesztelés folyamatának általános leírása
+--------------------------------------------
+
+A tesztelés során a tesztelők először a fejlesztés alatt lévő program megjelenését, formai 
+megvalósítását vizsgálják. Ennek részét képezi a menü és űrlapok hibaüzenetektől mentes betöltődése,
+az elemek megfelelő pozíción történő megjelenése, az elemek egymáshoz viszonyított megfelelő
+elrendeződése.
+
+Ezek után történik az eddig elkészült funkcióit tesztelése. A különböző menüpontok 
+megnyitását követően az űrlapok rendeltetésszerű működésére, adatok megjelenítésére, módosítására, törlésére, 
+új felvitelének ellenőrzésére kerül sor. 
+
+
+Ki kell emelni az adatok tárolását és módosítását elősegítő adatbázis tesztjeit, mert a program fő funkciója az adatbázis
+helyes működése a nyilvántartás pontos vezetése céljából.
+Az adatok felvitele, módosítása során képet kaphatunk az adatbázis helyes működéséről.
+így a háttérfolyamatok tesztelése is megtörténik ebben a lépésben.
+
+
+Tesztadatok kezelese
+----------------------
+A tesztadatok feltöltése  a GitHub-on lévő Tesztjegyzőkönyv dokumentumba történik, és a teszteléshez tartozó ISSUE-n
+is commentbe jelezi a hibát észrevevő tesztelő ha hibákat talált, hogy a fejlesztő rögtön javítani tudja, amint 
+ commentbe megjelenik .
