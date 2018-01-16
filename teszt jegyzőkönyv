@@ -1,0 +1,88 @@
+Jegyzőkönyv
+-----------------
+
+Készült a Könyvtári nyilvántartó program tesztelésének folyamatáról
+A tesztelés célja: a tesztelés során alkalmazott eljárások és megoldások meghatározása, 
+ezáltal az alkalmazás megfelelőségének megállapítása
+
+Helyszín: 3300 Eger, Dobó tér 2.
+Dátum: 2018.01.16.
+A tesztelést végezte: Gáborné Oravecz Eszter
+A tesztelést felügyelte: Cene Balázs
+
+
+1. Elvárások
+Az alkalmazásnak az alábbi megrendelő áltai követelményeknek kell megfelelnie:
+- egy könyvtári könyv kikölcsönzésének és visszahozásának rögzítése,
+- a könyvtártagok tagdíj-befizetéseinek rögzítése, 
+- az olvasóterembe történő be- és kiléptetéseknek elektronikus rögzítése.
+Ezen felül a tagok, a könyvek és a státuszok karbantartásának (törlés, módosítás, beszúrás)
+elvégzésére is képesnek kell lennie a porgramnak.
+
+2. Szükséges erőforrások
+A program futtatása nem igényli speciális hardver és szoftver erőforrások meglétét. 
+
+3. Teszt elvárások
+3.1. A program megjelenésére, formai megvalósítására irányuló vizsgálatok
+A formai megjelenítésre vonatkozó vizsgálat célja egyrészt annak megállapítása, hogy mennyire 
+könnyen, felhasználóbarát módon használható a program, mennyire felel meg a megrendelői 
+követelményeknek ebből a szempontból, valamint a menükezelés hogyan működik.
+Tesztfeladatok:
+- különböző menüpontok megnyitása egymás után 
+A teszt végrehajtásához szükséges rekordok (tesztadatok) száma: 30
+A tesztadatoknak az alábbi követelményeknek kell megfelelniük:
+- a különböző menüpontok megnyitását követően az űrlapok hibaüzenetektől mentes betöltődése
+(csak 100 %-os eredmény fogadható el)
+
+3.2. Fejlesztői teszt
+A fejlesztői tesztelés célja a rendszer alapvető funkcióinak ellenőrzése, a hibakezelés és az alapvető
+funkciók működésének vizsgálata. 
+Tesztfeladatok:
+- a karbantartási funkciók (beszúrás, törlés, módosítás) tesztelése mindhárom esetben (könyvek, tagok,
+státuszok), azaz új könyv felvitele, könyv törlése, könyv módosítása, új tag felvitele stb.
+- minden egyes műveletet követően az űrlapok megjelenítése annak érdekében, hogy az adatbázisban tárolt
+adatokat ellenőrzése megtörténjen 
+A teszt végrehajtásához szükséges rekordok (tesztadatok) száma: 40
+A tesztadatoknak az alábbi követelményeknek kell megfelelniük:
+- az űrlapok rendeltetésszerű működése, az adatok hibamentes megjelenítése (ékezetes betűk, karakterek,
+számok)
+- beszúrás, módosítás, törlés funkciók helyes működése, az adatbázisban tárolt adatok pontossága
+(szintén csak a 100 %-os eredmény fogadható el)
+
+4. Teszt eredmények
+4.1. A program megjelenésére, formai megvalósítására irányuló vizsgálatok eredménye
+A program egy több ablakkezelő alkalmazás, amely felhasználóbarát kezelőfelületet kapott.
+A menü átlátható, felépítése logikus. Az elemek megfelelő pozíción helyezkednek el, elrendezésük 
+megfelelő. Mindezek miatt a program kezelése nem igényli különleges ismeretek elsajátítását a 
+felhasználók részéről, a megrendelői igényeket teljesíti.
+A menüpontok egymás utáni megnyitását követően a rendszer hibaüzenetektől mentesen működött.
+Az elvégzett tesztelés eredménye 100 %-os eredményt hozott.
+
+4.2. Fejlesztői teszt eredménye
+A karbantartási funkciók külön-külön űrlapon működnek, ezeket külön-külön menüpont aktiválja. 
+Törléskor csak olyan tagot lehetett törölni, akinél nem volt kikölcsönzött könyv, nem tagdíjjal, és 
+nem tartózkodott az olvasóteremben. Olyan könyvet lehetett csak törölni, amely nem volt kikölcsönözve, 
+valamint olyan státuszt, amelynek hozzárendelése egyik könyvtári taghoz sem történt meg.
+A program csak a tábla megkötéseinek megfelelő adatokat enged felvenni (pl. dátum esetén), negatív
+szám esetén hibaüzenetet kapunk. Az adatbázisban tárolt adatok helyesek, megjelenítésük lehetséges.
+Az előírt számú tesztfeladat elvégzése után a tesztelés eredménye 100 %-os eredményt hozott, amely 
+az alkalmazás funkcióinak hibamentes működését támasztja alá.
+
+5. A tesztelés eredménye 
+A tesztelés a tesztelési tervben foglaltaknak megfelelően zajlott. 
+A teszt eredmények alapján megállapítható, hogy az alkalmazás élesíthető.
+
+
+tesztelést végző aláírása
+
+tesztelést felügyelő aláírása
+
+
+
+
+ 
+
+
+
+
+
