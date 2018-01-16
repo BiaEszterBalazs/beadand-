@@ -1,0 +1,152 @@
+﻿------------------------
+VÁLLALKOZÁSI SZERZŐDÉS
+------------------------
+
+amely létrejött egyrészről a 
+Kellegyprogram Kft. 
+székhely/lakhely:	3390 Füzesabony, Pozsonyi u. 2.
+cégjegyzékszám:		1035456582
+adószám:		10302411-2-10
+bankszámlaszám:		11111111-22222222-00000000
+képviseli: 		Hudák Bianka,
+
+mint Megrendelő (a továbbiakban: Megrendelő),
+
+másrészről 
+BEB Informatikai Kft. 
+székhely/lakhely:	3300 Eger, Rózsa Károly u. 18
+cégjegyzékszám:		25452354
+adószám:		25154262-2-10
+bankszámlaszám: 	00000000-33333333-22222222
+képviseli: 		Gáborné Oravecz Eszter és Cene Balázs
+
+mint Vállalkozó (a továbbiakban: Vállalkozó), 
+(a továbbiakban együtt: Szerződő felek) 
+között alulírott napon és helyen az alábbi feltételek szerint:
+
+
+1.	A Szerződés tárgya
+-----------------------------------
+A jelen Szerződés aláírásával a Megrendelő megrendeli, a Vállalkozó pedig elvállalja az alábbi munkák elvégzését 
+a Szerződés rendelkezéseinek megfelelően:
+A Szerződés tárgya egy informatikai program, amely a könyvtár működését fogja elősegíteni és megkönnyvíteni.
+
+A feladathoz kapcsolódó részletes leírást a jelen Szerződést megelőző ajánlat kérés és árajánlat tartalmazza.
+
+
+2.	A Szerződés időtartama
+-----------------------------------
+A Szerződő felek a Szerződést határozott időre, a Szerződés aláírásának napjától határozott időre, 2 évre kötik. 
+Jelen Szerződés a Felek aláírásával lép hatályba.
+
+
+3.	Teljesítési és részteljesítési határidők
+----------------------------------------------------
+A Szerződő felek megállapodnak abban, hogy a Vállalkozó az ajánlatban feltüntetett ütemterv alapján köteles a feladatait elvégezni.
+
+
+4.	Szerződő felek jogai és kötelezettségei
+---------------------------------------------------
+	a)	Vállalkozó a Megrendelő utasítása szerint köteles eljárni. Az utasítási jog nem terjed ki a tevékenység megszervezésére, 
+		illetőleg nem teheti a teljesítést terhesebbé.
+	b)	Ha a Megrendelő célszerűtlen vagy szakszerűtlen utasítást ad, erre a Vállalkozó köteles őt figyelmeztetni. Ha azonban a 
+		Megrendelő a figyelmeztetés ellenére utasítását fenntartja, a Vállalkozó a Szerződéstől elállhat, vagy a feladatot a Megrendelő
+		 utasításai szerint, a Megrendelő kockázatára elláthatja.
+	c)	Ha a Megrendelő olyan utasítást ad, melynek végrehajtása jogszabály vagy hatósági határozat megsértéséhez vezetne, vagy 
+		veszélyeztetné mások személyét vagy vagyonát, a Vállalkozó köteles a teljesítést megtagadni.
+	d)	Amennyiben a Vállalkozónak a jelen Szerződésben és az ajánlatkérésben nem szereplő, de a teljesítéshez szükséges egyéb 
+		információra van szüksége, köteles az információ igényéről a Megrendelőt haladéktalanul értesíteni. A Megrendelő vállalja, hogy
+		 a Vállalkozó által ésszerűen kért, a szerződésszerű teljesítéshez szükséges minden információt késedelem nélkül a Vállalkozó rendelkezésére bocsátja.
+	e)	Vállalkozó köteles a Megrendelőt haladéktalanul értesíteni minden olyan körülményről, mely a vállalkozás eredményességét,
+ 		vagy kellő időre való elvégzését veszélyezteti vagy gátolja. Az értesítés elmaradása vagykésedelmes közlés esetén annak 
+		következményeit a Vállalkozó viseli.
+	f)	A Megrendelő a Vállalkozó tevékenységét és a felhasználásra kerülő anyagokat bármikor jogosult ellenőrizni. Nem mentesül 
+		a Vállalkozó a szerződésszegés jogkövetkezményei alól amiatt, ha a Megrendelő az ellenőrzést elmulasztotta vagy nem megfelelően végezte el.
+	g)	A Vállalkozó a jelen szerződésből eredő kötelezettségeit át nem ruházhatja, viszont alvállalkozó igénybevételére jogosult.
+		 A Vállalkozó az általa jogosan igénybe vett alvállalkozóért úgy felel, mintha a munkát maga végezte volna.
+	h)	Szerződő felek kötelesek a Szerződés időtartama alatt folyamatosan, a jóhiszeműség és a tisztesség követelményeinek megfelelően, 
+		kölcsönösen együttműködni. Ennek megfelelően időben tájékoztatják egymást, nem csupán a jelen megállapodásban foglaltak teljesítéséről, hanem minden 
+		olyan számottevő kérdésről, amely a szerződés teljesítésére kihatással lehet.
+	i)	Amennyiben bármelyik fél megszegi a tájékoztatási és együttműködési kötelezettségét, köteles a másik Fél ebből származó 
+		kárát a szerződésszegéssel okozott károkért való felelősség általános szabályai szerint megtéríteni.
+	j)	A Szerződő felek az esetleges jogvitáikat elsődlegesen békés úton, tárgyalások útján kívánják rendezni, s csupán akkor 
+		fordulnak bírósághoz, ha a tárgyalásos rendezés nem vezetett eredményre.
+	k)	Amennyiben a munkálatok során többlet- vagy pótmunkák végzésének szükségessége merül fel, erről a Vállalkozó köteles 
+		a Megrendelőt haladéktalanul értesíteni.
+
+
+5.	A Szerződés teljesítése, a teljesítés átvétele
+-------------------------------------------------------
+a)	Határidőben teljesít a Vállalkozó, ha az átadás-átvétel a szerződésben előírt teljesítési határidőn belül kezdődik.
+b)	A Megrendelő köteles a szerződésszerűen felajánlott szolgáltatás átvételére.
+c)	A Megrendelő nem tagadhatja meg az átvételt olyan hiba miatt, amely, illetve amelynek kijavítása vagy pótlása nem akadályozza a rendeltetésszerű 
+	használatot.
+d)	A Vállalkozó a jelen Vállalkozási szerződést akkor teljesítette, ha valamennyi feladatát a jelen szerződésben meghatározott minőségi és mennyiségi 4
+	feltételeknek megfelelően elvégezte (teljesítés). Vállalkozó a Vállalkozási szerződés teljesítéséről köteles haladéktalanul a Megrendelőt tájékoztatni. 
+	Megrendelő a teljesítés megtörténtét írásban igazolja (a továbbiakban: teljesítési igazolás).
+
+
+6.	Vállalkozási díj, fizetési feltételek
+-------------------------------------------------------
+a)	A Szerződő felek a Vállalkozót megillető vállalkozási díj összegét nettó 721.000Ft-ban, azaz Hétszázhuszonegyezer forintban határozzák meg, amely 
+	magában foglalja a Vállalkozó Szerződés teljesítésével kapcsolatos járulékos költségeinek a megtérítését is. A Vállalkozó azon kívül a Megrendelővel
+	 szemben egyéb követelést támaszthat ha a Megrendelő a munka elkezdését követően az árajánlatban feltüntetett tevékenységen túli feladatot bíz a Vállalkozóra.  
+b)	A Szerződő felek megállapodnak abban, hogy a vállalkozási díj megfizetése a program elkészítését követően történik számla benyújtásával.
+c)	A vállalkozási díj az általános forgalmi adó összegét nem tartalmazza.
+d)	A Szerződő felek megállapodnak abban, hogy a Megrendelő az általa leigazolt teljesítés alapján a vállalkozási díjat a Vállalkozó számlájának 
+	ellenében a számla kézhezvételétől számított 30 naptári napon belül átutalással köteles megfizetni a Vállalkozó OTP Banknál vezetett 
+	00000000-33333333-22222222 számú bankszámlájára. A vállalkozási díj akkor tekintendő kiegyenlítettnek, amikor a Megrendelő a Vállalkozó 
+	számláját megterheli. 
+e)	A Vállalkozó köteles elvégezni a jelen Szerződés tartalmát képező, de a vállalkozói díj megállapításánál figyelembe nem vett munkát és 
+	az olyan munkát is, amely nélkül a Szerződésben foglalt feladatok rendeltetésszerű használatra alkalmas megvalósítása nem történhet meg 
+	(többletmunka). Ezen munkák elvégzéséért a Vállalkozó külön díjazásra jogosult.
+f)	A Megrendelő köteles megtéríteni a Vállalkozónak a többletmunkával kapcsolatban felmerült olyan költségét, amely a szerződés megkötésének 
+	időpontjában nem volt előrelátható.
+g)	A Vállalkozó köteles elvégezni – díj ellenében – az utólag megrendelt, különösen tervmódosítás miatt szükségessé váló munkát is, ha annak 
+	elvégzése nem teszi feladatát aránytalanul terhesebbé. Felek a pótmunka díjazásában és a teljesítéssel felmerülő költségek viselésében 
+	előzetesen megállapodnak.
+h)	A Vállalkozót a vállalkozói díj és a költségek biztosítására zálogjog illeti meg a Megrendelőnek azokon a vagyontárgyain, amelyek a 
+	Vállalkozási szerződés következtében birtokába kerültek.
+i)	A teljesítés igazolására a Megrendelő részéről Hudák Bianka jogosult. A teljesítés igazolást a Megrendelő a szerződésszerű 
+	teljesítést követő 5 munkanapon belül állítja ki.
+
+
+7. 	A Szerződés lehetetlenülése
+-------------------------------------------------------
+Ha a teljesítés olyan okból válik lehetetlenné, amelyért egyik fél sem felelős, és
+a)	a lehetetlenné válás oka a Vállalkozó érdekkörében merült fel, díjazásra nem tarthat igényt;
+b)	a lehetetlenné válás oka a Megrendelő érdekkörében merült fel, a Vállalkozót a díj megilleti, de a Megrendelő levonhatja azt az összeget,
+	 amelyet a Vállalkozó a lehetetlenné válás folytán költségben megtakarított, továbbá amelyet a felszabadult időben másutt keresett vagy 
+	nagyobb nehézség nélkül kereshetett volna;
+c)	a lehetetlenné válás oka mindkét fél érdekkörében vagy érdekkörén kívül merült fel, a Vállalkozót az elvégzett munka és költségei fejében 
+	a díj arányos része illeti meg.
+
+
+8.	A Szerződés felmondása, elállás
+-------------------------------------------------------
+a)	A Megrendelő a Szerződéstől a Szerződés teljesítésének megkezdése előtt bármikor elállhat, ezt követően a teljesítésig a Szerződést felmondhatja.
+b)	Megrendelő elállása vagy felmondása esetén köteles a Vállalkozónak a díj arányos részét megfizetni és a Szerződés megszüntetésével okozott kárt 
+	megtéríteni azzal, hogy a kártalanítás a vállalkozói díjat nem haladhatja meg.
+c)	Jelen Szerződést mind a Megrendelő, mind a Vállalkozó jogosult 30 napos felmondási idővel, írásban, indoklás nélkül felmondani. 
+
+
+9.	Egyéb rendelkezések
+-------------------------------------------------------
+1.	A Szerződő felek az esetleges jogvitáikat elsődlegesen békés úton, tárgyalások útján kívánják rendezni, s csupán akkor fordulnak bírósághoz, 
+	ha a tárgyalásos rendezés nem vezetett eredményre.
+2.	Jelen Szerződés mindennemű módosítása és kiegészítése kizárólag írásban, a Szerződő felek egyetértésével lehetséges.
+
+
+A jelen Vállalkozási szerződésben nem szabályozott kérdésekben a Polgári Törvénykönyv (2013. évi V. tv.) rendelkezései az irányadóak. 
+
+A Szerződő felek a jelen Vállalkozási szerződést elolvasást és értelmezést követően, mint akaratukkal mindenben megegyezőt,
+ helybenhagyólag írták alá 2 darab magyar nyelvű példányban.
+
+
+Kelt: Eger, 2018.01.12.
+
+
+......................		......................................		.....................................
+Hudák Bianka 				Gáborné Oravecz Eszter				Cene Balázs
+ügyvezető				ügyvezető					ügyvezető
+Megrendelő				Vállalkozó					Vállalkozó
