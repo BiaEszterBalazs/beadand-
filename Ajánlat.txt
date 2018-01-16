@@ -1,9 +1,12 @@
 ﻿Árajánlat
+ ---------------------------
 a Kellegyprogram Kft.
-(3300 Eger, Pozsonyi út 2.)
+(3390 Füzesabony, Pozsonyi út 2.)
 részére
 --------------------------------------------------------------------------------
+
 Tartalomjegyzék
+----------------------
 1. Vezetői összefoglaló
 2. Cégbemutató, referenciák
 3. Felhasználni kívánt technológiák bemutatása
@@ -13,8 +16,9 @@ Tartalomjegyzék
 7. Megtérülés, gazdasági előnyök
 8. Árajánlat érvényessége, szerződési feltételek
 
---------------------------------------------------------------------------------
+
 1. Vezetői összefoglaló
+------------------------------------------------------------------------------
 Cégünk leginkább informatikai rendszerek kidolgozásával, üzemeltetésével és fejlesztésével foglalkozik. 
 Partnereinkkel bizalmi kapcsolatot építünk ki, amely elengedhetetlen feltétele a munkánknak. 
 Cégünk nem rendelkezik évtizedes múlttal, azonban az eddig eltelt évek során sokféle informatikai 
@@ -30,10 +34,11 @@ fiegyelmet fordítunk arra, hogy munkatársaink törkedjenek informatikai ismere
 megújítására, mindig képezzék magukat. 
 Célunk, hogy rövid határidőn belül magas szintű hatékonysággal oldjuk meg a feladatokat.
 
---------------------------------------------------------------------------------
-2. Cégbemutató, referencikák
 
+2. Cégbemutató, referencikák
+--------------------------------------------------------------------------------
 Cégbemutató:
+
 A cég 2015-ben alakult BEB Informatikai Kft. néven, mely azóta sikeresen működő társaság.
 Alapító tagjai és egyben tulajdonosai belföldi magánszemélyek: Cene Balázs, Gáborné Oravecz
 Eszter és Zsiros-Hudák Bianka. Mindannyian az Eszterházy Károly Egyetemen szereztek diplomát, 
@@ -49,18 +54,19 @@ rendszerbevezetés, hálózattervezés, hálózatépítés, szervíz szolgáltat
 Felismerve a piaci lehetőségeket a társaság tevénységeinek körét folyamatosan bővíti.
 
 Referenciák/kiemelkedő partnereink:
+
 Decoration & Design - Ajándéktárgy kereskedelem
 Epaga - Apartmanhotel
 IBC - nyelviskola cégeknek
-Kerimpex - gipszkarton termékek és szigetelés kereskedelem
 KreativJáték - játék nagy és kisker
 OSZ-Car autoalkatrész keresedelem és szervíz
 Target Executive Search - fejvadászat
 Yestravel - utazás
 
-----------------------------------------------------------------------------------
+
 
 3. Felhasználni kívánt technológiák bemutatása
+----------------------------------------------------------------------------------
 C# 
 A Microsoft által kifejlesztett programozási nyelv. Nyílt szabványú. A fejlesztésénél szempont volt, hogy a 
 meglévő programozási nyelvekből kiindulva, azok jó tulajdonságait átvegye, a rosszakat pedig nem. Ennek 
@@ -83,18 +89,20 @@ ellentétben az SQLite motor nem egy különálló folyamat, amellyel a program 
 alkotja, ahhoz hozzálinkelt programkönyvtár lévén. Dinamikusan is meghívható. Egyre több népszerű szoftver 
 használja az SQLite-ot
 
------------------------------------------------------------------------------------
+
 
 4. Feladat bemutatása
+-----------------------------------------------------------------------------------
 A Kellegyprogram Kft. egy adatbázisalapú program elkészítésére kért ajánlatot, mely segítségével a könyvtártagok
 által történő kölcsönzéseket számon lehet tartani.
 Feladat olyan termék fejlesztése, amely lehetővé teszi egy könyvtári könyv kikölcsönzésének és visszahozásának, 
 a könyvtártagok tagdíj befizetéseinek és az olvasóterembe történő be- és kiléptetéseknek elektronikus
 rögzítését. 
 
------------------------------------------------------------------------------------
+
 
 5. Ütemterv 
+----------------------------------------------------------------------------------
 A program rendelkezésre bocsátása három lépcsőben történik a megrendelő számára, ezáltal lehetőséget biztosítva 
 arra, hogy a megrendelő megnézze megfelel-e számára az elkészült program, valamint lehetőség lesz a módosítások 
 végrehajtását elvégezni.
@@ -116,12 +124,15 @@ A BEB Informatikai Kft. a végleges program leszállítását követően 1 év i
 garancia nem jelenti új funkciók ingyenes fejlesztését, de az átadott programban felfedezett hibák javítását 
 tartalmazza. A javítási határidő a bejelentéstől számított 2 munkanap.
 
------------------------------------------------------------------------------------
 
 6. Ár és átadási határidő
 
-Árajánlat
-Ajánlatot kiállító:
+-----------------------------------------------------------------------------------
+
+
+
+Ajánlatot kiállító
+.....................
 BEB Informatikai Kft.
 3300 Eger, Rózsa Károly u. 18.
 Adószám: 12345678-1-12
@@ -129,13 +140,18 @@ Tel: +36301122334
 Fax: +3636111222
 e-mail: bebinf@gmail.com
 web: www.beb.hu
+
 Ajánlatkérő
+................
 Kellegyprogram Kft.
 3300 Eger, Pozsonyi út 2.
+
 Ajánlat kelte:
 2018.01.11.
+
 Érvényességi határidő:
 2018.01.26.
+
 FUNKCIÓ				FELADAT		PRIORITÁS	BECSLÉS	 AKT. BECSLÉS	ELTELT	HÁTRALEVŐ
 Funkcionális specifikáció			0		24		24		20	4		
 Adatbázis					1		24		24		14	10
@@ -154,9 +170,10 @@ Napidíj: 28.000 Ft
 
 Átadási határidő az ütemtervnek megfelelően.
 
------------------------------------------------------------------------------------
+
 
 7. Megtérülés, gazdasági előnyök
+-----------------------------------------------------------------------------------
 
 A megrendelő beruházása hosszútávon térül meg. Ez egy egyszeri kiadás a megrendelő részéről, a folyamatos üzemeltetés
 során fizetési kötelezettsége nem lesz.
@@ -166,9 +183,12 @@ stratégiai szükségszerûséggé vált. A naprakész adatbázisok előnyt jele
 Ezért is fontos, hogy a program igény esetén továbbfejleszthető.
 
 8. Árajánlat érvényessége, szerződéskötési feltételek
+----------------------------------------------------------------------------------
 Az árajánlat 2018. év január hónap 26.napig érvényes.
 
 Általános szerződési feltételek
+----------------------------------------------
+
 I. FEJEZET
 Általános rendelkezések
 1. Szolgáltatás
@@ -181,6 +201,7 @@ amely a szokásos szerződési gyakorlattól, vagy a szerződésre vonatkozó re
 tájékoztatásként vastag betűvel került megjelölésre. 
 A Felhasználó a jelen ÁSZF elfogadásával megerősíti, hogy ezen szerződési feltételről kifejezett tájékoztatásban részesült és
 azt a külön figyelemfelhívó tájékoztatást követően kifejezetten elfogadja.
+
 II. FEJEZET
 Használati feltételek
 3. A szerződés kezdete, futamideje és felmondása
