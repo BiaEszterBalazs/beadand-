@@ -1,6 +1,7 @@
 ﻿Árajánlat módosítás
+ ---------------------------
 a Kellegyprogram Kft.
-(3300 Eger, Pozsonyi út 2.)
+(3390 Füzesabony, Pozsonyi út 2.)
 részére
 --------------------------------------------------------------------------------
 
@@ -18,6 +19,7 @@ számában.
 
 Árajánlat
 Ajánlatot kiállító:
+--------------------------
 BEB Informatikai Kft.
 3300 Eger, Rózsa Károly u. 18.
 Adószám: 12345678-1-12
@@ -25,9 +27,12 @@ Tel: +36301122334
 Fax: +3636111222
 e-mail: bebinf@gmail.com
 web: www.beb.hu
+
+
 Ajánlatkérő
+------------------------
 Kellegyprogram Kft.
-3300 Eger, Pozsonyi út 2.
+3390 Füzesabony, Pozsonyi út 2.
 Ajánlat kelte:
 2018.01.11.
 Érvényességi határidő:
