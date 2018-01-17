@@ -32,6 +32,8 @@ Az Ajánlatkérő  olyan termék megvásárlását szeretné megvalósítani, am
 Tartalmi leírás és követelményspecifikáció
 -------------------------------------------
 Az Ajánlatkérő olyan termék fejlesztését kéri, amely lehetővé teszi egy könyvtári könyv kikölcsönzésének és visszahozásának, az könyvtártagok tagdíj-befizetéseinek és az olvasó terembe történő be- és kiléptetéseknek elektronikus rögzítését.
+- A program nyilvántartsa a a könyvek adatait, tagok adatait, tagdíj befizetéseket.
+- A program képes legyen az adatokat adatbázisba menteni, a későbbi elemzések érdekében.
 
 Az Ajánlattevő részletes ajánlata benyújtásával vállalja, hogy:
 - megvalósítás során keletkező alkotások szerzői jogai tekintetében az Ajánlatkérőnek kizárólagos és határozatlan időre szóló felhasználási jogot biztosít
